@@ -58,7 +58,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)
 
-
     implementation(libs.koin)
     implementation(libs.koinCompose)
 
@@ -79,7 +78,4 @@ dependencies {
     // region UI tests
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
-    // endregion
-
-
 }
