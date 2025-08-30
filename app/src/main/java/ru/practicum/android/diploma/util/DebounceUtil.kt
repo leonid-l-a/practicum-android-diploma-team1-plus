@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
  * @property delayMillis The delay in milliseconds before the action is invoked.
  * @property coroutineScope The CoroutineScope in which the debounced action will be launched.
  */
-class DebounceUtil (
+class DebounceUtil(
     private var delayMillis: Long,
     private val coroutineScope: CoroutineScope
 ) {
