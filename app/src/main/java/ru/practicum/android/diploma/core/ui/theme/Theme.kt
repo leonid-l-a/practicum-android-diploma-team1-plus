@@ -37,37 +37,6 @@ private val LightTheme = lightColorScheme(
     onSurface = blackUniversal
 
 )
-//private val DarkTheme = darkColorScheme(
-//
-//    background = blackNight,
-//    onBackground = whiteNight,
-//
-//    primary = blue,
-//    onPrimary = whiteUniversal,
-//
-//    secondary = red,
-//    onSecondary = whiteUniversal,
-//
-//    surface = gray,
-//    onSurface = whiteUniversal
-//
-//)
-//
-//private val LightTheme = lightColorScheme(
-//
-//    background = whiteDay,
-//    onBackground = blackDay,
-//
-//    primary = blue,
-//    onPrimary = whiteUniversal,
-//
-//    secondary = red,
-//    onSecondary = whiteUniversal,
-//
-//    surface = lightGray,
-//    onSurface = blackUniversal
-//
-//)
 
 @Suppress("detekt.AnnotationOnSeparateLine")
 @Composable
