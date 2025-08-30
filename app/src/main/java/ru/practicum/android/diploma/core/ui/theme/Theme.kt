@@ -8,35 +8,66 @@ import androidx.compose.runtime.Composable
 
 private val DarkTheme = darkColorScheme(
 
-    background = AppColor.blackNight,
-    onBackground = AppColor.whiteNight,
+    background = blackNight,
+    onBackground = whiteNight,
 
-    primary = AppColor.blue,
-    onPrimary = AppColor.whiteUniversal,
+    primary = blue,
+    onPrimary = whiteUniversal,
 
-    secondary = AppColor.red,
-    onSecondary = AppColor.whiteUniversal,
+    secondary = red,
+    onSecondary = whiteUniversal,
 
-    surface = AppColor.gray,
-    onSurface = AppColor.whiteUniversal
+    surface = gray,
+    onSurface = whiteUniversal
 
 )
 
 private val LightTheme = lightColorScheme(
 
-    background = AppColor.whiteDay,
-    onBackground = AppColor.blackDay,
+    background = whiteDay,
+    onBackground = blackDay,
 
-    primary = AppColor.blue,
-    onPrimary = AppColor.whiteUniversal,
+    primary = blue,
+    onPrimary = whiteUniversal,
 
-    secondary = AppColor.red,
-    onSecondary = AppColor.whiteUniversal,
+    secondary = red,
+    onSecondary = whiteUniversal,
 
-    surface = AppColor.lightGray,
-    onSurface = AppColor.blackUniversal
+    surface = lightGray,
+    onSurface = blackUniversal
 
 )
+//private val DarkTheme = darkColorScheme(
+//
+//    background = blackNight,
+//    onBackground = whiteNight,
+//
+//    primary = blue,
+//    onPrimary = whiteUniversal,
+//
+//    secondary = red,
+//    onSecondary = whiteUniversal,
+//
+//    surface = gray,
+//    onSurface = whiteUniversal
+//
+//)
+//
+//private val LightTheme = lightColorScheme(
+//
+//    background = whiteDay,
+//    onBackground = blackDay,
+//
+//    primary = blue,
+//    onPrimary = whiteUniversal,
+//
+//    secondary = red,
+//    onSecondary = whiteUniversal,
+//
+//    surface = lightGray,
+//    onSurface = blackUniversal
+//
+//)
 
 @Suppress("detekt.AnnotationOnSeparateLine")
 @Composable
