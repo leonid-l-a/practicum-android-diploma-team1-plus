@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.R
 
@@ -19,3 +20,6 @@ class RootActivity : AppCompatActivity() {
     }
 
 }
+
+@Composable
+fun Yahu(){}
