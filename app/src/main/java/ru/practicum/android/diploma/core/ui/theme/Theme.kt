@@ -38,12 +38,11 @@ private val LightTheme = lightColorScheme(
 
 )
 
+@Suppress("detekt.AnnotationOnSeparateLine")
 @Composable
 fun ApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-
     content: @Composable() () -> Unit
-
 ) {
     val colors = if (darkTheme) {
         DarkTheme
