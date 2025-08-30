@@ -20,6 +20,3 @@ class RootActivity : AppCompatActivity() {
     }
 
 }
-
-@Composable
-fun Yahu(){}
