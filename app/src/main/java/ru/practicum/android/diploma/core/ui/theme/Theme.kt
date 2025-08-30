@@ -8,33 +8,33 @@ import androidx.compose.runtime.Composable
 
 private val DarkTheme = darkColorScheme(
 
-    background = blackNight,
-    onBackground = whiteNight,
+    background = AppColor.blackNight,
+    onBackground = AppColor.whiteNight,
 
-    primary = blue,
-    onPrimary = whiteUniversal,
+    primary = AppColor.blue,
+    onPrimary = AppColor.whiteUniversal,
 
-    secondary = red,
-    onSecondary = whiteUniversal,
+    secondary = AppColor.red,
+    onSecondary = AppColor.whiteUniversal,
 
-    surface = gray,
-    onSurface = whiteUniversal
+    surface = AppColor.gray,
+    onSurface = AppColor.whiteUniversal
 
 )
 
 private val LightTheme = lightColorScheme(
 
-    background = whiteDay,
-    onBackground = blackDay,
+    background = AppColor.whiteDay,
+    onBackground = AppColor.blackDay,
 
-    primary = blue,
-    onPrimary = whiteUniversal,
+    primary = AppColor.blue,
+    onPrimary = AppColor.whiteUniversal,
 
-    secondary = red,
-    onSecondary = whiteUniversal,
+    secondary = AppColor.red,
+    onSecondary = AppColor.whiteUniversal,
 
-    surface = lightGray,
-    onSurface = blackUniversal
+    surface = AppColor.lightGray,
+    onSurface = AppColor.blackUniversal
 
 )
 
