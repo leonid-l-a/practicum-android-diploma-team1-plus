@@ -39,7 +39,6 @@ private val LightTheme = lightColorScheme(
 )
 
 @Composable
-
 fun ApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
