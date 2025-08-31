@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.core.data.network
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -35,12 +36,15 @@ class VacancyNetworkClient(
             try {
                 apiCall().apply { resultCode = ResponseCode.SUCCESS }
             } catch (e: IOException) {
+                Log.e("VacancyNetworkClient", "Network error", e)
                 Response().apply { resultCode = ResponseCode.IO_ERROR } as T
             } catch (e: HttpException) {
+                Log.e("VacancyNetworkClient", "HTTP error ${e.code()}", e)
                 Response().apply { resultCode = e.code() } as T
             }
         }
     }
+
 
     /**
      * Получает список фильтров районов через API.
