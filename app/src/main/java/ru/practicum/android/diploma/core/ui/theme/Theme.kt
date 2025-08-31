@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 
 private val DarkTheme = darkColorScheme(
 
-    background = blackNight,
-    onBackground = whiteNight,
+    background = whiteNight,
+    onBackground = blackNight,
 
     primary = blue,
     onPrimary = whiteUniversal,

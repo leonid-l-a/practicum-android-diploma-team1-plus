@@ -43,7 +43,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         )
 
         NavigationBar(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onSurface
         ) {
             NavigationBarItem(
