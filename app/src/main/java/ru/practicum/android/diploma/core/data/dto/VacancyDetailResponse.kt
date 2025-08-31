@@ -2,12 +2,12 @@ package ru.practicum.android.diploma.core.data.dto
 
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Address
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Contacts
+import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employer
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employment
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Experience
+import ru.practicum.android.diploma.core.data.dto.vacancydetails.FilterArea
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Salary
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Schedule
-import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employer
-import ru.practicum.android.diploma.core.data.dto.vacancydetails.FilterArea
 
 data class VacancyDetailResponse(
     val id: Int,
