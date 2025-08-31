@@ -1,8 +1,8 @@
 package ru.practicum.android.diploma.core.data.dto
 
-data class VacancyResponce(
+data class VacancyResponse(
     val found: Int,
     val pages: Int,
     val page: Int,
-    val vacancies: List<VacancyDetailResponce>
-) : Responce()
+    val vacancies: List<VacancyDetailResponse>
+) : Response()

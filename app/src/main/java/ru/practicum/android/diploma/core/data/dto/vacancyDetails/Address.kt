@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.core.data.dto.vacancy_details
+package ru.practicum.android.diploma.core.data.dto.vacancyDetails
 
 data class Address(
     val city: String,

@@ -1,5 +1,5 @@
 package ru.practicum.android.diploma.core.data.dto
 
-open class Responce() {
+open class Response {
     var resultCode = 0
 }

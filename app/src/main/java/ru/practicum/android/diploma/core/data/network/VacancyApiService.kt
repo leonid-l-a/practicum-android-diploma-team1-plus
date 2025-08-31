@@ -3,18 +3,54 @@ package ru.practicum.android.diploma.core.data.network
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
-import ru.practicum.android.diploma.core.data.dto.FilterAreasResponce
-import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponce
-import ru.practicum.android.diploma.core.data.dto.VacancyDetailResponce
-import ru.practicum.android.diploma.core.data.dto.VacancyResponce
+import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse
+import ru.practicum.android.diploma.core.data.dto.FilterIndustryDetail
+import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
+import ru.practicum.android.diploma.core.data.dto.VacancyDetailResponse
+import ru.practicum.android.diploma.core.data.dto.VacancyResponse
+import ru.practicum.android.diploma.core.data.dto.vacancyDetails.FilterArea
 
+/**
+ * Интерфейс API для работы с вакансиями.
+ *
+ * Содержит методы для получения списка вакансий, фильтров по районам и отраслям,
+ * а также получения детальной информации о конкретной вакансии.
+ *
+ * Все методы являются suspend-функциями и должны вызываться из корутины.
+ */
 interface VacancyApiService {
 
+    /**
+     * Получает список доступных фильтров районов.
+     *
+     * Каждый элемент списка представляет отдельный район, который можно использовать для фильтрации вакансий.
+     *
+     * @return [FilterAreasResponse] объект, содержащий список районов [FilterArea].
+     *
+     * Пример использования:
+     * ```
+     * val response = apiService.getFilterAreas()
+     * response.areas.forEach { println(it.name) }
+     * ```
+     */
     @GET("areas")
-    suspend fun getFilterAreas(): FilterAreasResponce
+    suspend fun getFilterAreas(): FilterAreasResponse
 
+    /**
+     * Получает список доступных фильтров отраслей.
+     *
+     * Каждый элемент списка представляет отдельную отрасль, которую можно использовать для фильтрации вакансий.
+     *
+     * @return [FilterIndustryResponse] объект, содержащий список отраслей [FilterIndustryDetail].
+     *
+     * Пример использования:
+     * ```
+     * val response = apiService.getFilterIndustries()
+     * response.industries.forEach { println(it.name) }
+     * ```
+     */
     @GET("industries")
-    suspend fun getFilterIndustries(): FilterIndustryResponce
+    suspend fun getFilterIndustries(): FilterIndustryResponse
 
     /**
      * Получает список вакансий с фильтрацией по переданным параметрам.
@@ -32,10 +68,23 @@ interface VacancyApiService {
     @GET("vacancies")
     suspend fun getVacancies(
         @QueryMap params: @JvmSuppressWildcards Map<String, Any?>
-    ): VacancyResponce
+    ): VacancyResponse
 
+    /**
+     * Получает детальную информацию о вакансии по её ID.
+     *
+     * @param id Идентификатор вакансии, по которому будет произведён запрос.
+     *
+     * @return [VacancyDetailResponse] объект с полной информацией о вакансии.
+     *
+     * Пример использования:
+     * ```
+     * val vacancy = apiService.getVacancy(123)
+     * println(vacancy.title)
+     * ```
+     */
     @GET("vacancies/{id}")
     suspend fun getVacancy(
         @Path("id") id: Int
-    ): VacancyDetailResponce
+    ): VacancyDetailResponse
 }
