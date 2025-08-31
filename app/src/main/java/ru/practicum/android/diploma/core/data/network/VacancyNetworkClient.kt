@@ -45,7 +45,6 @@ class VacancyNetworkClient(
         }
     }
 
-
     /**
      * Получает список фильтров районов через API.
      *
