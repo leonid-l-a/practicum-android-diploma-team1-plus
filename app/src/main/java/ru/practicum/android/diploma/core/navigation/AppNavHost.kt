@@ -8,11 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 /**
- * Навигационный хост приложения, управляющий навигацией между экранами.
+ * The application's navigation host, managing navigation between screens.
  *
- * @param navController Контроллер навигации для управления переходами между экранами.
+ * @param navController The navigation controller used to handle screen transitions.
  */
-
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
