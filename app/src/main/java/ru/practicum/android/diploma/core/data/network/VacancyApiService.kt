@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.core.data.dto.FilterIndustryDetail
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
 import ru.practicum.android.diploma.core.data.dto.VacancyDetailResponse
 import ru.practicum.android.diploma.core.data.dto.VacancyResponse
-import ru.practicum.android.diploma.core.data.dto.vacancyDetails.FilterArea
+import ru.practicum.android.diploma.core.data.dto.vacancydetails.FilterArea
 
 /**
  * Интерфейс API для работы с вакансиями.

@@ -26,7 +26,6 @@ class VacancyNetworkClient(
      * Оборачивает вызов API в блок try/catch и обрабатывает исключения:
      *  - [IOException] — проблемы с сетью ([ResponseCode.IO_ERROR])
      *  - [HttpException] — ошибки HTTP (код из ответа сервера)
-     *  - другие исключения — [ResponseCode.UNKNOWN_ERROR]
      *
      * @param apiCall Функция прерывания, выполняющая конкретный сетевой запрос.
      * @return [T] объект ответа, наследник [Response], с заполненным `resultCode`.
@@ -39,8 +38,6 @@ class VacancyNetworkClient(
                 Response().apply { resultCode = ResponseCode.IO_ERROR } as T
             } catch (e: HttpException) {
                 Response().apply { resultCode = e.code() } as T
-            } catch (e: Exception) {
-                Response().apply { resultCode = ResponseCode.UNKNOWN_ERROR } as T
             }
         }
     }
