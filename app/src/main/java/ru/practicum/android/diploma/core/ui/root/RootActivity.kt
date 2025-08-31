@@ -17,10 +17,10 @@ class RootActivity : AppCompatActivity() {
         setContent {
             val navController = rememberNavController()
             ApplicationTheme {
-                Scaffold(bottomBar = {
-                    BottomNavigationBar(navController)
-                }
-
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(navController)
+                    }
                 ) { padding ->
                     AppNavHost(
                         navController,

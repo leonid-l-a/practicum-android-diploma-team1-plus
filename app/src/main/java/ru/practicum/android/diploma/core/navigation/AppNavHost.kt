@@ -14,11 +14,9 @@ import androidx.navigation.compose.composable
  */
 
 @Composable
-
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
-
-        // TODO: Заменить заглушки на реальные экраны
+        // Заменить заглушки на реальные экраны
 
         composable(Screen.Main.route) { Text("Main Screen") }
         composable(Screen.Command.route) { Text("Command Screen") }

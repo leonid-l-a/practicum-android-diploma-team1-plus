@@ -43,7 +43,8 @@ fun BottomNavigationBar(navController: NavHostController) {
         )
 
         NavigationBar(
-            containerColor = MaterialTheme.colorScheme.surface, contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ) {
             NavigationBarItem(
                 icon = { Icon(painterResource(id = R.drawable.ic_main), contentDescription = "Main") },
