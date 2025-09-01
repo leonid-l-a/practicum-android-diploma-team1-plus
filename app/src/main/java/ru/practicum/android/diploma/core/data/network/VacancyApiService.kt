@@ -49,7 +49,7 @@ interface VacancyApiService {
      * ```
      */
     @GET("industries")
-    suspend fun getFilterIndustries(): FilterIndustryResponse
+    suspend fun getFilterIndustries(): List<FilterIndustryDetail>
 
     /**
      * Получает список вакансий с фильтрацией по переданным параметрам.
