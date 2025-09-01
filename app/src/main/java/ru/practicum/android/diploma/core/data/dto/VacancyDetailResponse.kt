@@ -5,7 +5,6 @@ import ru.practicum.android.diploma.core.data.dto.vacancydetails.Contacts
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employer
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employment
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Experience
-import ru.practicum.android.diploma.core.data.dto.vacancydetails.FilterArea
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Salary
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Schedule
 
@@ -20,7 +19,7 @@ data class VacancyDetailResponse(
     val employment: Employment,
     val contacts: Contacts,
     val employer: Employer,
-    val area: FilterArea,
+    val area: FilterAreasResponse,
     val skills: List<String>,
     val url: String,
     val industry: FilterIndustryResponse

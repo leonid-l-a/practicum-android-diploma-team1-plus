@@ -1,7 +1,8 @@
 package ru.practicum.android.diploma.core.data.dto
 
-import ru.practicum.android.diploma.core.data.dto.vacancydetails.FilterArea
-
 data class FilterAreasResponse(
-    val areas: List<FilterArea>
+    val id: Int,
+    val name: String,
+    val parentId: Int,
+    val areas: List<FilterAreasResponse>
 ) : Response()
