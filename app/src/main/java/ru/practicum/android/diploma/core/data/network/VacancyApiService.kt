@@ -8,7 +8,6 @@ import ru.practicum.android.diploma.core.data.dto.FilterIndustryDetail
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
 import ru.practicum.android.diploma.core.data.dto.VacancyDetailResponse
 import ru.practicum.android.diploma.core.data.dto.VacancyResponse
-import ru.practicum.android.diploma.core.data.dto.vacancydetails.FilterArea
 
 /**
  * Интерфейс API для работы с вакансиями.
@@ -25,7 +24,7 @@ interface VacancyApiService {
      *
      * Каждый элемент списка представляет отдельный район, который можно использовать для фильтрации вакансий.
      *
-     * @return [FilterAreasResponse] объект, содержащий список районов [FilterArea].
+     * @return [FilterAreasResponse] объект, содержащий список районов [FilterAreasResponse].
      *
      * Пример использования:
      * ```
