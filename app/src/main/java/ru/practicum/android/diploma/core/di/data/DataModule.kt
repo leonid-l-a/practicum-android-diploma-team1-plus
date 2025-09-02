@@ -12,11 +12,9 @@ import ru.practicum.android.diploma.core.data.network.interceptors.APIKeyInterce
 
 val coreDataModule = module {
     single<APIKeyInterceptor> { APIKeyInterceptor() }
-    single<HttpLoggingInterceptor> { HttpLoggingInterceptor().apply { level =  HttpLoggingInterceptor.Level.HEADERS } }
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .addInterceptor(interceptor = get<APIKeyInterceptor>())
-            .addInterceptor(interceptor = get<HttpLoggingInterceptor>())
             .build()
     }
     single<VacancyApiService> {
