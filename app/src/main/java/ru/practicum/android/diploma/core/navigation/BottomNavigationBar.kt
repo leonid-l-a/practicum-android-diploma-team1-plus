@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.ui.theme.dividerColor
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -30,8 +31,8 @@ fun BottomNavigationBar(navController: NavHostController) {
         selectedIconColor = MaterialTheme.colorScheme.primary,
         selectedTextColor = MaterialTheme.colorScheme.primary,
         indicatorColor = Color.Transparent,
-        unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.25f),
-        unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.25f)
+        unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+        unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
     )
 
     Column {
@@ -39,16 +40,26 @@ fun BottomNavigationBar(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.25f))
+                .background(dividerColor)
         )
 
         NavigationBar(
             containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            contentColor = MaterialTheme.colorScheme.onSurface,
         ) {
             NavigationBarItem(
-                icon = { Icon(painterResource(id = R.drawable.ic_main), contentDescription = "Main") },
-                label = { Text("Главная") },
+                icon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_main),
+                        contentDescription = "Main"
+                    )
+                },
+                label = {
+                    Text(
+                        "Главная",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                },
                 selected = currentRoute == Screen.Main.route,
                 onClick = {
                     if (currentRoute != Screen.Main.route) {
@@ -58,12 +69,22 @@ fun BottomNavigationBar(navController: NavHostController) {
                         }
                     }
                 },
-                colors = navigationColors
+                colors = navigationColors,
             )
 
             NavigationBarItem(
-                icon = { Icon(painterResource(id = R.drawable.ic_favorites), contentDescription = "Favourite") },
-                label = { Text("Избранное") },
+                icon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_favorites),
+                        contentDescription = "Favourite"
+                    )
+                },
+                label = {
+                    Text(
+                        "Избранное",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                },
                 selected = currentRoute == Screen.Favourites.route,
                 onClick = {
                     if (currentRoute != Screen.Favourites.route) {
@@ -77,8 +98,18 @@ fun BottomNavigationBar(navController: NavHostController) {
             )
 
             NavigationBarItem(
-                icon = { Icon(painterResource(id = R.drawable.ic_command), contentDescription = "Command") },
-                label = { Text("Команда") },
+                icon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_command),
+                        contentDescription = "Command"
+                    )
+                },
+                label = {
+                    Text(
+                        "Команда",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                },
                 selected = currentRoute == Screen.Command.route,
                 onClick = {
                     if (currentRoute != Screen.Command.route) {
