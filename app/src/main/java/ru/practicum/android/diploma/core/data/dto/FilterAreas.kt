@@ -1,13 +1,8 @@
 package ru.practicum.android.diploma.core.data.dto
 
-data class FilterAreasResponse(
+data class FilterAreas(
     val id: Int,
     val name: String,
     val parentId: Int,
-    val areas: List<FilterAreasResponse>
-) : Response()
-
-
-data class FilterAreasResponse1(
     val areas: List<FilterAreas>
-) : Response()
+)

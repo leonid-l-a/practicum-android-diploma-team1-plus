@@ -4,6 +4,8 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse
+import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse1
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
 import ru.practicum.android.diploma.core.data.dto.Response
 import ru.practicum.android.diploma.core.data.dto.VacancyRequest
@@ -51,8 +53,8 @@ class VacancyNetworkClient(
      *
      * @return [Response] объект, содержащий результат запроса и код ответа `resultCode`.
      */
-    suspend fun getFilterAreas(): Response =
-        safeApiCall { apiService.getFilterAreas() }
+    suspend fun getFilterAreas(): FilterAreasResponse1 =
+        safeApiCall { FilterAreasResponse1(apiService.getFilterAreas()) }
 
     /**
      * Получает список фильтров отраслей через API.

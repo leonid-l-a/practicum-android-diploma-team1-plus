@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.core.data.network
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
+import ru.practicum.android.diploma.core.data.dto.FilterAreas
 import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryDetail
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
@@ -33,7 +34,7 @@ interface VacancyApiService {
      * ```
      */
     @GET("areas")
-    suspend fun getFilterAreas(): FilterAreasResponse
+    suspend fun getFilterAreas(): List<FilterAreas>
 
     /**
      * Получает список доступных фильтров отраслей.
