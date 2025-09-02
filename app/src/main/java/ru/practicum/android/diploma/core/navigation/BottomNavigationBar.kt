@@ -48,10 +48,16 @@ fun BottomNavigationBar(navController: NavHostController) {
             contentColor = MaterialTheme.colorScheme.onSurface,
         ) {
             NavigationBarItem(
-                icon = { Icon(painterResource(id = R.drawable.ic_main), contentDescription = "Main") },
+                icon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_main),
+                        contentDescription = "Main"
+                    )
+                },
                 label = {
                     Text(
-                        "Главная", style = MaterialTheme.typography.labelSmall
+                        "Главная",
+                        style = MaterialTheme.typography.labelSmall
                     )
                 },
                 selected = currentRoute == Screen.Main.route,
@@ -75,7 +81,8 @@ fun BottomNavigationBar(navController: NavHostController) {
                 },
                 label = {
                     Text(
-                        "Избранное", style = MaterialTheme.typography.labelSmall
+                        "Избранное",
+                        style = MaterialTheme.typography.labelSmall
                     )
                 },
                 selected = currentRoute == Screen.Favourites.route,
@@ -96,18 +103,23 @@ fun BottomNavigationBar(navController: NavHostController) {
                         painterResource(id = R.drawable.ic_command),
                         contentDescription = "Command"
                     )
-                }, label = {
+                },
+                label = {
                     Text(
-                        "Команда", style = MaterialTheme.typography.labelSmall
+                        "Команда",
+                        style = MaterialTheme.typography.labelSmall
                     )
-                }, selected = currentRoute == Screen.Command.route, onClick = {
+                },
+                selected = currentRoute == Screen.Command.route,
+                onClick = {
                     if (currentRoute != Screen.Command.route) {
                         navController.navigate(Screen.Command.route) {
                             launchSingleTop = true
                             restoreState = true
                         }
                     }
-                }, colors = navigationColors
+                },
+                colors = navigationColors
             )
         }
     }
