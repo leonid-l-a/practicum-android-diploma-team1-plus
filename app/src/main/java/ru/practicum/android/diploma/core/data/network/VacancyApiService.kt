@@ -3,9 +3,12 @@ package ru.practicum.android.diploma.core.data.network
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
+import ru.practicum.android.diploma.core.data.dto.FilterAreas
 import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryDetail
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
+import ru.practicum.android.diploma.core.data.dto.Vacancy
+import ru.practicum.android.diploma.core.data.dto.VacancyDetail
 import ru.practicum.android.diploma.core.data.dto.VacancyDetailResponse
 import ru.practicum.android.diploma.core.data.dto.VacancyResponse
 
@@ -33,7 +36,7 @@ interface VacancyApiService {
      * ```
      */
     @GET("areas")
-    suspend fun getFilterAreas(): FilterAreasResponse
+    suspend fun getFilterAreas(): List<FilterAreas>
 
     /**
      * Получает список доступных фильтров отраслей.
@@ -67,7 +70,7 @@ interface VacancyApiService {
     @GET("vacancies")
     suspend fun getVacancies(
         @QueryMap params: @JvmSuppressWildcards Map<String, Any?>
-    ): VacancyResponse
+    ): Vacancy
 
     /**
      * Получает детальную информацию о вакансии по её ID.
@@ -84,6 +87,6 @@ interface VacancyApiService {
      */
     @GET("vacancies/{id}")
     suspend fun getVacancy(
-        @Path("id") id: Int
-    ): VacancyDetailResponse
+        @Path("id") id: String
+    ): VacancyDetail
 }

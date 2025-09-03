@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.core.navigation.BottomNavigationBar
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 
 class RootActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

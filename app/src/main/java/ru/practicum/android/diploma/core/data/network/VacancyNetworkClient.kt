@@ -4,9 +4,12 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
 import ru.practicum.android.diploma.core.data.dto.Response
+import ru.practicum.android.diploma.core.data.dto.VacancyDetailResponse
 import ru.practicum.android.diploma.core.data.dto.VacancyRequest
+import ru.practicum.android.diploma.core.data.dto.VacancyResponse
 import ru.practicum.android.diploma.core.data.utils.ResponseCode
 import ru.practicum.android.diploma.core.data.utils.toQueryMap
 import java.io.IOException
@@ -51,16 +54,24 @@ class VacancyNetworkClient(
      *
      * @return [Response] объект, содержащий результат запроса и код ответа `resultCode`.
      */
-    suspend fun getFilterAreas(): Response =
-        safeApiCall { apiService.getFilterAreas() }
+    suspend fun getFilterAreas(): FilterAreasResponse =
+        safeApiCall {
+            FilterAreasResponse(
+                areas = apiService.getFilterAreas()
+            )
+        }
 
     /**
      * Получает список фильтров отраслей через API.
      *
      * @return [Response] объект, содержащий результат запроса и код ответа `resultCode`.
      */
-    suspend fun getFilterIndustries(): Response =
-        safeApiCall { FilterIndustryResponse(apiService.getFilterIndustries()) }
+    suspend fun getFilterIndustries(): FilterIndustryResponse =
+        safeApiCall {
+            FilterIndustryResponse(
+                industries = apiService.getFilterIndustries()
+            )
+        }
 
     /**
      * Получает список вакансий с фильтрацией по параметрам запроса.
@@ -68,8 +79,12 @@ class VacancyNetworkClient(
      * @param request [VacancyRequest] объект с параметрами фильтрации.
      * @return [Response] объект, содержащий список вакансий и код ответа `resultCode`.
      */
-    suspend fun getVacancies(request: VacancyRequest): Response =
-        safeApiCall { apiService.getVacancies(request.toQueryMap()) }
+    suspend fun getVacancies(request: VacancyRequest): VacancyResponse =
+        safeApiCall {
+            VacancyResponse(
+                vacancy = apiService.getVacancies(request.toQueryMap())
+            )
+        }
 
     /**
      * Получает подробную информацию по конкретной вакансии по ID.
@@ -77,6 +92,10 @@ class VacancyNetworkClient(
      * @param id ID вакансии.
      * @return [Response] объект, содержащий детальную информацию о вакансии и код ответа `resultCode`.
      */
-    suspend fun getVacancy(id: Int): Response =
-        safeApiCall { apiService.getVacancy(id) }
+    suspend fun getVacancy(id: String): VacancyDetailResponse =
+        safeApiCall {
+            VacancyDetailResponse(
+                vacancyDetail = apiService.getVacancy(id)
+            )
+        }
 }
