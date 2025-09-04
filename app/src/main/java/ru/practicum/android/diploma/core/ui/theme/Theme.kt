@@ -18,8 +18,10 @@ private val DarkTheme = darkColorScheme(
     onSecondary = whiteUniversal,
 
     surface = gray,
-    onSurface = whiteUniversal
+    onSurface = whiteUniversal,
 
+    primaryContainer = gray,
+    onPrimaryContainer = whiteUniversal
 )
 
 private val LightTheme = lightColorScheme(
@@ -34,8 +36,10 @@ private val LightTheme = lightColorScheme(
     onSecondary = whiteUniversal,
 
     surface = lightGray,
-    onSurface = blackUniversal
+    onSurface = blackUniversal,
 
+    primaryContainer = mediumLightGray,
+    onPrimaryContainer = gray
 )
 
 @Suppress("detekt.AnnotationOnSeparateLine")

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.dividerColor
+import ru.practicum.android.diploma.core.ui.theme.mediumLightGray
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -40,7 +40,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(dividerColor)
+                .background(mediumLightGray)
         )
 
         NavigationBar(

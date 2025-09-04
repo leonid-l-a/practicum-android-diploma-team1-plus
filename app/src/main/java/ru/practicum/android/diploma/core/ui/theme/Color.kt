@@ -36,4 +36,4 @@ val lightGray = Color(0xFFFDFDFD)
 val background = Color(0x801A1B22)
 
 @Suppress("MagicNumber")
-val dividerColor = Color(0xFFE6E8EB)
+val mediumLightGray = Color(0xFFE6E8EB)
