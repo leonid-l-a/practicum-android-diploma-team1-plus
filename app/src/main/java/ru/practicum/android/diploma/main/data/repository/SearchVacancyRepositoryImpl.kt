@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.data.dto.VacancyRequest
 import ru.practicum.android.diploma.core.data.network.VacancyNetworkClient
 import ru.practicum.android.diploma.core.data.utils.ResponseCode
-import ru.practicum.android.diploma.main.data.mapper.VacancyToVacancyMainData
+import ru.practicum.android.diploma.main.data.mapper.VacancyMapper
 import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.repository.SearchVacancyRepository
 import ru.practicum.android.diploma.main.domain.state.Resource
@@ -24,16 +24,13 @@ class SearchVacancyRepositoryImpl(
 
     override fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>> =
         flow {
-
             if (!networkUtil.isInternetAvailable(context)) {
-
                 emit(
                     Resource.Error(
                         message = CONNECTION_PROBLEMS
                     )
                 )
             } else {
-
                 val vacancyRequest = VacancyRequest(
                     text = expression
                 )
@@ -42,10 +39,11 @@ class SearchVacancyRepositoryImpl(
 
                 when (networkResponse.resultCode) {
                     ResponseCode.SUCCESS -> {
-
                         emit(
                             Resource.Success(
-                                data = VacancyToVacancyMainData.vacancyToVacancyMainData(vacancy = networkResponse.vacancy)
+                                data = VacancyMapper.vacancyToVacancyMainData(
+                                    vacancy = networkResponse.vacancy
+                                )
                             )
                         )
                     }
