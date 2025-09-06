@@ -10,7 +10,6 @@ class SearchVacancyInteractorImpl(
     val searchVacancyRepository: SearchVacancyRepository
 ) : SearchVacancyInteractor {
     override fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>> {
-
         return searchVacancyRepository.searchVacancy(expression)
     }
 }
