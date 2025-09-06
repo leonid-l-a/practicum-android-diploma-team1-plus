@@ -39,10 +39,7 @@ class SearchVacancyRepositoryImpl(
 
                 when (networkResponse.resultCode) {
                     ResponseCode.SUCCESS -> {
-                        emit(
-                            Resource.Success(data = VacancyMapper.vacancyToVacancyMainData(vacancy = networkResponse.vacancy)
-                            )
-                        )
+                        emit(Resource.Success(data = VacancyMapper.vacancyToVacancyMainData(vacancy = networkResponse.vacancy)))
                     }
 
                     ResponseCode.IO_ERROR -> {
