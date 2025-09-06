@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     debugImplementation(libs.ui.tooling)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.navigation.compose)
 
     implementation(libs.koin)
