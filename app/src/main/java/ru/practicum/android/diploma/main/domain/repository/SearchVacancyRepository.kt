@@ -1,10 +1,9 @@
 package ru.practicum.android.diploma.main.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.core.data.dto.Vacancy
-import ru.practicum.android.diploma.core.data.dto.VacancyRequest
-import ru.practicum.android.diploma.main.domain.model.Resource
+import ru.practicum.android.diploma.main.data.model.VacancyMainData
+import ru.practicum.android.diploma.main.domain.state.Resource
 
 interface SearchVacancyRepository {
-    fun searchVacancy(vacancyRequest: VacancyRequest): Flow<Resource<Vacancy>>
+    fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>>
 }

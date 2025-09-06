@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.main.domain.model
+package ru.practicum.android.diploma.main.domain.state
 
 sealed class Resource<T> {
     data class Success<T>(val data: T) : Resource<T>()

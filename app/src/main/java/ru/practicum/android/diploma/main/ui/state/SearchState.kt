@@ -1,15 +1,13 @@
 package ru.practicum.android.diploma.main.ui.state
 
-import org.koin.core.logger.MESSAGE
-import ru.practicum.android.diploma.core.data.dto.Vacancy
-import ru.practicum.android.diploma.core.data.dto.VacancyDetail
+import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 
 sealed class SearchState {
 
     data object Loading : SearchState()
 
     data class Content(
-        val vacancy: List<VacancyDetail>
+        val vacancy: List<VacancyDetailMainData>
     ) : SearchState()
 
     data object Empty : SearchState()
@@ -18,6 +16,6 @@ sealed class SearchState {
         val message: String
     ) : SearchState()
 
-    data object Default: SearchState()
+    data object Default : SearchState()
 
 }

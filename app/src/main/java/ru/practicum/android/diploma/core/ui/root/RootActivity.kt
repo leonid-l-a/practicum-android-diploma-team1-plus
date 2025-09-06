@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import ru.practicum.android.diploma.core.navigation.AppNavHost
 import ru.practicum.android.diploma.core.navigation.BottomNavigationBar
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
-import ru.practicum.android.diploma.main.ui.SearchVacancy
 
 class RootActivity : AppCompatActivity() {
 
@@ -28,10 +27,8 @@ class RootActivity : AppCompatActivity() {
                         navController,
                         modifier = Modifier.padding(padding)
                     )
-                    SearchVacancy()
                 }
             }
-
         }
     }
 }
