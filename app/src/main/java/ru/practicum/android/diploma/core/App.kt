@@ -6,6 +6,9 @@ import ru.practicum.android.diploma.core.di.data.coreDataModule
 import ru.practicum.android.diploma.core.di.domain.coreInteractorModule
 import ru.practicum.android.diploma.core.di.domain.coreRepositoryModule
 import ru.practicum.android.diploma.core.di.viewmodel.coreViewModelModule
+import ru.practicum.android.diploma.main.di.domain.mainInteractorModule
+import ru.practicum.android.diploma.main.di.domain.mainRepositoryModule
+import ru.practicum.android.diploma.main.di.viewmodel.mainViewModelModule
 
 class App : Application() {
 
@@ -16,7 +19,10 @@ class App : Application() {
                 coreDataModule,
                 coreRepositoryModule,
                 coreInteractorModule,
-                coreViewModelModule
+                coreViewModelModule,
+                mainInteractorModule,
+                mainRepositoryModule,
+                mainViewModelModule
             )
         }
     }
