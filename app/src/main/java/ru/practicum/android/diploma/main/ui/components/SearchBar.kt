@@ -58,7 +58,7 @@ fun SearchBar(
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
 
-        )
+            )
     )
 }
 

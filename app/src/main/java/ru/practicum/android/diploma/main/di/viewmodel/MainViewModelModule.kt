@@ -5,7 +5,5 @@ import org.koin.dsl.module
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 val mainViewModelModule = module {
-     viewModel<SearchVacancyViewModel> {
-         SearchVacancyViewModel(searchVacancyInteractor = get())
-    }
+    viewModel { SearchVacancyViewModel(get()) }
 }
