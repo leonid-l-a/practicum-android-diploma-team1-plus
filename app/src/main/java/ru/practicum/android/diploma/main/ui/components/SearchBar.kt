@@ -1,9 +1,9 @@
 package ru.practicum.android.diploma.main.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,8 +20,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
+
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
