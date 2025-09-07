@@ -1,25 +1,19 @@
 package ru.practicum.android.diploma.main.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,65 +34,58 @@ import androidx.lifecycle.ViewModel
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
-import ru.practicum.android.diploma.core.ui.theme.HeightMainSearchBar
-import ru.practicum.android.diploma.core.ui.theme.TopAppBarHeight
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
+import ru.practicum.android.diploma.main.ui.components.CircularIndicator
 import ru.practicum.android.diploma.main.ui.components.SearchBar
 import ru.practicum.android.diploma.main.ui.components.ShowVacancyList
 import ru.practicum.android.diploma.main.ui.components.VacancyAppBar
 import ru.practicum.android.diploma.main.ui.state.SearchState
-import ru.practicum.android.diploma.main.ui.viewmodel.SearchViewModel
-
+import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = koinViewModel(),
+    viewModel: SearchVacancyViewModel = koinViewModel(),
     onVacancyClick: (String) -> Unit = {}
 ) {
-    if (true) {
-        Scaffold(
-            topBar = {
-                VacancyAppBar(modifier = Modifier)
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                SearchVacancies(modifier = Modifier)
-                ShowContent(viewModel = viewModel)
+    Scaffold(
+        topBar = {
+            VacancyAppBar(modifier = Modifier)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            SearchVacancies(
+                modifier = Modifier,
+                onSearchHandler = { text ->
+                    viewModel.searchRequestText(expression = text)
+                },
+                onResetRequest = {
+                    viewModel.renderDefaultState()
+                }
+            )
+            ShowContent(viewModel = viewModel) {
+                onVacancyClick(it)
             }
         }
     }
-
-    /*Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        SearchVacancies(modifier = Modifier)
-        ShowContent(
-            viewModel = viewModel,
-            onVacancyClick = onVacancyClick
-        )
-    }*/
 }
 
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SearchScreenPreview(
-    //viewModel: SearchViewModel = koinViewModel<SearchViewModel>(),
-) {
+fun SearchScreenPreview() {
     ApplicationTheme {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
             SearchVacancies(modifier = Modifier)
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1F),
@@ -118,13 +105,20 @@ fun SearchScreenPreview(
 
 
 @Composable
-private fun SearchVacancies(modifier: Modifier = Modifier) {
+fun SearchVacancies(
+    modifier: Modifier = Modifier,
+    onSearchHandler: (String) -> Unit = {},
+    onResetRequest: () -> Unit = {}
+) {
     var text by remember { mutableStateOf("") }
     SearchBar(
         modifier = modifier,
         value = text,
         onValueChange = { newText ->
             text = newText
+            if (text.isNotEmpty()) {
+                onSearchHandler(text)
+            }
         },
         placeholder = {
             Text(
@@ -140,6 +134,7 @@ private fun SearchVacancies(modifier: Modifier = Modifier) {
                 modifier = Modifier.clickable {
                     if (text.isNotEmpty()) {
                         text = ""
+                        onResetRequest()
                     }
                 },
                 imageVector = ImageVector.vectorResource(id = ico),
@@ -152,15 +147,15 @@ private fun SearchVacancies(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ShowContent(
-    viewModel: SearchViewModel,
+    viewModel: SearchVacancyViewModel,
     onVacancyClick: (String) -> Unit = {}
 ) {
-    val searchState by viewModel.searchState.collectAsState()
-    when(searchState) {
-        SearchState.EmptyResult -> TODO()
-        SearchState.Error -> TODO()
-        SearchState.Idle -> {
-            Column (
+    val searchState by viewModel.stateSearchVacancy.collectAsState()
+    when (searchState) {
+        is SearchState.Empty -> {}
+        is SearchState.Error -> {}
+        is SearchState.Default -> {
+            Column(
                 modifier = Modifier
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -174,7 +169,13 @@ private fun ShowContent(
                 )
             }
         }
-        SearchState.Loading -> TODO()
-        SearchState.Result -> ShowVacancyList(vacancyList = viewModel.mockData, onClick = onVacancyClick)
+
+        is SearchState.Loading -> CircularIndicator()
+        is SearchState.Content -> {
+            val currentState = searchState
+            if (currentState is SearchState.Content) {
+                ShowVacancyList(vacancyList = currentState.vacancy, onClick = onVacancyClick)
+            }
+        }
     }
 }

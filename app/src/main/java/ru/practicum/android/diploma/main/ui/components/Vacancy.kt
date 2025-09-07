@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.main.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,24 +22,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
-import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.BorderWidth
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
 import ru.practicum.android.diploma.core.ui.theme.lightGray
-import ru.practicum.android.diploma.main.ui.model.Vacancy
+import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 
 
 @Composable
 fun VacancyItem(
-    vacancy: Vacancy,
+    vacancy: VacancyDetailMainData,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
@@ -51,16 +48,6 @@ fun VacancyItem(
             .clickable { onClick(vacancy.id) },
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        /*Image(
-            modifier = Modifier.size(48.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .border(
-                    BorderStroke(BorderWidth, lightGray),
-                    MaterialTheme.shapes.medium
-                ),
-            painter = painterResource(R.drawable.item_placeholder),
-            contentDescription = null
-        )*/
         AsyncImage(
             modifier = Modifier
                 .size(48.dp)
@@ -70,7 +57,7 @@ fun VacancyItem(
                     MaterialTheme.shapes.medium
                 ),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(vacancy.logoUrl)
+                .data(vacancy.employer.logo)
                 .httpHeaders(NetworkHeaders.Builder().add("User-Agent", "Mozilla/5.0").build())
                 .build(),
             placeholder = painterResource(R.drawable.item_placeholder),
@@ -87,13 +74,14 @@ fun VacancyItem(
             )
             //companyName
             Text(
-                vacancy.industry,
+                vacancy.employer.name,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
             //salary
+            //vacancy.salary
             Text(
-                vacancy.salary,
+                text = "Много",
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
@@ -104,7 +92,7 @@ fun VacancyItem(
 
 @Composable
 fun ShowVacancyList(
-    vacancyList: List<Vacancy>,
+    vacancyList: List<VacancyDetailMainData>,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
@@ -116,23 +104,5 @@ fun ShowVacancyList(
         items(vacancyList) {
             VacancyItem(vacancy = it, onClick = onClick)
         }
-    }
-}
-
-
-@Preview(showBackground = true, showSystemUi = true, device = "spec:width=411dp,height=891dp")
-@Composable
-private fun VacancyItemPreview() {
-    ApplicationTheme {
-        VacancyItem(
-            vacancy = Vacancy(
-                id = "af7dd6b8-2367-4695-82df-3470717cee2a",
-                name = "Android Developer в Microsoft",
-                logoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1200px-Microsoft_logo.svg.png",
-                industry = "Microsoft",
-                salary = "1 000 р"
-            ),
-            modifier = Modifier,
-        )
     }
 }

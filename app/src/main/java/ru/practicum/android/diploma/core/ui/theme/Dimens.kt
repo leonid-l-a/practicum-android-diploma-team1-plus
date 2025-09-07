@@ -19,3 +19,5 @@ val WidthForInfoImage = 328.dp
 val HeightMainSearchBar = 56.dp
 
 val BorderWidth = 1.dp
+
+val CircleSize = 36.dp

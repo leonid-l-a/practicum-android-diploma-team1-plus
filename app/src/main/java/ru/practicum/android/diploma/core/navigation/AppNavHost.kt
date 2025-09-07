@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.main.ui.SearchScreen
-import ru.practicum.android.diploma.main.ui.viewmodel.SearchViewModel
+import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 /**
  * The application's navigation host, managing navigation between screens.
@@ -23,9 +23,9 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable(Screen.Main.route) {
             SearchScreen(
                 modifier = Modifier,
-                viewModel = koinViewModel<SearchViewModel>()
+                viewModel = koinViewModel<SearchVacancyViewModel>()
             ) { vacancyId ->
-
+                navController.navigate(Screen.VacancyDetails.route + "/${vacancyId}")
             }
         }
         composable(Screen.Command.route) { Text("Command Screen") }
