@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
 import ru.practicum.android.diploma.main.domain.state.Resource
+import ru.practicum.android.diploma.main.ui.model.Vacancy
 import ru.practicum.android.diploma.main.ui.state.SearchState
+import ru.practicum.android.diploma.main.util.getFormatSalary
 import ru.practicum.android.diploma.util.DebounceUtil
 
 class SearchVacancyViewModel(
@@ -21,6 +24,8 @@ class SearchVacancyViewModel(
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 
+    private var isClickAllowed = true
+
     private var latestRequestText: String? = null
 
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
@@ -30,16 +35,6 @@ class SearchVacancyViewModel(
         delayMillis = SEARCH_DEBOUNCE_DELAY,
         coroutineScope = viewModelScope
     )
-
-    fun searchRequestText(expression: String) {
-        Log.d("CHECK_SEARCH_REQUEST", "expression is $expression, length is ${expression.length}")
-        if (latestRequestText == expression) {
-            return
-        }
-
-        latestRequestText = expression
-        searchVacancy(expression)
-    }
 
     private fun searchVacancy(expression: String) {
         if (expression.isNotEmpty()) {
@@ -52,10 +47,45 @@ class SearchVacancyViewModel(
                         searchState(vacancy)
                     }
             }
+        } else {
+            debounce.cancel()
         }
     }
 
+    private fun map(items: List<VacancyDetailMainData>): List<Vacancy> {
+        return items.map {
+            Vacancy(
+                name = it.name,
+                id = it.id,
+                logoUrl = it.employer.logo ?: "",
+                industry = it.employer.name ?: "",
+                salary = it.salary.getFormatSalary()
+            )
+        }
+    }
+
+    fun searchRequestText(expression: String) {
+        Log.d("CHECK_SEARCH_REQUEST", "expression is $expression, length is ${expression.length}")
+        if (latestRequestText == expression) {
+            return
+        }
+        latestRequestText = expression
+        searchVacancy(expression)
+    }
+
+    fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            debounce.invoke {
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
     fun renderDefaultState() {
+        debounce.cancel()
         renderSearchState(SearchState.Default)
     }
 
@@ -67,7 +97,7 @@ class SearchVacancyViewModel(
                 if (vacancy.isNotEmpty()) {
                     renderSearchState(
                         state = SearchState.Content(
-                            vacancy = vacancy
+                            vacancy = map(vacancy)
                         )
                     )
                 } else {

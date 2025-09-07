@@ -21,11 +21,14 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         // Заменить заглушки на реальные экраны
 
         composable(Screen.Main.route) {
+            val vm = koinViewModel<SearchVacancyViewModel>()
             SearchScreen(
                 modifier = Modifier,
-                viewModel = koinViewModel<SearchVacancyViewModel>()
+                viewModel = vm
             ) { vacancyId ->
-                navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
+                if (vm.clickDebounce()) {
+                    navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
+                }
             }
         }
         composable(Screen.Command.route) { Text("Command Screen") }
