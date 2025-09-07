@@ -12,6 +12,7 @@ roomCompiler = "2.7.2"
 roomKtx = "2.7.2"
 roomRuntime = "2.7.2"
 targetSdk = "33"
+serialization = "1.6.3"
 
 # Detekt
 detekt = "1.23.8"

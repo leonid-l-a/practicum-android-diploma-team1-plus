@@ -17,10 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.dividerColor
+import ru.practicum.android.diploma.core.ui.theme.lightGray
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -40,7 +41,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(dividerColor)
+                .background(lightGray)
         )
 
         NavigationBar(
@@ -64,6 +65,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                 onClick = {
                     if (currentRoute != Screen.Main.route) {
                         navController.navigate(Screen.Main.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             launchSingleTop = true
                             restoreState = true
                         }
@@ -89,6 +93,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                 onClick = {
                     if (currentRoute != Screen.Favourites.route) {
                         navController.navigate(Screen.Favourites.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             launchSingleTop = true
                             restoreState = true
                         }
@@ -114,6 +121,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                 onClick = {
                     if (currentRoute != Screen.Command.route) {
                         navController.navigate(Screen.Command.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             launchSingleTop = true
                             restoreState = true
                         }

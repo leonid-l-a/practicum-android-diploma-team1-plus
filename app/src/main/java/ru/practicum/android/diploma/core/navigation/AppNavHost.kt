@@ -6,6 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import org.koin.androidx.compose.koinViewModel
+import ru.practicum.android.diploma.main.ui.SearchScreen
+import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 /**
  * The application's navigation host, managing navigation between screens.
@@ -17,7 +20,14 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
         // Заменить заглушки на реальные экраны
 
-        composable(Screen.Main.route) { Text("Main Screen") }
+        composable(Screen.Main.route) {
+            SearchScreen(
+                modifier = Modifier,
+                viewModel = koinViewModel<SearchVacancyViewModel>()
+            ) { vacancyId ->
+                navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
+            }
+        }
         composable(Screen.Command.route) { Text("Command Screen") }
         composable(Screen.Favourites.route) { Text("Favourite Screen") }
         composable(Screen.VacancyDetails.route) { Text("Vacancy Details Screen") }

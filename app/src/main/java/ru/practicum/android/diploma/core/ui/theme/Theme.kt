@@ -18,8 +18,7 @@ private val DarkTheme = darkColorScheme(
     onSecondary = whiteUniversal,
 
     surface = gray,
-    onSurface = whiteUniversal
-
+    onSurface = whiteUniversal,
 )
 
 private val LightTheme = lightColorScheme(
@@ -34,8 +33,7 @@ private val LightTheme = lightColorScheme(
     onSecondary = whiteUniversal,
 
     surface = lightGray,
-    onSurface = blackUniversal
-
+    onSurface = blackUniversal,
 )
 
 @Suppress("detekt.AnnotationOnSeparateLine")
@@ -53,6 +51,7 @@ fun ApplicationTheme(
     MaterialTheme(
         colorScheme = colors,
         typography = Typography,
-        content = content
+        content = content,
+        shapes = shapes
     )
 }
