@@ -5,9 +5,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,12 +45,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.WrapperPadding
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -148,49 +148,37 @@ fun TextFieldCustom(
 
 @Composable
 fun SearchBar(
-    height: Dp,
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: @Composable (() -> Unit)? = null
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
-    var text by remember { mutableStateOf("") }
+
     TextField(
-        value = text,
+        value = value,
         modifier = modifier
-            .padding(horizontal = WrapperPadding)
-            .height(height)
+            .padding(
+                horizontal = WrapperPaddingHorizontal,
+                vertical = WrapperPaddingVertical,
+            )
             .fillMaxWidth(),
-        onValueChange = { newText -> text = newText },
+        onValueChange = onValueChange,
         label = label,
-        placeholder = {
-            Text(
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                text = stringResource(R.string.search_bar_placeholder),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        },
-        trailingIcon = {
-            val ico = if (text.isEmpty()) R.drawable.ic_search else R.drawable.ic_close
-            Icon(
-                tint = blackUniversal,
-                modifier = Modifier.clickable {
-                    if (text.isNotEmpty()) {
-                        text = ""
-                    }
-                },
-                imageVector = ImageVector.vectorResource(id = ico),
-                contentDescription = null
-            )
-        },
+        placeholder = placeholder,
+        trailingIcon = trailingIcon,
         singleLine = true,
         shape = MaterialTheme.shapes.medium,
         colors = TextFieldDefaults.colors(
             focusedTextColor = blackUniversal,
-            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
 
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            disabledIndicatorColor = Color.Transparent,
+
         )
     )
 }
@@ -284,6 +272,7 @@ fun SearchBarCustom(modifier: Modifier = Modifier) {
     )
 }
 
+
 @Preview(
     showSystemUi = true, showBackground = true,
     uiMode = android.content.res.Configuration.UI_MODE_TYPE_NORMAL
@@ -292,10 +281,35 @@ fun SearchBarCustom(modifier: Modifier = Modifier) {
 private fun SearchBarPreview() {
     ApplicationTheme {
         Column {
+            var text by remember { mutableStateOf("") }
             SearchBar(
-                height = 56.dp
+                value = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                placeholder = {
+                    Text(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        text = stringResource(R.string.search_bar_placeholder),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                },
+                trailingIcon = {
+                    val ico = if (text.isEmpty()) R.drawable.ic_search else R.drawable.ic_close
+                    Icon(
+                        tint = blackUniversal,
+                        modifier = Modifier.clickable {
+                            if (text.isNotEmpty()) {
+                                text = ""
+                            }
+                        },
+                        imageVector = ImageVector.vectorResource(id = ico),
+                        contentDescription = null
+                    )
+                }
             )
-            SearchBarCustom()
         }
     }
 }
+
+

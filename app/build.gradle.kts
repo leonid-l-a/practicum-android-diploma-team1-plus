@@ -1,9 +1,12 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    //id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("com.google.devtools.ksp")
     alias(libs.plugins.compose.compiler)
+
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -62,6 +65,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     debugImplementation(libs.ui.tooling)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.navigation.compose)
 
     implementation(libs.koin)
@@ -72,6 +76,7 @@ dependencies {
     implementation(libs.coroutines)
 
     implementation(libs.room.runtime)
+    implementation(libs.kotlinx.serialization.json)
 
     ksp(libs.room.compiler)
 

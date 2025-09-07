@@ -30,7 +30,7 @@ val red = Color(0xFFF56B6C)
 val gray = Color(0xFFAEAFB4)
 
 @Suppress("MagicNumber")
-val lightGray = Color(0xFFFDFDFD)
+val lightGray = Color(0xFFE6E8EB)
 
 @Suppress("MagicNumber")
 val background = Color(0x801A1B22)

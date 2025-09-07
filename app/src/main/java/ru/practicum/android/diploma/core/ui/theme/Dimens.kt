@@ -11,6 +11,11 @@ val LineHeightLarge = 26.sp
 val LineHeightMedium = 19.sp
 val LineHeightSmall = 16.sp
 val LetterSpacing = 0.sp
-val WrapperPadding = 16.dp
+val WrapperPaddingHorizontal = 16.dp
+val WrapperPaddingVertical = 8.dp
 
+val TopAppBarHeight = 64.dp
+val WidthForInfoImage = 328.dp
 val HeightMainSearchBar = 56.dp
+
+val BorderWidth = 1.dp
