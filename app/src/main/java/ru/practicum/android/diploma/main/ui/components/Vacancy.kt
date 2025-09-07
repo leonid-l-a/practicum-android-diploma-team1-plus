@@ -67,19 +67,15 @@ fun VacancyItem(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            //vacancyName
             Text(
                 vacancy.name,
                 style = MaterialTheme.typography.titleLarge
             )
-            //companyName
             Text(
                 vacancy.employer.name,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
-            //salary
-            //vacancy.salary
             Text(
                 text = "Много",
                 overflow = TextOverflow.Ellipsis,
@@ -88,7 +84,6 @@ fun VacancyItem(
         }
     }
 }
-
 
 @Composable
 fun ShowVacancyList(
