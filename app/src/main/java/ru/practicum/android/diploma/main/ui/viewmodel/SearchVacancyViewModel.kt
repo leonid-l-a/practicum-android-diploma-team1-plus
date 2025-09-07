@@ -73,7 +73,7 @@ class SearchVacancyViewModel(
         searchVacancy(expression)
     }
 
-    fun clickDebounce() : Boolean {
+    fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
