@@ -15,7 +15,7 @@ import ru.practicum.android.diploma.core.ui.theme.blue
 
 @Composable
 fun CircularIndicator(modifier: Modifier = Modifier) {
-    Column (
+    Column(
         modifier = modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

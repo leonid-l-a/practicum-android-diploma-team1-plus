@@ -34,7 +34,6 @@ import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
 import ru.practicum.android.diploma.core.ui.theme.lightGray
 import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 
-
 @Composable
 fun VacancyItem(
     vacancy: VacancyDetailMainData,

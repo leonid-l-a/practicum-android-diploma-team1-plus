@@ -25,7 +25,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
                 modifier = Modifier,
                 viewModel = koinViewModel<SearchVacancyViewModel>()
             ) { vacancyId ->
-                navController.navigate(Screen.VacancyDetails.route + "/${vacancyId}")
+                navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
             }
         }
         composable(Screen.Command.route) { Text("Command Screen") }
