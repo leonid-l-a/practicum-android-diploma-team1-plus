@@ -18,57 +18,57 @@ val Typography = Typography(
     headlineLarge = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.Bold,
-        fontSize = FontSizeLarge,
-        lineHeight = LineHeightLarge,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeLarge32,
+        lineHeight = LineHeightLarge26,
+        letterSpacing = LetterSpacing0
     ),
 
     headlineMedium = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.Medium,
-        fontSize = FontSizeMedium,
-        lineHeight = LineHeightLarge,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeMedium22,
+        lineHeight = LineHeightLarge26,
+        letterSpacing = LetterSpacing0
     ),
 
     headlineSmall = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.Medium,
-        fontSize = FontSizeSmall,
-        lineHeight = LineHeightMedium,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeSmall16,
+        lineHeight = LineHeightMedium19,
+        letterSpacing = LetterSpacing0
     ),
 
     bodyLarge = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.W400,
-        fontSize = FontSizeSmall,
-        lineHeight = LineHeightMedium,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeSmall16,
+        lineHeight = LineHeightMedium19,
+        letterSpacing = LetterSpacing0
     ),
 
     titleLarge = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.Medium,
-        fontSize = FontSizeMedium,
-        lineHeight = LineHeightLarge,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeMedium22,
+        lineHeight = LineHeightLarge26,
+        letterSpacing = LetterSpacing0
     ),
 
     labelLarge = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.Medium,
-        fontSize = FontSizeSmall,
-        lineHeight = LineHeightMedium,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeSmall16,
+        lineHeight = LineHeightMedium19,
+        letterSpacing = LetterSpacing0
     ),
 
     labelSmall = TextStyle(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.W400,
-        fontSize = FontSizeExtraSmall,
-        lineHeight = LineHeightSmall,
-        letterSpacing = LetterSpacing
+        fontSize = FontSizeExtraSmall12,
+        lineHeight = LineHeightSmall16,
+        letterSpacing = LetterSpacing0
     )
 
 )
