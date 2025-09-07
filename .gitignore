@@ -1,15 +1,8 @@
 # IntelliJ
 *.iml
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/kotlinc.xml
-/.idea/gradle.xml
-/.idea/compiler.xml
-/.idea/misc.xml
+/.idea*
+/.idea/*
+.idea/deploymentTargetSelector.xml
 
 # Gradle files
 .gradle/
@@ -47,3 +40,4 @@ google-services.json
 # OS specific
 .DS_Store
 *.log
+    
