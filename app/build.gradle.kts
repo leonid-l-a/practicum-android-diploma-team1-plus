@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
 
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -76,7 +75,6 @@ dependencies {
     implementation(libs.coroutines)
 
     implementation(libs.room.runtime)
-    implementation(libs.kotlinx.serialization.json)
 
     ksp(libs.room.compiler)
 

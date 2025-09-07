@@ -118,6 +118,8 @@ fun SearchVacancies(
             text = newText
             if (text.isNotEmpty()) {
                 onSearchHandler(text)
+            } else {
+                onResetRequest()
             }
         },
         placeholder = {
