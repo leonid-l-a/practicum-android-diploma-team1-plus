@@ -13,7 +13,7 @@ import java.io.IOException
 
 class VacancyViewModel(
     val vacancyDetailUseCase: VacancyDetailUseCase,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = MutableStateFlow<VacancyState>(VacancyState.Loading)
 
@@ -24,8 +24,6 @@ class VacancyViewModel(
     init {
         viewModelScope.launch {
             try {
-                _state.value = VacancyState.Loading
-
                 val vacancyDetail = vacancyDetailUseCase.getVacancyDetail(vacancyId)
                 _state.value = VacancyState.Success(vacancyDetail, false)
             } catch (e: IOException) {
