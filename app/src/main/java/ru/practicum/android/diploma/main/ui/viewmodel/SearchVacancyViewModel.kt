@@ -91,12 +91,13 @@ class SearchVacancyViewModel(
     fun searchState(vacancy: Resource<VacancyMainData>) {
         when (vacancy) {
             is Resource.Success -> {
-                val vacancy = vacancy.data.items
+                val vacancy = vacancy.data
 
-                if (vacancy.isNotEmpty()) {
+                if (vacancy.items.isNotEmpty()) {
                     renderSearchState(
                         state = SearchState.Content(
-                            vacancy = map(vacancy)
+                            vacancy = map(vacancy.items),
+                            countVacancy = vacancy.pages
                         )
                     )
                 } else {
@@ -108,9 +109,7 @@ class SearchVacancyViewModel(
 
             is Resource.Error -> {
                 renderSearchState(
-                    state = SearchState.Error(
-                        message = vacancy.message
-                    )
+                    state = SearchState.Error
                 )
             }
         }

@@ -24,10 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.material.chip.Chip
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
@@ -36,6 +38,7 @@ import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.main.ui.components.CircularIndicator
 import ru.practicum.android.diploma.main.ui.components.ErrorResult
 import ru.practicum.android.diploma.main.ui.components.SearchBar
+import ru.practicum.android.diploma.main.ui.components.SearchCount
 import ru.practicum.android.diploma.main.ui.components.ShowVacancyList
 import ru.practicum.android.diploma.main.ui.components.VacancyAppBar
 import ru.practicum.android.diploma.main.ui.state.SearchState
@@ -150,6 +153,7 @@ private fun ShowContent(
     val searchState by viewModel.stateSearchVacancy.collectAsState()
     when (searchState) {
         is SearchState.Empty -> {
+            SearchCount(text = stringResource(id = R.string.no_such_vacancies))
             ErrorResult(
                 textRes = R.string.favorites_is_error,
                 painterRes = R.drawable.favorites_error
@@ -181,6 +185,16 @@ private fun ShowContent(
         is SearchState.Content -> {
             val currentState = searchState
             if (currentState is SearchState.Content) {
+                val searchCountText = if (currentState.countVacancy != null) {
+                    pluralStringResource(
+                        R.plurals.items_count,
+                        currentState.countVacancy,
+                        currentState.countVacancy
+                    )
+                } else {
+                    stringResource(R.string.no_such_vacancies)
+                }
+                SearchCount(text = searchCountText)
                 ShowVacancyList(vacancyList = currentState.vacancy, onClick = onVacancyClick)
             }
         }

@@ -12,4 +12,13 @@
     <string name="favorite_menu_item">Избранное</string>
     <string name="command_menu_item">Команда</string>
     <string name="no_connection">Нет интернета</string>
+    <string name="no_such_vacancies">Таких вакансий нет</string>
+
+    <plurals name="items_count">
+        <item quantity="one">Найдена %d вакансия</item>
+        <item quantity="few">Найдено %d вакансии</item>
+        <item quantity="many">Найдено %d вакансий</item>
+        <item quantity="other">Найдено %d вакансий</item>
+    </plurals>
+
 </resources>

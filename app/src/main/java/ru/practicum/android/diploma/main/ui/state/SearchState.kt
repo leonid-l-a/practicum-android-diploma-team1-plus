@@ -7,14 +7,13 @@ sealed class SearchState {
     data object Loading : SearchState()
 
     data class Content(
-        val vacancy: List<Vacancy>
+        val vacancy: List<Vacancy>,
+        val countVacancy: Int? = null
     ) : SearchState()
 
     data object Empty : SearchState()
 
-    data class Error(
-        val message: String
-    ) : SearchState()
+    object Error : SearchState()
 
     data object Default : SearchState()
 
