@@ -1,0 +1,34 @@
+package ru.practicum.android.diploma.vacancy.ui.viewmodel
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.vacancy.domain.interactor.VacancyDetailUseCase
+import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
+
+class VacancyViewModel(
+    val vacancyDetailUseCase: VacancyDetailUseCase, private val savedStateHandle: SavedStateHandle,
+) : ViewModel() {
+    private val _state = MutableStateFlow<VacancyState>(VacancyState.Loading)
+
+    val state: StateFlow<VacancyState> = _state
+
+    private val vacancyId: String = checkNotNull(savedStateHandle["vacancyId"])
+
+    init {
+        viewModelScope.launch {
+            try {
+                _state.value = VacancyState.Loading
+
+                val vacancyDetail = vacancyDetailUseCase.getVacancyDetail(vacancyId)
+                _state.value = VacancyState.Success(vacancyDetail, false)
+            }
+            catch (e: Exception) {
+                _state.value = VacancyState.ServerError
+            }
+        }
+    }
+}
