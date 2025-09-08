@@ -4,6 +4,8 @@
     <string name="search_bar_placeholder">Введите запрос</string>
     <string name="search_title">Поиск вакансий</string>
     <string name="favorite_title">Избранное</string>
+    <string name="favorites_is_empty">Список пуст</string>
+    <string name="favorites_is_error">Не удалось получить\n список вакансий</string>
     <string name="command_title">Команда</string>
 
     <string name="main_menu_item">Главная</string>
