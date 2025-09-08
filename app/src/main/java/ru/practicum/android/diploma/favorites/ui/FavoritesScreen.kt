@@ -45,7 +45,8 @@ fun FavoritesScreen(
                         text = stringResource(R.string.favorite_title),
                         style = MaterialTheme.typography.headlineMedium
                     )
-                })
+                }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -77,7 +78,8 @@ fun ShowContent(
 
         is FavoriteState.Content -> {
             ShowFavoritesList(
-                (favoritesState as FavoriteState.Content).vacancy, onClick = onVacancyClick
+                (favoritesState as FavoriteState.Content).vacancy,
+                onClick = onVacancyClick
             )
         }
     }
@@ -100,7 +102,8 @@ fun FavoriteScreenPreview() {
                         text = stringResource(R.string.favorite_title),
                         style = MaterialTheme.typography.headlineMedium
                     )
-                })
+                }
+            )
         }
     ) { paddingValues ->
         Column(
