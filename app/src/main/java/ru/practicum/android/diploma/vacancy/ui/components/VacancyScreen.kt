@@ -53,7 +53,8 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
     val state by viewModel.state.collectAsState()
 
     Scaffold(
-        topBar = { TopBar() }) { paddingValues ->
+        topBar = { TopBar() }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -222,7 +223,6 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
                             .split(Regex("<br>|<br/>|<br />"))
                             .map { it.trim() }
                             .filter { it.isNotEmpty() },
-
                         )
 
                     for ((title, desc) in otherItems) {
@@ -271,7 +271,8 @@ fun VacancyDescriptionItem(title: String, description: List<String>) {
         )
 
         HorizontalDivider(
-            thickness = 4.dp, color = Color.Transparent
+            thickness = 4.dp,
+            color = Color.Transparent
         )
 
         for (item in description) {
