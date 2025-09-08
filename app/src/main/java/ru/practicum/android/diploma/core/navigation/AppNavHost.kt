@@ -31,7 +31,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         }
 
         composable(Screen.Command.route) { Text("Command Screen") }
-        composable(Screen.Favourites.route) { Text("Favourite Screen") }
+        composable(Screen.Favorites.route) { Text("Favourite Screen") }
         composable(
             route = Screen.VacancyDetails.route + "/{vacancyId}",
             arguments = listOf(navArgument("vacancyId") { type = NavType.StringType })
