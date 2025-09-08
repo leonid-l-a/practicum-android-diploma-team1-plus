@@ -34,6 +34,7 @@ import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.main.ui.components.CircularIndicator
+import ru.practicum.android.diploma.main.ui.components.ErrorResult
 import ru.practicum.android.diploma.main.ui.components.SearchBar
 import ru.practicum.android.diploma.main.ui.components.ShowVacancyList
 import ru.practicum.android.diploma.main.ui.components.VacancyAppBar
@@ -148,8 +149,18 @@ private fun ShowContent(
 ) {
     val searchState by viewModel.stateSearchVacancy.collectAsState()
     when (searchState) {
-        is SearchState.Empty -> {}
-        is SearchState.Error -> {}
+        is SearchState.Empty -> {
+            ErrorResult(
+                textRes = R.string.favorites_is_error,
+                painterRes = R.drawable.favorites_error
+            )
+        }
+        is SearchState.Error -> {
+            ErrorResult(
+                textRes = R.string.no_connection,
+                painterRes = R.drawable.no_connection
+            )
+        }
         is SearchState.Default -> {
             Column(
                 modifier = Modifier
