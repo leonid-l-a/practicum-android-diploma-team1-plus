@@ -11,6 +11,9 @@ import ru.practicum.android.diploma.main.di.data.mainDataModule
 import ru.practicum.android.diploma.main.di.domain.mainInteractorModule
 import ru.practicum.android.diploma.main.di.domain.mainRepositoryModule
 import ru.practicum.android.diploma.main.di.viewmodel.mainViewModelModule
+import ru.practicum.android.diploma.vacancy.di.data.vacancyDataModule
+import ru.practicum.android.diploma.vacancy.di.domain.vacancyInteractorModule
+import ru.practicum.android.diploma.vacancy.di.viewmodel.vacancyViewModelModule
 
 class App : Application() {
 
@@ -26,7 +29,10 @@ class App : Application() {
                 mainInteractorModule,
                 mainRepositoryModule,
                 mainViewModelModule,
-                mainDataModule
+                mainDataModule,
+                vacancyViewModelModule,
+                vacancyDataModule,
+                vacancyInteractorModule
             )
         }
     }

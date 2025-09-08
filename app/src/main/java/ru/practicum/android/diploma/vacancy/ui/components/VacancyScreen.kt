@@ -222,8 +222,8 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
                         "Описание" to vacancy.description
                             .split(Regex("<br>|<br/>|<br />"))
                             .map { it.trim() }
-                            .filter { it.isNotEmpty() },
-                        )
+                            .filter { it.isNotEmpty() }
+                    )
 
                     for ((title, desc) in otherItems) {
                         if (desc.isNotEmpty()) {
