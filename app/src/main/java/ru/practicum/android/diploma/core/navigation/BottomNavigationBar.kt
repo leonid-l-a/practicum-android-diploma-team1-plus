@@ -89,10 +89,10 @@ fun BottomNavigationBar(navController: NavHostController) {
                         style = MaterialTheme.typography.labelSmall
                     )
                 },
-                selected = currentRoute == Screen.Favourites.route,
+                selected = currentRoute == Screen.Favorites.route,
                 onClick = {
-                    if (currentRoute != Screen.Favourites.route) {
-                        navController.navigate(Screen.Favourites.route) {
+                    if (currentRoute != Screen.Favorites.route) {
+                        navController.navigate(Screen.Favorites.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
                             }

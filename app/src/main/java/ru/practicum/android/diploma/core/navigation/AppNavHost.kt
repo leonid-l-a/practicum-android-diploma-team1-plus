@@ -32,7 +32,6 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
 
         composable(Screen.Command.route) { Text("Command Screen") }
         composable(Screen.Favourites.route) { Text("Favourite Screen") }
-
         composable(
             route = Screen.VacancyDetails.route + "/{vacancyId}",
             arguments = listOf(navArgument("vacancyId") { type = NavType.StringType })
@@ -40,7 +39,6 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             val viewModel: VacancyViewModel = koinViewModel()
             VacancyScreen(viewModel = viewModel)
         }
-
         composable(Screen.Filtration.route) { Text("Filtration Screen") }
         composable(Screen.Placement.route) { Text("Placement Screen") }
         composable(Screen.CountrySelection.route) { Text("Country Selection Screen") }
