@@ -1,9 +1,10 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("com.google.devtools.ksp")
     alias(libs.plugins.compose.compiler)
+
+    alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
 android {
@@ -62,6 +63,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     debugImplementation(libs.ui.tooling)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.navigation.compose)
 
     implementation(libs.koin)
