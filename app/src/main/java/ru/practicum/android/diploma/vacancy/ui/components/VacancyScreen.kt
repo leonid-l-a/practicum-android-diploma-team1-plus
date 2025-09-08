@@ -256,7 +256,24 @@ fun TopBar() {
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
-        )
+        ),
+        actions = {
+            Row {
+                IconButton(onClick = {}) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_favorites_off),
+                        contentDescription = "Share",
+                    )
+                }
+
+                IconButton(onClick = {}) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_share),
+                        contentDescription = "Share",
+                    )
+                }
+            }
+        }
 
     )
 
