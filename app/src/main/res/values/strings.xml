@@ -11,4 +11,5 @@
     <string name="main_menu_item">Главная</string>
     <string name="favorite_menu_item">Избранное</string>
     <string name="command_menu_item">Команда</string>
+    <string name="no_connection">Нет интернета</string>
 </resources>
