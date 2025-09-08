@@ -32,7 +32,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             }
         }
         composable(Screen.Command.route) { Text("Command Screen") }
-        composable(Screen.Favourites.route) { Text("Favourite Screen") }
+        composable(Screen.Favorites.route) { Text("Favourite Screen") }
         composable(Screen.VacancyDetails.route) { Text("Vacancy Details Screen") }
         composable(Screen.Filtration.route) { Text("Filtration Screen") }
         composable(Screen.Placement.route) { Text("Placement Screen") }
