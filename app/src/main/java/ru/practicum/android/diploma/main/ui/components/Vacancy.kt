@@ -32,11 +32,11 @@ import ru.practicum.android.diploma.core.ui.theme.BorderWidth
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
 import ru.practicum.android.diploma.core.ui.theme.lightGray
-import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
+import ru.practicum.android.diploma.main.ui.model.Vacancy
 
 @Composable
 fun VacancyItem(
-    vacancy: VacancyDetailMainData,
+    vacancy: Vacancy,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
@@ -56,7 +56,7 @@ fun VacancyItem(
                     MaterialTheme.shapes.medium
                 ),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(vacancy.employer.logo)
+                .data(vacancy.logoUrl)
                 .httpHeaders(NetworkHeaders.Builder().add("User-Agent", "Mozilla/5.0").build())
                 .build(),
             placeholder = painterResource(R.drawable.item_placeholder),
@@ -71,12 +71,12 @@ fun VacancyItem(
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                vacancy.employer.name,
+                vacancy.industry,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
             Text(
-                text = "Много",
+                text = vacancy.salary,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
@@ -86,7 +86,7 @@ fun VacancyItem(
 
 @Composable
 fun ShowVacancyList(
-    vacancyList: List<VacancyDetailMainData>,
+    vacancyList: List<Vacancy>,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
