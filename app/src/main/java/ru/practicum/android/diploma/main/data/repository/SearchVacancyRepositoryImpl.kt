@@ -18,7 +18,10 @@ class SearchVacancyRepositoryImpl(
     val context: Context
 ) : SearchVacancyRepository {
 
-    override fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>> =
+    override fun searchVacancy(
+        expression: String,
+        page: Int
+    ): Flow<Resource<VacancyMainData>> =
         flow {
             if (!networkUtil.isInternetAvailable(context)) {
                 emit(
@@ -26,7 +29,8 @@ class SearchVacancyRepositoryImpl(
                 )
             } else {
                 val vacancyRequest = VacancyRequest(
-                    text = expression
+                    text = expression,
+                    page = page
                 )
 
                 val networkResponse = networkClient.getVacancies(vacancyRequest)

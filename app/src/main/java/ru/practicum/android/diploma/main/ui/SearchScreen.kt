@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.android.material.chip.Chip
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
@@ -109,7 +110,7 @@ fun SearchVacancies(
     onSearchHandler: (String) -> Unit = {},
     onResetRequest: () -> Unit = {}
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf("") }
     SearchBar(
         modifier = modifier,
         value = text,
@@ -159,12 +160,14 @@ private fun ShowContent(
                 painterRes = R.drawable.favorites_error
             )
         }
+
         is SearchState.Error -> {
             ErrorResult(
                 textRes = R.string.no_connection,
                 painterRes = R.drawable.no_connection
             )
         }
+
         is SearchState.Default -> {
             Column(
                 modifier = Modifier
@@ -182,9 +185,13 @@ private fun ShowContent(
         }
 
         is SearchState.Loading -> CircularIndicator()
+
         is SearchState.Content -> {
             val currentState = searchState
             if (currentState is SearchState.Content) {
+                if (currentState.vacancy.isEmpty()) {
+                    return
+                }
                 val searchCountText = if (currentState.countVacancy != null) {
                     pluralStringResource(
                         R.plurals.items_count,
@@ -195,7 +202,14 @@ private fun ShowContent(
                     stringResource(R.string.no_such_vacancies)
                 }
                 SearchCount(text = searchCountText)
-                ShowVacancyList(vacancyList = currentState.vacancy, onClick = onVacancyClick)
+                ShowVacancyList(
+                    vacancyList = currentState.vacancy,
+                    isLoadingNextPage = currentState.isLoadingNextPage,
+                    onClick = onVacancyClick,
+                    onLoadNextPage = {
+                        viewModel.showMore()
+                    },
+                )
             }
         }
     }

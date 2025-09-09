@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.main.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,11 +23,10 @@ class SearchVacancyViewModel(
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
-
+    private var currentPage = 1
+    private var maxPages = 0
     private var isClickAllowed = true
-
     private var latestRequestText: String? = null
-
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
 
@@ -35,13 +35,28 @@ class SearchVacancyViewModel(
         coroutineScope = viewModelScope
     )
 
-    private fun searchVacancy(expression: String) {
+    private fun resetPages() {
+        currentPage = 1
+        maxPages = 0
+    }
+
+    private fun searchVacancy(expression: String, isLazyLoad: Boolean = false) {
         if (expression.isNotEmpty()) {
-            renderSearchState(
-                state = SearchState.Loading
-            )
+            if (!isLazyLoad) {
+                renderSearchState(
+                    state = SearchState.Loading
+                )
+            }
+            val currentContent = (_stateSearchVacancy.value as? SearchState.Content)
+            currentContent?.let {
+                renderSearchState(
+                    state = it.copy(
+                        isLoadingNextPage = true
+                    )
+                )
+            }
             debounce.invoke {
-                searchVacancyInteractor.searchVacancy(expression)
+                searchVacancyInteractor.searchVacancy(expression, currentPage)
                     .collect { vacancy ->
                         searchState(vacancy)
                     }
@@ -63,12 +78,34 @@ class SearchVacancyViewModel(
         }
     }
 
-    fun searchRequestText(expression: String) {
+    fun showMore() {
+        if (currentPage <= maxPages) {
+            latestRequestText?.let {
+                if (it.isNotEmpty()) {
+                    searchRequestText(expression = it, isLazyLoad = true)
+                }
+            }
+        }
+    }
+
+    fun searchRequestText(expression: String, isLazyLoad: Boolean = false) {
         if (latestRequestText == expression) {
-            return
+            if (!isLazyLoad) {
+                return
+            }
+        } else {
+            if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
+                resetPages()
+            }
+        }
+        if (expression.isEmpty()) {
+            resetPages()
         }
         latestRequestText = expression
-        searchVacancy(expression)
+        searchVacancy(
+            expression = expression,
+            isLazyLoad = isLazyLoad
+        )
     }
 
     fun clickDebounce(): Boolean {
@@ -84,6 +121,7 @@ class SearchVacancyViewModel(
 
     fun renderDefaultState() {
         debounce.cancel()
+        resetPages()
         latestRequestText = ""
         renderSearchState(SearchState.Default)
     }
@@ -92,14 +130,23 @@ class SearchVacancyViewModel(
         when (vacancy) {
             is Resource.Success -> {
                 val vacancy = vacancy.data
-
+                if (maxPages == 0) {
+                    maxPages = vacancy.pages
+                }
                 if (vacancy.items.isNotEmpty()) {
+                    var vacancies = map(vacancy.items)
+                    val state = stateSearchVacancy.value
+                    if (state is SearchState.Content) {
+                        vacancies = state.vacancy + vacancies
+                    }
                     renderSearchState(
                         state = SearchState.Content(
-                            vacancy = map(vacancy.items),
-                            countVacancy = vacancy.pages
+                            vacancy = vacancies,
+                            countVacancy = vacancy.found,
+                            isLoadingNextPage = false
                         )
                     )
+                    currentPage++
                 } else {
                     renderSearchState(
                         state = SearchState.Empty
