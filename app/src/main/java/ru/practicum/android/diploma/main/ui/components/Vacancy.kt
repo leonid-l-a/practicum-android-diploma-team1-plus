@@ -119,7 +119,6 @@ fun ShowVacancyList(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-
         LazyColumn(
             state = listState,
             modifier = modifier
