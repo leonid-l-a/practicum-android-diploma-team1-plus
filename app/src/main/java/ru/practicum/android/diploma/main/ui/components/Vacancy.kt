@@ -127,7 +127,6 @@ fun ShowVacancyList(
                 .weight(1f)
         ) {
             items(vacancyList) {
-
                 VacancyItem(vacancy = it, onClick = onClick)
             }
             if (isLoadingNextPage) {

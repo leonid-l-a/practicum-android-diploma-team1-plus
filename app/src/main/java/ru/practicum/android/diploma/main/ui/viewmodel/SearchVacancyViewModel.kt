@@ -46,7 +46,7 @@ class SearchVacancyViewModel(
                     state = SearchState.Loading
                 )
             }
-            val currentContent = (_stateSearchVacancy.value as? SearchState.Content)
+            val currentContent = _stateSearchVacancy.value as? SearchState.Content
             currentContent?.let {
                 renderSearchState(
                     state = it.copy(

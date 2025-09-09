@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.core.ui.theme.CircleSize
 import ru.practicum.android.diploma.core.ui.theme.blue
 
-
 @Composable
 fun LoadingRow(modifier: Modifier = Modifier) {
     Column(
