@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import ru.practicum.android.diploma.vacancy.domain.repository.ShareVacancyDetailRepository
 
-class ShareVacancyDetailRepositoryImplementation() : ShareVacancyDetailRepository {
+class ShareVacancyDetailRepositoryImplementation : ShareVacancyDetailRepository {
     override fun shareVacancyWithMessenger(vacancyUrl: String): Intent {
         return Intent.createChooser(Intent().apply {
             action = Intent.ACTION_SEND

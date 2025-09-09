@@ -229,8 +229,6 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
                         vacancy.contacts.name.let { it to null }
                     )
 
-
-
                     otherItems.forEach { (title, desc) ->
                         if (desc.isNotEmpty()) {
                             VacancyDescriptionItem(

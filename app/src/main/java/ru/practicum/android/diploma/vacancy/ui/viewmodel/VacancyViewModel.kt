@@ -38,7 +38,10 @@ class VacancyViewModel(
 
     fun shareVacancyWithMessenger(): Intent? {
         return when (val currentState = _state.value) {
-            is VacancyState.Success -> shareVacancyDetailInteractor.shareVacancyWithMessenger(currentState.vacancyDetail.url)
+            is VacancyState.Success ->
+                shareVacancyDetailInteractor.shareVacancyWithMessenger(
+                    currentState.vacancyDetail.url
+                )
             else -> null
         }
     }
