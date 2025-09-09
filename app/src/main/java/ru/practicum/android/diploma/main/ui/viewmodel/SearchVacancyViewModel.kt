@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.main.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,7 +64,6 @@ class SearchVacancyViewModel(
     }
 
     fun searchRequestText(expression: String) {
-        Log.d("CHECK_SEARCH_REQUEST", "expression is $expression, length is ${expression.length}")
         if (latestRequestText == expression) {
             return
         }
@@ -86,6 +84,7 @@ class SearchVacancyViewModel(
 
     fun renderDefaultState() {
         debounce.cancel()
+        latestRequestText = ""
         renderSearchState(SearchState.Default)
     }
 

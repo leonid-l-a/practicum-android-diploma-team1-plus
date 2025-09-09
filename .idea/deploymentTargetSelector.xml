@@ -5,9 +5,15 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CommandScreenPreview">
+      <SelectionState runConfigName="SearchBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="SearchScreenPreview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+        <SelectionState runConfigName="CommandScreenPreview">
+            <option name="selectionMode" value="DROPDOWN" />
+        </SelectionState>
     </selectionStates>
   </component>
 </project>
