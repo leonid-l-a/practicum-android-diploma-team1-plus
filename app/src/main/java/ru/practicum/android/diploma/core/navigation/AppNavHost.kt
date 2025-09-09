@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.androidx.compose.koinViewModel
+import ru.practicum.android.diploma.command.CommandScreen
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
@@ -31,7 +32,9 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
                 }
             }
         }
-        composable(Screen.Command.route) { Text("Command Screen") }
+        composable(Screen.Command.route) {
+            CommandScreen(modifier = Modifier)
+        }
         composable(Screen.Favorites.route) { Text("Favourite Screen") }
         composable(Screen.VacancyDetails.route) { Text("Vacancy Details Screen") }
         composable(Screen.Filtration.route) { Text("Filtration Screen") }
