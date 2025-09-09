@@ -53,7 +53,7 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
     val state by viewModel.state.collectAsState()
 
     Scaffold(
-        topBar = { TopBar() }
+        topBar = { TopBar(viewModel) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -196,7 +196,10 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
                         color = Color.Transparent
                     )
 
-                    Text("Описание вакансии", style = MaterialTheme.typography.headlineMedium)
+                    Text(
+                        "Описание вакансии",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
 
                     HorizontalDivider(
                         thickness = 16.dp,
@@ -205,11 +208,6 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
 
                     val otherItems = listOf(
                         "График" to listOfNotNull(vacancy.schedule.name),
-                        "Контакты" to listOfNotNull(
-                            vacancy.contacts.email.takeIf { it.isNotBlank() },
-                            vacancy.contacts.phone?.joinToString(),
-                            vacancy.contacts.name
-                        ),
                         "Навыки" to vacancy.skills,
                         "Отрасль" to listOfNotNull(vacancy.industry.name),
                         "Адрес" to listOfNotNull(
@@ -225,7 +223,15 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
                             .filter { it.isNotEmpty() }
                     )
 
-                    for ((title, desc) in otherItems) {
+                    val contactItems = listOfNotNull(
+                        vacancy.contacts.email.takeIf { it.isNotBlank() }?.let { it to true },
+                        vacancy.contacts.phone?.firstOrNull()?.let { it to false },
+                        vacancy.contacts.name.let { it to null }
+                    )
+
+
+
+                    otherItems.forEach { (title, desc) ->
                         if (desc.isNotEmpty()) {
                             VacancyDescriptionItem(
                                 title = title,
@@ -233,6 +239,29 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
                             )
                         }
                     }
+
+                    if (contactItems.isNotEmpty()) {
+                        Text(
+                            "Контакты (кликните, чтобы связаться)",
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+
+                        HorizontalDivider(
+                            thickness = 4.dp,
+                            color = Color.Transparent
+                        )
+                    }
+
+                    contactItems.forEach { (value, isEmail) ->
+                        when (isEmail) {
+                            true -> ContactItem(contact = value, isEmail = true, viewModel = viewModel)
+                            false -> ContactItem(contact = value, isEmail = false, viewModel = viewModel)
+                            null -> Text(text = value)
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
                 }
             }
         }
@@ -241,7 +270,8 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBar(viewModel: VacancyViewModel) {
+    val context = LocalContext.current
     TopAppBar(
         title = {
             Text(
@@ -259,14 +289,19 @@ fun TopBar() {
         ),
         actions = {
             Row {
-                IconButton(onClick = {}) {
+                IconButton(onClick = {
+                }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_favorites_off),
                         contentDescription = "Share",
                     )
                 }
 
-                IconButton(onClick = {}) {
+                IconButton(onClick = {
+                    viewModel.shareVacancyWithMessenger()?.let { intent ->
+                        context.startActivity(intent)
+                    }
+                }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_share),
                         contentDescription = "Share",
@@ -311,13 +346,22 @@ fun Salary.toDisplayString(): String {
 }
 
 @Composable
-fun ContactItem(contact: String, isEmail: Boolean) {
+fun ContactItem(
+    contact: String,
+    isEmail: Boolean,
+    viewModel: VacancyViewModel,
+) {
     val context = LocalContext.current
 
     Text(
         text = contact,
         modifier = Modifier.clickable {
-            // Сделать клик по email и телефону
+            val intent = if (isEmail) {
+                viewModel.writeWithMail()
+            } else {
+                viewModel.callWithPhone()
+            }
+            intent?.let { context.startActivity(it) }
         }
     )
 }
