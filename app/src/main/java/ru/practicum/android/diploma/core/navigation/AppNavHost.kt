@@ -4,11 +4,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import org.koin.androidx.compose.koinViewModel
+import ru.practicum.android.diploma.command.CommandScreen
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
+import ru.practicum.android.diploma.vacancy.ui.components.VacancyScreen
+import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 /**
  * The application's navigation host, managing navigation between screens.
