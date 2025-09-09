@@ -23,7 +23,9 @@ class RootActivity : AppCompatActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
             val bottomBarRoutes = listOf(
-                Screen.Main.route, Screen.Favorites.route, Screen.Command.route
+                Screen.Main.route,
+                Screen.Favorites.route,
+                Screen.Command.route
             )
             ApplicationTheme {
                 Scaffold(
