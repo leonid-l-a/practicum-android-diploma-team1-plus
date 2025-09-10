@@ -45,4 +45,3 @@ class RootActivity : AppCompatActivity() {
         }
     }
 }
-
