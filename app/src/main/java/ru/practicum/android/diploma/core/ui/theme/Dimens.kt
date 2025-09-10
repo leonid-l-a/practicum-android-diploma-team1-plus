@@ -7,6 +7,7 @@ val FontSizeLarge = 32.sp
 val FontSizeMedium = 22.sp
 val FontSizeSmall = 16.sp
 val FontSizeExtraSmall = 12.sp
+val LineHeightExtraLarge = 38.sp
 val LineHeightLarge = 26.sp
 val LineHeightMedium = 19.sp
 val LineHeightSmall = 16.sp
@@ -21,3 +22,8 @@ val HeightMainSearchBar = 56.dp
 val BorderWidth = 1.dp
 
 val CircleSize = 36.dp
+
+val SpacerHeight24 = 24.dp
+val SpacerHeight8 = 8.dp
+val Height24 = 24.dp
+val Height96 = 96.dp

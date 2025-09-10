@@ -4,19 +4,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import org.koin.androidx.compose.koinViewModel
+import ru.practicum.android.diploma.command.CommandScreen
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 import ru.practicum.android.diploma.vacancy.ui.components.VacancyScreen
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
+/**
+ * The application's navigation host, managing navigation between screens.
+ *
+ * @param navController The navigation controller used to handle screen transitions.
+ */
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
+        // Заменить заглушки на реальные экраны
 
         composable(Screen.Main.route) {
             val vm = koinViewModel<SearchVacancyViewModel>()
@@ -29,8 +36,9 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
                 }
             }
         }
-
-        composable(Screen.Command.route) { Text("Command Screen") }
+        composable(Screen.Command.route) {
+            CommandScreen(modifier = Modifier)
+        }
         composable(Screen.Favorites.route) { Text("Favourite Screen") }
         composable(
             route = Screen.VacancyDetails.route + "/{vacancyId}",

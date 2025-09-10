@@ -8,6 +8,13 @@
     <string name="favorites_is_error">Не удалось получить\n список вакансий</string>
     <string name="command_title">Команда</string>
 
+    <string name="app_developers">Над приложением работали</string>
+    <string name="developers">Андрей @anrobo07 - Developer,
+        Валерий @valerangb3 - Developer,
+        Леонид @leonidlapaeff - Team Lead,
+        Никита @usual_dude - Developer,
+        Николай @DruNik - Developer</string>
+
     <string name="main_menu_item">Главная</string>
     <string name="favorite_menu_item">Избранное</string>
     <string name="command_menu_item">Команда</string>
