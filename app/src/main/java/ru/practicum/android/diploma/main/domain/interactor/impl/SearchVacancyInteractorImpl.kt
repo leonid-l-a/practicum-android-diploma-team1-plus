@@ -9,7 +9,10 @@ import ru.practicum.android.diploma.main.domain.state.Resource
 class SearchVacancyInteractorImpl(
     val searchVacancyRepository: SearchVacancyRepository
 ) : SearchVacancyInteractor {
-    override fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>> {
-        return searchVacancyRepository.searchVacancy(expression)
+    override fun searchVacancy(
+        expression: String,
+        page: Int
+    ): Flow<Resource<VacancyMainData>> {
+        return searchVacancyRepository.searchVacancy(expression, page)
     }
 }

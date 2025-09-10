@@ -18,21 +18,19 @@ class SearchVacancyRepositoryImpl(
     val context: Context
 ) : SearchVacancyRepository {
 
-    companion object {
-        const val CONNECTION_PROBLEMS = "Нет интернета"
-    }
-
-    override fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>> =
+    override fun searchVacancy(
+        expression: String,
+        page: Int
+    ): Flow<Resource<VacancyMainData>> =
         flow {
             if (!networkUtil.isInternetAvailable(context)) {
                 emit(
-                    Resource.Error(
-                        message = CONNECTION_PROBLEMS
-                    )
+                    Resource.Error()
                 )
             } else {
                 val vacancyRequest = VacancyRequest(
-                    text = expression
+                    text = expression,
+                    page = page
                 )
 
                 val networkResponse = networkClient.getVacancies(vacancyRequest)
@@ -50,9 +48,7 @@ class SearchVacancyRepositoryImpl(
 
                     ResponseCode.IO_ERROR -> {
                         emit(
-                            Resource.Error(
-                                message = CONNECTION_PROBLEMS
-                            )
+                            Resource.Error()
                         )
                     }
                 }

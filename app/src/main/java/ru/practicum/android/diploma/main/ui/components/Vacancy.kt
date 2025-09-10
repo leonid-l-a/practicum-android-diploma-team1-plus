@@ -12,9 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -88,15 +93,47 @@ fun VacancyItem(
 fun ShowVacancyList(
     vacancyList: List<Vacancy>,
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit = {}
+    isLoadingNextPage: Boolean = false,
+    onClick: (String) -> Unit = {},
+    onLoadNextPage: () -> Unit = {},
+    diffCount: Int = 5
 ) {
-    LazyColumn(
-        modifier = modifier
-            .padding(horizontal = WrapperPaddingHorizontal)
-            .fillMaxSize()
+    if (vacancyList.isEmpty()) {
+        return
+    }
+    val listState = rememberLazyListState()
+
+    val shouldLoadNext by remember {
+        derivedStateOf {
+            val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+            val totalItemsCount = listState.layoutInfo.totalItemsCount
+            lastVisibleItemIndex != null && lastVisibleItemIndex >= totalItemsCount - diffCount && !isLoadingNextPage
+        }
+    }
+
+    LaunchedEffect(shouldLoadNext) {
+        if (shouldLoadNext) {
+            onLoadNextPage()
+        }
+    }
+
+    Column(
+        modifier = modifier.fillMaxSize()
     ) {
-        items(vacancyList) {
-            VacancyItem(vacancy = it, onClick = onClick)
+        LazyColumn(
+            state = listState,
+            modifier = modifier
+                .padding(horizontal = WrapperPaddingHorizontal)
+                .weight(1f)
+        ) {
+            items(vacancyList) {
+                VacancyItem(vacancy = it, onClick = onClick)
+            }
+            if (isLoadingNextPage) {
+                item {
+                    LoadingRow()
+                }
+            }
         }
     }
 }

@@ -5,5 +5,8 @@ import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.state.Resource
 
 interface SearchVacancyInteractor {
-    fun searchVacancy(expression: String): Flow<Resource<VacancyMainData>>
+    fun searchVacancy(
+        expression: String,
+        page: Int
+    ): Flow<Resource<VacancyMainData>>
 }
