@@ -16,11 +16,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.ui.theme.red
+import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
+fun TopBar(viewModel: VacancyViewModel, navController: NavController, state: VacancyState) {
     val context = LocalContext.current
     TopAppBar(
         title = {
@@ -42,11 +44,9 @@ fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
         actions = {
             Row {
                 IconButton(onClick = {
+                    viewModel.toggleFavorite()
                 }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_favorites_off),
-                        contentDescription = stringResource(R.string.favorite_title),
-                    )
+                    Like(state)
                 }
 
                 IconButton(onClick = {
@@ -62,4 +62,30 @@ fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
             }
         }
     )
+}
+
+@Composable
+fun Like(state: VacancyState) {
+    when (state) {
+        is VacancyState.Success -> {
+            when (state.isFavorite) {
+                true -> {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_favorites_on),
+                        contentDescription = stringResource(R.string.favorite_title),
+                        tint = red
+                    )
+                }
+
+                false -> {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_favorites_off),
+                        contentDescription = stringResource(R.string.favorite_title),
+                    )
+                }
+            }
+        }
+
+        else -> null
+    }
 }

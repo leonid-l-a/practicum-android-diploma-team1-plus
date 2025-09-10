@@ -23,7 +23,7 @@ fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
     val state by viewModel.state.collectAsState()
 
     Scaffold(
-        topBar = { TopBar(viewModel, navController) }
+        topBar = { TopBar(viewModel, navController, state) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -44,15 +44,19 @@ fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
         }
     }
 }
+
 fun Salary.toDisplayString(): String {
     return when {
         from != null && to != null -> {
             "от $from до $to ${currency.orEmpty()}"
         }
+
         from != null ->
             "от $from ${currency.orEmpty()}"
+
         to != null ->
             "до $to ${currency.orEmpty()}"
+
         else ->
             R.string.salary_not_specified.toString()
     }

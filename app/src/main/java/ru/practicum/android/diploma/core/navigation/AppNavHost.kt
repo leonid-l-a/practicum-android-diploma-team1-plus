@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.command.CommandScreen
+import ru.practicum.android.diploma.favorites.ui.FavoritesScreen
+import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 import ru.practicum.android.diploma.vacancy.ui.components.VacancyScreen
@@ -23,7 +25,6 @@ import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
-        // Заменить заглушки на реальные экраны
 
         composable(Screen.Main.route) {
             val vm = koinViewModel<SearchVacancyViewModel>()
@@ -39,7 +40,16 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable(Screen.Command.route) {
             CommandScreen(modifier = Modifier)
         }
-        composable(Screen.Favorites.route) { Text("Favourite Screen") }
+        composable(Screen.Favorites.route) {
+            val vm = koinViewModel<FavoritesViewModel>()
+            FavoritesScreen(
+                viewModel = vm
+            ) { vacancyId ->
+                if (vm.clickDebounce()) {
+                    navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
+                }
+            }
+        }
         composable(
             route = Screen.VacancyDetails.route + "/{vacancyId}",
             arguments = listOf(navArgument("vacancyId") { type = NavType.StringType })

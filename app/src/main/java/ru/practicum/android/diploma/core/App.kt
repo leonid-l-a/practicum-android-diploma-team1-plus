@@ -7,6 +7,9 @@ import ru.practicum.android.diploma.core.di.data.coreDataModule
 import ru.practicum.android.diploma.core.di.domain.coreInteractorModule
 import ru.practicum.android.diploma.core.di.domain.coreRepositoryModule
 import ru.practicum.android.diploma.core.di.viewmodel.coreViewModelModule
+import ru.practicum.android.diploma.favorites.di.data.favoriteDataModule
+import ru.practicum.android.diploma.favorites.di.domain.favoriteInteractorModule
+import ru.practicum.android.diploma.favorites.di.domain.favoriteRepositoryModule
 import ru.practicum.android.diploma.favorites.di.viewmodel.favoriteViewModelModule
 import ru.practicum.android.diploma.main.di.data.mainDataModule
 import ru.practicum.android.diploma.main.di.domain.mainInteractorModule
@@ -34,7 +37,10 @@ class App : Application() {
                 vacancyViewModelModule,
                 vacancyDataModule,
                 vacancyInteractorModule,
-                favoriteViewModelModule
+                favoriteViewModelModule,
+                favoriteDataModule,
+                favoriteInteractorModule,
+                favoriteRepositoryModule
             )
         }
     }
