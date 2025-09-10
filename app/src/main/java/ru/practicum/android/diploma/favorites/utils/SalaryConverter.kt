@@ -17,7 +17,7 @@ fun formatSalary(salaryFrom: Int?, salaryTo: Int?, currency: String?): String {
         parts.add(currency)
     }
 
-    return if (salaryFrom == null && salaryTo== null) {
+    return if (salaryFrom == null && salaryTo == null) {
         EMPTY_SALARY
     } else {
         parts.joinToString(" ")

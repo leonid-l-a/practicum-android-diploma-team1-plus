@@ -29,53 +29,31 @@ object VacancyDbMapper {
                 id = favoritesEntity.id,
                 name = favoritesEntity.name,
                 description = favoritesEntity.description,
-
-                // Salary
                 salaryFrom = favoritesEntity.salary?.from,
                 salaryTo = favoritesEntity.salary?.to,
                 salaryCurrency = favoritesEntity.salary?.currency.orEmpty(),
-
-                // Address
                 addressCity = favoritesEntity.address?.city.orEmpty(),
                 addressStreet = favoritesEntity.address?.street.orEmpty(),
                 addressBuilding = favoritesEntity.address?.building.orEmpty(),
                 fullAddress = favoritesEntity.address?.fullAddress.orEmpty(),
-
-                // Experience
                 experienceId = favoritesEntity.experience?.id.orEmpty(),
                 experienceName = favoritesEntity.experience?.name.orEmpty(),
-
-                // Schedule
                 scheduleId = favoritesEntity.schedule?.id.orEmpty(),
                 scheduleName = favoritesEntity.schedule?.name.orEmpty(),
-
-                // Employment
                 employmentId = favoritesEntity.employment?.id.orEmpty(),
                 employmentName = favoritesEntity.employment?.name.orEmpty(),
-
-                // Contacts
                 contactsId = favoritesEntity.contacts?.id.orEmpty(),
                 contactsName = favoritesEntity.contacts?.name.orEmpty(),
                 contactsEmail = favoritesEntity.contacts?.email.orEmpty(),
                 contactsPhone = favoritesEntity.contacts?.phone.orEmpty(),
-
-                // Employer
                 employerId = favoritesEntity.employer?.id.orEmpty(),
                 employerName = favoritesEntity.employer?.name.orEmpty(),
                 employerLogo = favoritesEntity.employer?.logo.orEmpty(),
-
-                // Area
                 areaId = favoritesEntity.area?.id ?: 0,
                 areaName = favoritesEntity.area?.name.orEmpty(),
                 areaParentId = favoritesEntity.area?.parentId ?: 0,
-
-                // Skills
                 skills = favoritesEntity.skills.orEmpty(),
-
-                // URL
                 url = favoritesEntity.url.orEmpty(),
-
-                // Industry
                 industryId = favoritesEntity.industry?.id ?: 0,
                 industryName = favoritesEntity.industry?.name.orEmpty()
             )
@@ -89,51 +67,17 @@ object VacancyDbMapper {
             id = vacancyDetail.id,
             name = vacancyDetail.name,
             description = vacancyDetail.description,
-            salary = SalaryEntity(
-                vacancyDetail.salary.from,
-                vacancyDetail.salary.to,
-                vacancyDetail.salary.currency
-            ),
-            address = AddressEntity(
-                vacancyDetail.address.city,
-                vacancyDetail.address.street,
-                vacancyDetail.address.building,
-                vacancyDetail.address.fullAddress
-            ),
-            experience = ExperienceEntity(
-                vacancyDetail.experience.id,
-                vacancyDetail.experience.name
-            ),
-            schedule = ScheduleEntity(
-                vacancyDetail.schedule.id,
-                vacancyDetail.schedule.name
-            ),
-            employment = EmploymentEntity(
-                vacancyDetail.employment.id,
-                vacancyDetail.employment.name
-            ),
-            contacts = ContactsEntity(
-                vacancyDetail.contacts.id,
-                vacancyDetail.contacts.name,
-                vacancyDetail.contacts.email,
-                vacancyDetail.contacts.phone
-            ),
-            employer = EmployerEntity(
-                vacancyDetail.employer.id,
-                vacancyDetail.employer.name,
-                vacancyDetail.employer.logo
-            ),
-            area = FilterAreaEntity(
-                vacancyDetail.area.id,
-                vacancyDetail.area.name,
-                vacancyDetail.area.parentId
-            ),
+            salary = mapSalary(vacancyDetail.salary),
+            address = mapAddress(vacancyDetail.address),
+            experience = mapExperience(vacancyDetail.experience),
+            schedule = mapSchedule(vacancyDetail.schedule),
+            employment = mapEmployment(vacancyDetail.employment),
+            contacts = mapContacts(vacancyDetail.contacts),
+            employer = mapEmployer(vacancyDetail.employer),
+            area = mapArea(vacancyDetail.area),
             skills = vacancyDetail.skills,
             url = vacancyDetail.url,
-            industry = IndustryEntity(
-                vacancyDetail.industry.id,
-                vacancyDetail.industry.name
-            )
+            industry = mapIndustry(vacancyDetail.industry)
         )
     }
 
@@ -196,4 +140,32 @@ object VacancyDbMapper {
             null
         }
     }
+
+    private fun mapSalary(salary: Salary): SalaryEntity =
+        SalaryEntity(salary.from, salary.to, salary.currency)
+
+    private fun mapAddress(address: Address): AddressEntity =
+        AddressEntity(address.city, address.street, address.building, address.fullAddress)
+
+    private fun mapExperience(exp: Experience): ExperienceEntity =
+        ExperienceEntity(exp.id, exp.name)
+
+    private fun mapSchedule(schedule: Schedule): ScheduleEntity =
+        ScheduleEntity(schedule.id, schedule.name)
+
+    private fun mapEmployment(emp: Employment): EmploymentEntity =
+        EmploymentEntity(emp.id, emp.name)
+
+    private fun mapContacts(contacts: Contacts): ContactsEntity =
+        ContactsEntity(contacts.id, contacts.name, contacts.email, contacts.phone)
+
+    private fun mapEmployer(emp: Employer): EmployerEntity =
+        EmployerEntity(emp.id, emp.name, emp.logo)
+
+    private fun mapArea(area: FilterAreas): FilterAreaEntity =
+        FilterAreaEntity(area.id, area.name, area.parentId)
+
+    private fun mapIndustry(ind: FilterIndustryDetail): IndustryEntity =
+        IndustryEntity(ind.id, ind.name)
+
 }
