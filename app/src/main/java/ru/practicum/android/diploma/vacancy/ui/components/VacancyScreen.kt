@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Salary
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -53,6 +54,6 @@ fun Salary.toDisplayString(): String {
         to != null ->
             "до $to ${currency.orEmpty()}"
         else ->
-            "Уровень зарплаты не указан"
+            R.string.salary_not_specified.toString()
     }
 }

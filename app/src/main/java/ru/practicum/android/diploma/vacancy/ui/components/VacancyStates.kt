@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.data.dto.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -20,7 +21,7 @@ fun ServerErrorState() {
     ) {
         Image(
             painter = painterResource(R.drawable.ph_server_error_vacancy_screen),
-            contentDescription = "Server error",
+            contentDescription = stringResource(R.string.server_error)
         )
     }
 }
@@ -33,7 +34,7 @@ fun ErrorState() {
     ) {
         Image(
             painter = painterResource(R.drawable.ph_error_vacancy_screen),
-            contentDescription = "Server error",
+            contentDescription = stringResource(R.string.error)
         )
     }
 }

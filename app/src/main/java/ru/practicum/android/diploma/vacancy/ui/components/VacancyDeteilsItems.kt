@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.data.dto.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
@@ -57,17 +58,17 @@ fun VacancyDescriptionItem(title: String, description: List<String>) {
 
 fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<String>>> {
     return listOf(
-        "График" to listOfNotNull(vacancy.schedule.name),
-        "Навыки" to vacancy.skills,
-        "Отрасль" to listOfNotNull(vacancy.industry.name),
-        "Адрес" to listOfNotNull(
+        R.string.schedule.toString() to listOfNotNull(vacancy.schedule.name),
+        R.string.skills.toString() to vacancy.skills,
+        R.string.industry.toString() to listOfNotNull(vacancy.industry.name),
+        R.string.address.toString() to listOfNotNull(
             listOfNotNull(
                 vacancy.address.city,
                 vacancy.address.street,
                 vacancy.address.building
             ).takeIf { it.isNotEmpty() }?.joinToString(", ")
         ),
-        "Описание" to vacancy.description
+        R.string.description.toString() to vacancy.description
             .split(Regex("<br>|<br/>|<br />"))
             .map { it.trim() }
             .filter { it.isNotEmpty() }

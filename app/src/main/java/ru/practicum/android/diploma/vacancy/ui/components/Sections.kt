@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.data.dto.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
@@ -31,7 +33,7 @@ fun VacancyHeader(vacancy: VacancyDetail) {
 @Composable
 fun ExperienceSection(vacancy: VacancyDetail) {
     Text(
-        "Требуемый опыт",
+        stringResource(R.string.required_experience),
         style = MaterialTheme.typography.headlineSmall
     )
 
@@ -45,7 +47,7 @@ fun ExperienceSection(vacancy: VacancyDetail) {
     HorizontalDivider(thickness = 8.dp, color = Color.Transparent)
 
     Text(
-        vacancy.employment.name + ", " + "Удалённая работа",
+        vacancy.employment.name + ", " + stringResource(R.string.remote_work),
         style = MaterialTheme.typography.bodyLarge
     )
 
@@ -55,7 +57,7 @@ fun ExperienceSection(vacancy: VacancyDetail) {
 @Composable
 fun DescriptionSection(vacancy: VacancyDetail, viewModel: VacancyViewModel) {
     Text(
-        "Описание вакансии",
+        stringResource(R.string.description_section),
         style = MaterialTheme.typography.headlineMedium
     )
 
@@ -79,7 +81,7 @@ fun DescriptionSection(vacancy: VacancyDetail, viewModel: VacancyViewModel) {
 private fun ContactsSection(contactItems: List<Triple<String, Boolean?, Boolean>>, viewModel: VacancyViewModel) {
     if (contactItems.isNotEmpty()) {
         Text(
-            "Контакты (кликните, чтобы связаться)",
+            stringResource(R.string.contacts_section),
             style = MaterialTheme.typography.headlineSmall
         )
 
