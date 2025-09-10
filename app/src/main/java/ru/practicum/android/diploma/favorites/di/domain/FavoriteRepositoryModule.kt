@@ -5,7 +5,7 @@ import ru.practicum.android.diploma.favorites.data.repository.FavoritesRepositor
 import ru.practicum.android.diploma.favorites.domain.repository.FavoritesRepository
 
 val favoriteRepositoryModule = module {
-    single<FavoritesRepository>{
+    single<FavoritesRepository> {
         FavoritesRepositoryImpl(get())
     }
 }

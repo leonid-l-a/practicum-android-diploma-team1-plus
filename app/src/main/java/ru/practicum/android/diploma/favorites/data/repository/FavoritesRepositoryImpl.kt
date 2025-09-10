@@ -14,7 +14,7 @@ class FavoritesRepositoryImpl(
     override fun favoritesVacancy(): Flow<List<VacancyFavorites?>> {
         return favoritesDao.getAllFavoritesVacancy().map { favoritesVacancy ->
             favoritesVacancy
-                .map { VacancyDbMapper.FavoritesEntityToVacancyFavorites(it) }
+                .map { VacancyDbMapper.favoritesEntityToVacancyFavorites(it) }
         }
     }
 
@@ -25,7 +25,7 @@ class FavoritesRepositoryImpl(
     }
 
     override suspend fun findFavorite(vacancy: VacancyDetail): VacancyFavorites? {
-        return VacancyDbMapper.FavoritesEntityToVacancyFavorites(favoritesDao.findById(vacancy.id))
+        return VacancyDbMapper.favoritesEntityToVacancyFavorites(favoritesDao.findById(vacancy.id))
     }
 
     override suspend fun deleteFromFavorites(vacancy: VacancyDetail) {

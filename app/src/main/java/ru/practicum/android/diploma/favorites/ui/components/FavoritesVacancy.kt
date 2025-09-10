@@ -67,11 +67,11 @@ fun FavoritesVacancyItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                vacancy.name,
+                text = "${vacancy.name}, ${vacancy.addressCity}",
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                vacancy.industryName,
+                text = vacancy.employerName,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )

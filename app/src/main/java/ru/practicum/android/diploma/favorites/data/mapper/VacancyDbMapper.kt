@@ -23,7 +23,7 @@ import ru.practicum.android.diploma.favorites.data.model.entity.ScheduleEntity
 import ru.practicum.android.diploma.favorites.domain.model.VacancyFavorites
 
 object VacancyDbMapper {
-    fun FavoritesEntityToVacancyFavorites(favoritesEntity: FavoritesEntity?): VacancyFavorites? {
+    fun favoritesEntityToVacancyFavorites(favoritesEntity: FavoritesEntity?): VacancyFavorites? {
         return if (favoritesEntity != null) {
             VacancyFavorites(
                 id = favoritesEntity.id,
@@ -79,7 +79,9 @@ object VacancyDbMapper {
                 industryId = favoritesEntity.industry?.id ?: 0,
                 industryName = favoritesEntity.industry?.name.orEmpty()
             )
-        } else null
+        } else {
+            null
+        }
     }
 
     fun vacancyDetailToFavoritesEntity(vacancyDetail: VacancyDetail): FavoritesEntity {
@@ -87,40 +89,57 @@ object VacancyDbMapper {
             id = vacancyDetail.id,
             name = vacancyDetail.name,
             description = vacancyDetail.description,
-            salary = vacancyDetail.salary?.let {
-                SalaryEntity(it.from, it.to, it.currency)
-            },
-            address = vacancyDetail.address?.let {
-                AddressEntity(it.city, it.street, it.building, it.fullAddress)
-            },
-            experience = vacancyDetail.experience?.let {
-                ExperienceEntity(it.id, it.name)
-            },
-            schedule = vacancyDetail.schedule?.let {
-                ScheduleEntity(it.id, it.name)
-            },
-            employment = vacancyDetail.employment?.let {
-                EmploymentEntity(it.id, it.name)
-            },
-            contacts = vacancyDetail.contacts?.let {
-                ContactsEntity(it.id, it.name, it.email, it.phone)
-            },
-            employer = vacancyDetail.employer?.let {
-                EmployerEntity(it.id, it.name, it.logo)
-            },
-            area = vacancyDetail.area?.let {
-                FilterAreaEntity(it.id, it.name, it.parentId)
-            },
+            salary = SalaryEntity(
+                vacancyDetail.salary.from,
+                vacancyDetail.salary.to,
+                vacancyDetail.salary.currency
+            ),
+            address = AddressEntity(
+                vacancyDetail.address.city,
+                vacancyDetail.address.street,
+                vacancyDetail.address.building,
+                vacancyDetail.address.fullAddress
+            ),
+            experience = ExperienceEntity(
+                vacancyDetail.experience.id,
+                vacancyDetail.experience.name
+            ),
+            schedule = ScheduleEntity(
+                vacancyDetail.schedule.id,
+                vacancyDetail.schedule.name
+            ),
+            employment = EmploymentEntity(
+                vacancyDetail.employment.id,
+                vacancyDetail.employment.name
+            ),
+            contacts = ContactsEntity(
+                vacancyDetail.contacts.id,
+                vacancyDetail.contacts.name,
+                vacancyDetail.contacts.email,
+                vacancyDetail.contacts.phone
+            ),
+            employer = EmployerEntity(
+                vacancyDetail.employer.id,
+                vacancyDetail.employer.name,
+                vacancyDetail.employer.logo
+            ),
+            area = FilterAreaEntity(
+                vacancyDetail.area.id,
+                vacancyDetail.area.name,
+                vacancyDetail.area.parentId
+            ),
             skills = vacancyDetail.skills,
             url = vacancyDetail.url,
-            industry = vacancyDetail.industry?.let {
-                IndustryEntity(it.id, it.name)
-            },
-            addedAt = System.currentTimeMillis()
+            industry = IndustryEntity(
+                vacancyDetail.industry.id,
+                vacancyDetail.industry.name
+            )
         )
     }
 
-    fun vacancyFavoritesToVacancyDetail(entity: VacancyFavorites?): VacancyDetail? {
+    fun vacancyFavoritesToVacancyDetail(
+        entity: VacancyFavorites?
+    ): VacancyDetail? {
         return if (entity != null) {
             VacancyDetail(
                 id = entity.id,
@@ -173,6 +192,8 @@ object VacancyDbMapper {
                     name = entity.industryName
                 ),
             )
-        } else null
+        } else {
+            null
+        }
     }
 }
