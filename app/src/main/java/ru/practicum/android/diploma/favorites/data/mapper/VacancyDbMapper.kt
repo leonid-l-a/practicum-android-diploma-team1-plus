@@ -130,28 +130,56 @@ object VacancyDbMapper {
     }
 
     private fun mapSalary(entity: VacancyFavorites) =
-        Salary(from = entity.salaryFrom, to = entity.salaryTo, currency = entity.salaryCurrency)
+        Salary(
+            from = entity.salaryFrom,
+            to = entity.salaryTo,
+            currency = entity.salaryCurrency
+        )
 
     private fun mapAddress(entity: VacancyFavorites) =
-        Address(fullAddress = entity.fullAddress, city = entity.addressCity, street = entity.addressStreet, building = entity.addressBuilding)
+        Address(
+            fullAddress = entity.fullAddress,
+            city = entity.addressCity,
+            street = entity.addressStreet,
+            building = entity.addressBuilding
+        )
 
     private fun mapExperience(entity: VacancyFavorites) =
-        Experience(id = entity.experienceId, name = entity.experienceName)
+        Experience(
+            id = entity.experienceId,
+            name = entity.experienceName
+        )
 
     private fun mapSchedule(entity: VacancyFavorites) =
-        Schedule(id = entity.scheduleId, name = entity.scheduleName)
+        Schedule(
+            id = entity.scheduleId,
+            name = entity.scheduleName
+        )
 
     private fun mapEmployment(entity: VacancyFavorites) =
-        Employment(id = entity.employmentId, name = entity.employmentName)
+        Employment(
+            id = entity.employmentId,
+            name = entity.employmentName
+        )
 
     private fun mapContacts(entity: VacancyFavorites) =
-        Contacts(id = entity.contactsId, name = entity.contactsName, email = entity.contactsEmail, phone = entity.contactsPhone)
+        Contacts(
+            id = entity.contactsId,
+            name = entity.contactsName,
+            email = entity.contactsEmail,
+            phone = entity.contactsPhone
+        )
 
     private fun mapEmployer(entity: VacancyFavorites) =
         Employer(id = entity.employerId, name = entity.employerName, logo = entity.employerLogo)
 
     private fun mapArea(entity: VacancyFavorites) =
-        FilterAreas(id = entity.areaId, name = entity.areaName, parentId = entity.areaParentId, areas = emptyList())
+        FilterAreas(
+            id = entity.areaId,
+            name = entity.areaName,
+            parentId = entity.areaParentId,
+            areas = emptyList()
+        )
 
     private fun mapIndustry(entity: VacancyFavorites) =
         FilterIndustryDetail(id = entity.industryId, name = entity.industryName)
