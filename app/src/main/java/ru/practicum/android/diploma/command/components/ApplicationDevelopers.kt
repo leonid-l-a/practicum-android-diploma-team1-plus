@@ -22,7 +22,6 @@ import ru.practicum.android.diploma.core.ui.theme.SpacerHeight24
 import ru.practicum.android.diploma.core.ui.theme.SpacerHeight8
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
 
-
 @Composable
 fun ApplicationDevelopers(
     modifier: Modifier,
@@ -35,7 +34,6 @@ fun ApplicationDevelopers(
             .padding(horizontal = WrapperPaddingHorizontal),
         horizontalAlignment = Alignment.Start
     ) {
-
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -62,10 +60,10 @@ fun ApplicationDevelopers(
 fun Developers(
     modifier: Modifier,
 ) {
-
     val developers = stringResource(R.string.developers)
         .split(",")
-        .map { it.trim() }
+        .map { it.trim()
+        }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(SpacerHeight8)

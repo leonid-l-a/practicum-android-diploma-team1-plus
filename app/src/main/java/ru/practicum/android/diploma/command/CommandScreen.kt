@@ -12,16 +12,16 @@ import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 fun CommandScreen(
     modifier: Modifier = Modifier
 ) {
-        Scaffold(
-            topBar = { CommandBar(modifier) },
-            content = { innerPadding ->
-                ApplicationDevelopers(
-                    modifier = modifier,
-                    innerPadding = innerPadding,
-                )
-            }
-        )
-    }
+    Scaffold(
+        topBar = { CommandBar(modifier) },
+        content = { innerPadding ->
+            ApplicationDevelopers(
+                modifier = modifier,
+                innerPadding = innerPadding,
+            )
+        }
+    )
+}
 
 @Preview
 @Composable
