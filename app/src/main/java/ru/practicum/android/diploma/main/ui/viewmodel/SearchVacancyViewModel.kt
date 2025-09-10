@@ -72,7 +72,8 @@ class SearchVacancyViewModel(
                 id = it.id,
                 logoUrl = it.employer.logo ?: "",
                 industry = it.employer.name ?: "",
-                salary = it.salary.getFormatSalary()
+                salary = it.salary.getFormatSalary(),
+                city = it.city
             )
         }
     }

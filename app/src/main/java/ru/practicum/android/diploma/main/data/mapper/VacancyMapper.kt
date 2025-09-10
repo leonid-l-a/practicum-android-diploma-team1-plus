@@ -19,7 +19,8 @@ object VacancyMapper {
                     id = detail.id,
                     name = detail.name,
                     salary = salary(detail.salary),
-                    employer = employer(detail.employer)
+                    employer = employer(detail.employer),
+                    city = detail.address.city
                 )
             }
         )
