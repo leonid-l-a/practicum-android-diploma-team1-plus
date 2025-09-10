@@ -2,13 +2,13 @@ package ru.practicum.android.diploma.vacancy.ui.viewmodel
 
 import android.content.Intent
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.vacancy.domain.interactor.ShareVacancyDetailInteractor
 import ru.practicum.android.diploma.vacancy.domain.interactor.VacancyDetailUseCase
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import java.io.IOException
@@ -16,7 +16,6 @@ import java.io.IOException
 class VacancyViewModel(
     val vacancyDetailUseCase: VacancyDetailUseCase,
     savedStateHandle: SavedStateHandle,
-    val shareVacancyDetailInteractor: ShareVacancyDetailInteractor,
 ) : ViewModel() {
     private val _state = MutableStateFlow<VacancyState>(VacancyState.Loading)
 
@@ -37,20 +36,31 @@ class VacancyViewModel(
     }
 
     fun shareVacancyWithMessenger(): Intent? {
-        return when (val currentState = _state.value) {
-            is VacancyState.Success ->
-                shareVacancyDetailInteractor.shareVacancyWithMessenger(
-                    currentState.vacancyDetail.url
-                )
-            else -> null
-        }
+        return Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(
+                Intent.EXTRA_TEXT,
+                vacancyId
+            )
+            type = "text/plain"
+        }, null)
     }
 
     fun writeWithMail(): Intent? {
         return when (val currentState = _state.value) {
             is VacancyState.Success -> {
-                val contact = currentState.vacancyDetail.contacts.email
-                shareVacancyDetailInteractor.writeWithMail(contact)
+                val contacts = currentState.vacancyDetail.contacts
+                val email = contacts.email.firstOrNull()
+                return Intent.createChooser(
+                    Intent(Intent.ACTION_SENDTO).apply {
+                        data = "mailto:".toUri()
+                        putExtra(
+                            Intent.EXTRA_EMAIL,
+                            arrayOf(email)
+                        )
+                    },
+                    null
+                )
             }
             else -> null
         }
@@ -61,8 +71,10 @@ class VacancyViewModel(
             is VacancyState.Success -> {
                 val contacts = currentState.vacancyDetail.contacts
                 val phone = contacts.phone?.firstOrNull()
-                if (!phone.isNullOrEmpty()) {
-                    shareVacancyDetailInteractor.callWithPhone(phone)
+                if (phone != null) {
+                    Intent.createChooser(Intent(Intent.ACTION_DIAL).apply {
+                        data = "tel:$phone".toUri()
+                    }, null)
                 } else {
                     null
                 }
@@ -70,5 +82,4 @@ class VacancyViewModel(
             else -> null
         }
     }
-
 }

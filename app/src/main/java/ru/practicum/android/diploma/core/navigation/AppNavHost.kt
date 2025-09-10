@@ -37,7 +37,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             arguments = listOf(navArgument("vacancyId") { type = NavType.StringType })
         ) { backStackEntry ->
             val viewModel: VacancyViewModel = koinViewModel()
-            VacancyScreen(viewModel = viewModel)
+            VacancyScreen(viewModel = viewModel, navController = navController)
         }
         composable(Screen.Filtration.route) { Text("Filtration Screen") }
         composable(Screen.Placement.route) { Text("Placement Screen") }
