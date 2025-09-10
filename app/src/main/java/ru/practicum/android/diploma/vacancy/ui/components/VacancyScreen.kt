@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Salary
@@ -48,12 +49,12 @@ import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 @Composable
-fun VacancyScreen(viewModel: VacancyViewModel) {
+fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
     val horizontalPadding = 16.dp
     val state by viewModel.state.collectAsState()
 
     Scaffold(
-        topBar = { TopBar(viewModel) }
+        topBar = { TopBar(viewModel, navController) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -268,7 +269,7 @@ fun VacancyScreen(viewModel: VacancyViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(viewModel: VacancyViewModel) {
+fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
     val context = LocalContext.current
     TopAppBar(
         title = {
@@ -278,7 +279,9 @@ fun TopBar(viewModel: VacancyViewModel) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                navController.popBackStack()
+            }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },
@@ -340,8 +343,22 @@ fun VacancyDescriptionItem(title: String, description: List<String>) {
 }
 
 fun Salary.toDisplayString(): String {
-    return "от $from до $to ${currency.orEmpty()}"
+    return when {
+        from != null && to != null -> {
+            "от $from до $to ${currency.orEmpty()}"
+        }
+
+        from != null ->
+            "от $from ${currency.orEmpty()}"
+
+        to != null ->
+            "до $to ${currency.orEmpty()}"
+
+        else ->
+            "Уровень зарплаты не указан"
+    }
 }
+
 
 @Composable
 fun ContactItem(
