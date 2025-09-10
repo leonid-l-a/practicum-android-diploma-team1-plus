@@ -32,11 +32,12 @@ import ru.practicum.android.diploma.core.ui.theme.BorderWidth
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
 import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
 import ru.practicum.android.diploma.core.ui.theme.lightGray
-import ru.practicum.android.diploma.favorites.ui.model.Vacancy
+import ru.practicum.android.diploma.favorites.domain.model.VacancyFavorites
+import ru.practicum.android.diploma.favorites.utils.formatSalary
 
 @Composable
 fun FavoritesVacancyItem(
-    vacancy: Vacancy,
+    vacancy: VacancyFavorites,
     onClick: (String) -> Unit = {}
 ) {
     Row(
@@ -55,7 +56,7 @@ fun FavoritesVacancyItem(
                     MaterialTheme.shapes.medium
                 ),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(vacancy.logoUrl)
+                .data(vacancy.employerLogo)
                 .httpHeaders(NetworkHeaders.Builder().add("User-Agent", "Mozilla/5.0").build())
                 .build(),
             placeholder = painterResource(R.drawable.item_placeholder),
@@ -70,12 +71,12 @@ fun FavoritesVacancyItem(
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                vacancy.industry,
+                vacancy.industryName,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
             Text(
-                text = vacancy.salary,
+                text = formatSalary(vacancy.salaryFrom, vacancy.salaryTo, vacancy.salaryCurrency),
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )
@@ -85,7 +86,7 @@ fun FavoritesVacancyItem(
 
 @Composable
 fun ShowFavoritesList(
-    favoritesList: List<Vacancy>,
+    favoritesList: List<VacancyFavorites>,
     onClick: (String) -> Unit = {}
 ) {
     LazyColumn(
