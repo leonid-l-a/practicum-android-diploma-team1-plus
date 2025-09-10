@@ -54,14 +54,15 @@ class VacancyViewModel(
                 return Intent.createChooser(
                     Intent(Intent.ACTION_SENDTO).apply {
                         data = "mailto:".toUri()
-                        putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+                        putExtra(
+                            Intent.EXTRA_EMAIL,
+                            arrayOf(email))
                     }, null
                 )
             }
             else -> null
         }
     }
-
 
     fun callWithPhone(): Intent? {
         return when (val currentState = _state.value) {

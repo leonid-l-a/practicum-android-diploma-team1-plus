@@ -43,7 +43,6 @@ fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
         }
     }
 }
-
 fun Salary.toDisplayString(): String {
     return when {
         from != null && to != null -> {
