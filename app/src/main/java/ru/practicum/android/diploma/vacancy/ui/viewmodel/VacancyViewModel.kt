@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.favorites.domain.interactor.FavoritesInteractor
 import ru.practicum.android.diploma.vacancy.domain.interactor.VacancyDetailUseCase
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import java.io.IOException
@@ -16,6 +17,7 @@ import java.io.IOException
 class VacancyViewModel(
     val vacancyDetailUseCase: VacancyDetailUseCase,
     savedStateHandle: SavedStateHandle,
+    val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
     private val _state = MutableStateFlow<VacancyState>(VacancyState.Loading)
 
@@ -28,9 +30,42 @@ class VacancyViewModel(
             try {
                 val vacancyDetail = vacancyDetailUseCase.getVacancyDetail(vacancyId)
                 _state.value = VacancyState.Success(vacancyDetail, false)
+                checkInFavorites()
             } catch (e: IOException) {
                 _state.value = VacancyState.ServerError
                 Log.e("VacancyViewModel", "Server error", e)
+            }
+        }
+    }
+
+    fun checkInFavorites() {
+        val currentState = _state.value
+        if (currentState is VacancyState.Success) {
+            viewModelScope.launch {
+                val vacancy = currentState.vacancyDetail
+                val existing = favoritesInteractor.findFavoriteVacancy(vacancy)
+
+                _state.value = currentState.copy(
+                    isFavorite = existing != null
+                )
+            }
+        }
+    }
+
+    fun toggleFavorite() {
+        val currentState = _state.value
+        if (currentState is VacancyState.Success) {
+            viewModelScope.launch {
+                val vacancy = currentState.vacancyDetail
+                val existing = favoritesInteractor.findFavoriteVacancy(vacancy)
+
+                if (existing != null) {
+                    favoritesInteractor.deleteFromFavorites(vacancy)
+                    _state.value = currentState.copy(isFavorite = false)
+                } else {
+                    favoritesInteractor.addFavoriteVacancy(vacancy)
+                    _state.value = currentState.copy(isFavorite = true)
+                }
             }
         }
     }
@@ -62,6 +97,7 @@ class VacancyViewModel(
                     null
                 )
             }
+
             else -> null
         }
     }
@@ -79,6 +115,7 @@ class VacancyViewModel(
                     null
                 }
             }
+
             else -> null
         }
     }

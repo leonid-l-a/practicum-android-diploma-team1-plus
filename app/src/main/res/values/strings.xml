@@ -51,6 +51,7 @@
     <string name="description">Описание</string>
 
     <string name="salary_not_specified">Уровень зарплаты не указан</string>
+    <string name="salary_not_marked">Зарплата не указана</string>
     <string name="employer_image">employer image</string>
 
     <string name="error">error</string>

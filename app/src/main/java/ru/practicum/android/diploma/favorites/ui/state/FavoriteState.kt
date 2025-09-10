@@ -1,18 +1,18 @@
 package ru.practicum.android.diploma.favorites.ui.state
 
-import ru.practicum.android.diploma.favorites.ui.model.Vacancy
+import ru.practicum.android.diploma.favorites.domain.model.VacancyFavorites
 
 sealed class FavoriteState {
 
     data object Loading : FavoriteState()
 
     data class Content(
-        val vacancy: List<Vacancy>
+        val vacancy: List<VacancyFavorites>
     ) : FavoriteState()
 
     data object Empty : FavoriteState()
 
     data class Error(
-        val message: String
+        val message: String?
     ) : FavoriteState()
 }
