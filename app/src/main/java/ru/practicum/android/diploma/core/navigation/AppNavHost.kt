@@ -25,7 +25,6 @@ import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
-
         composable(Screen.Main.route) {
             val vm = koinViewModel<SearchVacancyViewModel>()
             SearchScreen(
