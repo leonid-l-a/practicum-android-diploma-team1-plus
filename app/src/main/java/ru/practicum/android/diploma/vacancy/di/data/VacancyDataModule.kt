@@ -9,6 +9,4 @@ val vacancyDataModule = module {
     single<VacancyDetailRepository> {
         VacancyDetailRepositoryImplementation(get<VacancyNetworkClient>())
     }
-
-
 }

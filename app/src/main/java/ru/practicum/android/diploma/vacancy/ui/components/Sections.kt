@@ -28,8 +28,6 @@ fun VacancyHeader(vacancy: VacancyDetail) {
     HorizontalDivider(thickness = 16.dp, color = Color.Transparent)
 }
 
-
-
 @Composable
 fun ExperienceSection(vacancy: VacancyDetail) {
     Text(

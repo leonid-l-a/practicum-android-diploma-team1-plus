@@ -56,8 +56,10 @@ class VacancyViewModel(
                         data = "mailto:".toUri()
                         putExtra(
                             Intent.EXTRA_EMAIL,
-                            arrayOf(email))
-                    }, null
+                            arrayOf(email)
+                        )
+                    },
+                    null
                 )
             }
             else -> null
