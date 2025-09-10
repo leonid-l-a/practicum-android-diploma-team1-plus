@@ -72,11 +72,11 @@ fun VacancyItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                vacancy.name,
+                text = "${vacancy.name}, ${vacancy.city}",
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                vacancy.industry,
+                text = vacancy.industry,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.W400),
             )

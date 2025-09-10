@@ -5,5 +5,6 @@ data class Vacancy(
     val logoUrl: String,
     val name: String,
     val industry: String,
-    val salary: String
+    val salary: String,
+    val city: String,
 )
