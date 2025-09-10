@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -24,7 +25,7 @@ fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
     TopAppBar(
         title = {
             Text(
-                "Вакансия",
+                stringResource(R.string.vacancy_title),
                 style = MaterialTheme.typography.headlineMedium,
             )
         },
@@ -32,7 +33,7 @@ fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
             IconButton(onClick = {
                 navController.popBackStack()
             }) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -44,7 +45,7 @@ fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
                 }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_favorites_off),
-                        contentDescription = "Share",
+                        contentDescription = stringResource(R.string.favorite_title),
                     )
                 }
 
@@ -55,7 +56,7 @@ fun TopBar(viewModel: VacancyViewModel, navController: NavController) {
                 }) {
                     Icon(
                         painter = painterResource(R.drawable.ic_share),
-                        contentDescription = "Share",
+                        contentDescription = stringResource(R.string.share),
                     )
                 }
             }

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -43,7 +44,7 @@ fun EmployerCard(vacancy: VacancyDetail) {
         ) {
             AsyncImage(
                 model = vacancy.employer.logo,
-                contentDescription = "Loaded image",
+                contentDescription = stringResource(R.string.employer_image),
                 modifier = Modifier.size(48.dp),
                 placeholder = painterResource(R.drawable.ic_employer_logo_placeholder),
             )
