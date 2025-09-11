@@ -7,4 +7,3 @@ data class VacancyDetailMainData(
     val employer: EmployerMainData,
     val city: String
 )
-

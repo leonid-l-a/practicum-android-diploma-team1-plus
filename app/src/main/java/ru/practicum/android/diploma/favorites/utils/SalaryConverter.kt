@@ -23,4 +23,3 @@ fun formatSalary(salaryFrom: Int?, salaryTo: Int?, currency: String?): String {
         parts.joinToString(" ")
     }
 }
-

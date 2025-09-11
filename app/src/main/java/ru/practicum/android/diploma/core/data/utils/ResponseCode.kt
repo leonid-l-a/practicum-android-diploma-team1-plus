@@ -14,4 +14,3 @@ object ResponseCode {
     /** Ошибка ввода-вывода (например, нет интернета). */
     const val IO_ERROR = 500
 }
-
