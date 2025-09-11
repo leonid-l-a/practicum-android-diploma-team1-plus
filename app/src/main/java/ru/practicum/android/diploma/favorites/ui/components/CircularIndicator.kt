@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import ru.practicum.android.diploma.core.ui.theme.CircleSize
+import ru.practicum.android.diploma.core.ui.theme.CircleSize36
 import ru.practicum.android.diploma.core.ui.theme.blue
 
 @Composable
@@ -22,7 +22,7 @@ fun CircularIndicator(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.size(CircleSize),
+            modifier = Modifier.size(CircleSize36),
             color = blue,
             trackColor = Color.Transparent,
         )
