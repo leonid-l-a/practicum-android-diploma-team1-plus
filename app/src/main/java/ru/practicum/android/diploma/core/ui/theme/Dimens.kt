@@ -26,3 +26,5 @@ val SpacerHeight24 = 24.dp
 val SpacerHeight8 = 8.dp
 val Height24 = 24.dp
 val Height96 = 96.dp
+
+val Height60 = 60.dp

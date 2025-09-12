@@ -1,5 +1,6 @@
-package ru.practicum.android.diploma.main.ui.components
+package ru.practicum.android.diploma.core.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,7 +64,7 @@ fun SearchBar(
 @Preview(
     showSystemUi = true,
     showBackground = true,
-    uiMode = android.content.res.Configuration.UI_MODE_TYPE_NORMAL
+    uiMode = Configuration.UI_MODE_TYPE_NORMAL
 )
 @Composable
 private fun SearchBarPreview() {
