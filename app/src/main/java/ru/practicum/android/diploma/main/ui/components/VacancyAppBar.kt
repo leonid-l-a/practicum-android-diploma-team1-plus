@@ -20,13 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.TopAppBarHeight
+import ru.practicum.android.diploma.core.ui.theme.TopAppBarHeight64
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VacancyAppBar(modifier: Modifier = Modifier) {
     TopAppBar(
-        modifier = modifier.height(TopAppBarHeight),
+        modifier = modifier.height(TopAppBarHeight64),
         colors = TopAppBarDefaults
             .topAppBarColors()
             .copy(

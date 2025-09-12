@@ -20,7 +20,7 @@ import ru.practicum.android.diploma.core.ui.theme.Height24
 import ru.practicum.android.diploma.core.ui.theme.Height96
 import ru.practicum.android.diploma.core.ui.theme.SpacerHeight24
 import ru.practicum.android.diploma.core.ui.theme.SpacerHeight8
-import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal16
 
 @Composable
 fun ApplicationDevelopers(
@@ -31,7 +31,7 @@ fun ApplicationDevelopers(
         modifier = modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .padding(horizontal = WrapperPaddingHorizontal),
+            .padding(horizontal = WrapperPaddingHorizontal16),
         horizontalAlignment = Alignment.Start
     ) {
         Row(

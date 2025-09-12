@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.TopAppBarHeight
+import ru.practicum.android.diploma.core.ui.theme.TopAppBarHeight64
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +23,7 @@ fun CommandBar(
 ) {
     TopAppBar(
         modifier = modifier
-            .height(TopAppBarHeight),
+            .height(TopAppBarHeight64),
         colors = TopAppBarDefaults
             .topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.background

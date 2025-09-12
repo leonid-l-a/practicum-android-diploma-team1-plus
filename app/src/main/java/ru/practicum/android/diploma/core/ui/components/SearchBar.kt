@@ -23,8 +23,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
-import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
-import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal16
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical8
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 
 @Composable
@@ -40,8 +40,8 @@ fun SearchBar(
         value = value,
         modifier = modifier
             .padding(
-                horizontal = WrapperPaddingHorizontal,
-                vertical = WrapperPaddingVertical,
+                horizontal = WrapperPaddingHorizontal16,
+                vertical = WrapperPaddingVertical8,
             )
             .fillMaxWidth(),
         onValueChange = onValueChange,

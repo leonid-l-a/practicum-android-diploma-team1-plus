@@ -33,9 +33,9 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.BorderWidth
-import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
-import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical
+import ru.practicum.android.diploma.core.ui.theme.BorderWidth1
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal16
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical8
 import ru.practicum.android.diploma.core.ui.theme.lightGray
 import ru.practicum.android.diploma.main.ui.model.Vacancy
 
@@ -47,7 +47,7 @@ fun VacancyItem(
 ) {
     Row(
         modifier = modifier
-            .padding(vertical = WrapperPaddingVertical)
+            .padding(vertical = WrapperPaddingVertical8)
             .fillMaxWidth()
             .clickable { onClick(vacancy.id) },
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -57,7 +57,7 @@ fun VacancyItem(
                 .size(48.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .border(
-                    BorderStroke(BorderWidth, lightGray),
+                    BorderStroke(BorderWidth1, lightGray),
                     MaterialTheme.shapes.medium
                 ),
             model = ImageRequest.Builder(LocalContext.current)
@@ -123,7 +123,7 @@ fun ShowVacancyList(
         LazyColumn(
             state = listState,
             modifier = modifier
-                .padding(horizontal = WrapperPaddingHorizontal)
+                .padding(horizontal = WrapperPaddingHorizontal16)
                 .weight(1f)
         ) {
             items(vacancyList) {
