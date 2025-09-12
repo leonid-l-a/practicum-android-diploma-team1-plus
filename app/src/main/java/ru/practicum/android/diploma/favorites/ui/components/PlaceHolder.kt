@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal16
 
 @Composable
 fun ShowPlaceHolder(
@@ -25,7 +25,7 @@ fun ShowPlaceHolder(
     )
     Text(
         modifier = Modifier
-            .padding(top = WrapperPaddingHorizontal)
+            .padding(top = WrapperPaddingHorizontal16)
             .fillMaxWidth(),
         text = stringResource(string),
         textAlign = TextAlign.Center,
