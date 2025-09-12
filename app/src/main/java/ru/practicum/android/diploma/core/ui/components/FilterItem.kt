@@ -23,8 +23,8 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.model.FilterItem
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.Height60
-import ru.practicum.android.diploma.core.ui.theme.LineHeightMedium
-import ru.practicum.android.diploma.core.ui.theme.LineHeightSmall
+import ru.practicum.android.diploma.core.ui.theme.LineHeightMedium19
+import ru.practicum.android.diploma.core.ui.theme.LineHeightSmall16
 
 @Composable
 private fun DrawContent(
@@ -75,7 +75,7 @@ fun FilterItem(
                     style = label,
                     maxLines = maxLines,
                     overflow = TextOverflow.Ellipsis,
-                    lineHeight = if (checked) LineHeightSmall else LineHeightMedium
+                    lineHeight = if (checked) LineHeightSmall16 else LineHeightMedium19
                 )
                 if (checked && labelValue.isNotEmpty()) {
                     Text(
