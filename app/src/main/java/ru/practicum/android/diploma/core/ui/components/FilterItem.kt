@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.core.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,13 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import android.content.res.Configuration
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.model.FilterItem
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.Height60
 import ru.practicum.android.diploma.core.ui.theme.LineHeightMedium
 import ru.practicum.android.diploma.core.ui.theme.LineHeightSmall
+
 
 @Composable
 private fun DrawContent(
