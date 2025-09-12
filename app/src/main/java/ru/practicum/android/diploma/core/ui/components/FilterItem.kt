@@ -26,7 +26,6 @@ import ru.practicum.android.diploma.core.ui.theme.Height60
 import ru.practicum.android.diploma.core.ui.theme.LineHeightMedium
 import ru.practicum.android.diploma.core.ui.theme.LineHeightSmall
 
-
 @Composable
 private fun DrawContent(
     modifier: Modifier = Modifier,
