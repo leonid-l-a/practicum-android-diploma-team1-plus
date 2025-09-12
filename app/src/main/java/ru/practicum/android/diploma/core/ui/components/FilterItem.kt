@@ -18,9 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
 import android.content.res.Configuration
-
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.model.FilterItem
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
