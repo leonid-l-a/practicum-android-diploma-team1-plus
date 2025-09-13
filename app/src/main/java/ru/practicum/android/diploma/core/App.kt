@@ -11,6 +11,9 @@ import ru.practicum.android.diploma.favorites.di.data.favoriteDataModule
 import ru.practicum.android.diploma.favorites.di.domain.favoriteInteractorModule
 import ru.practicum.android.diploma.favorites.di.domain.favoriteRepositoryModule
 import ru.practicum.android.diploma.favorites.di.viewmodel.favoriteViewModelModule
+import ru.practicum.android.diploma.filtration.di.data.filtrationDataModule
+import ru.practicum.android.diploma.filtration.di.domain.filtrationInteractorModule
+import ru.practicum.android.diploma.filtration.di.viewmodel.filtrationViewModelModule
 import ru.practicum.android.diploma.main.di.data.mainDataModule
 import ru.practicum.android.diploma.main.di.domain.mainInteractorModule
 import ru.practicum.android.diploma.main.di.domain.mainRepositoryModule
@@ -40,7 +43,10 @@ class App : Application() {
                 favoriteViewModelModule,
                 favoriteDataModule,
                 favoriteInteractorModule,
-                favoriteRepositoryModule
+                favoriteRepositoryModule,
+                filtrationDataModule,
+                filtrationInteractorModule,
+                filtrationViewModelModule
             )
         }
     }
