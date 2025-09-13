@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -22,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,8 +28,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,22 +39,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.ui.theme.blackNight
+import ru.practicum.android.diploma.core.ui.theme.Height24
+import ru.practicum.android.diploma.core.ui.theme.Height56
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.core.ui.theme.blue
-
 
 @Composable
 fun SalaryField(
     value: String,
     onValueChange: (String) -> Unit,
+    topPlaceholder: @Composable ((Color) -> Unit),
+    bottomPlaceholder: @Composable ((Color) -> Unit),
+    modifier: Modifier = Modifier,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     BasicTextField(
-        modifier = Modifier
-            .height(height = 56.dp)
+        modifier = modifier
+            .height(height = Height56)
+            .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.surface,
                 shape = MaterialTheme.shapes.medium
@@ -83,25 +87,23 @@ fun SalaryField(
                         .weight(1F)
                         .fillMaxHeight()
                 ) {
-                    val labelColor = if (isFocused) {
+                    val topLabelColor = if (isFocused) {
                         blue
                     } else if (value.isNotEmpty()) {
                         blackUniversal
                     } else {
                         MaterialTheme.colorScheme.onTertiary
                     }
-                    Text(
-                        "Имя пользователя",
-                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.W400),
-                        color = labelColor,
-                    )
+                    topPlaceholder(topLabelColor)
                     Box(Modifier.fillMaxWidth()) {
                         if (value.isEmpty()) {
-                            Text(
-                                "Введите ваше имя",
-                                color = if (value.isNotEmpty() && !isFocused) blackUniversal else MaterialTheme.colorScheme.onTertiary,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
+                            val bottomLabelColor = if (value.isNotEmpty() && !isFocused) {
+                                blackUniversal
+                            } else {
+                                MaterialTheme.colorScheme.onTertiary
+                            }
+                            bottomPlaceholder(bottomLabelColor)
+
                         }
                         innerTextField()
                     }
@@ -114,98 +116,47 @@ fun SalaryField(
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true,
+@Preview(
+    showBackground = true, showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
 )
 @Composable
-fun TestPreview() {
+fun SalaryFieldPreview() {
     ApplicationTheme {
         var text by remember {
-            mutableStateOf("123")
+            mutableStateOf("")
         }
-
         Column {
             SalaryField(
                 value = text,
                 onValueChange = { newText ->
                     text = newText.filter { it.isDigit() }
                 },
-                trailingIcon = {
-                    Icon(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable {
-                                text = ""
-                            },
-                        painter = painterResource(R.drawable.close_24),
-                        contentDescription = null
+                topPlaceholder = { topLabelColor ->
+                    Text(
+                        text = stringResource(R.string.need_salary),
+                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.W400),
+                        color = topLabelColor,
                     )
-                }
-            )
-            Spacer(modifier = Modifier.height(60.dp))
-            SalaryField(
-                value = "",
-                onValueChange = {},
-                trailingIcon = {
-                    Icon(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable {
-                                text = ""
-                            },
-                        painter = painterResource(R.drawable.close_24),
-                        contentDescription = null
-                    )
-                }
-            )
-            if (false) {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = text,
-                    placeholder = {
-                        Text("Some text")
-                    },
-                    onValueChange = {
-                        text = it
-                    }
-                )
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
-)
-@Composable
-fun TestNightPreview() {
-    ApplicationTheme {
-        var text by remember {
-            mutableStateOf("")
-        }
-
-        SalaryField(
-            value = text,
-            onValueChange = { text = it },
-            trailingIcon = {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(R.drawable.close_24),
-                    tint = blackUniversal,
-                    contentDescription = null
-                )
-            }
-        )
-
-        if (false) {
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = text,
-                placeholder = {
-                    Text("Some text")
                 },
-                onValueChange = {
-                    text = it
+                bottomPlaceholder = { bottomLabelColor ->
+                    Text(
+                        //onSurface
+                        text = stringResource(R.string.input_salary),
+                        color = bottomLabelColor,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        modifier = Modifier
+                            .size(Height24)
+                            .clickable {
+                                text = ""
+                            },
+                        painter = painterResource(R.drawable.close_24),
+                        contentDescription = null
+                    )
                 }
             )
         }

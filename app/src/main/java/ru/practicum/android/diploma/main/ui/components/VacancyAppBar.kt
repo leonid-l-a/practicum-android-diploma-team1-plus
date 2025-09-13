@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.main.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +25,10 @@ import ru.practicum.android.diploma.core.ui.theme.TopAppBarHeight64
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VacancyAppBar(modifier: Modifier = Modifier) {
+fun VacancyAppBar(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
     TopAppBar(
         modifier = modifier.height(TopAppBarHeight64),
         colors = TopAppBarDefaults
@@ -45,6 +49,10 @@ fun VacancyAppBar(modifier: Modifier = Modifier) {
                     text = stringResource(R.string.search_title)
                 )
                 Icon(
+                    modifier = Modifier
+                        .clickable {
+                            onClick()
+                        },
                     imageVector = ImageVector.vectorResource(R.drawable.ic_filter),
                     contentDescription = null
                 )

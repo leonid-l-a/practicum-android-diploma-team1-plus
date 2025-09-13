@@ -29,8 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.navigation.Screen
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
@@ -46,13 +48,19 @@ import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: SearchVacancyViewModel = koinViewModel(),
     onVacancyClick: (String) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
-            VacancyAppBar(modifier = Modifier)
+            VacancyAppBar(
+                modifier = Modifier,
+                onClick = {
+                    navController.navigate(Screen.Filtration.route)
+                }
+            )
         }
     ) { paddingValues ->
         Column(

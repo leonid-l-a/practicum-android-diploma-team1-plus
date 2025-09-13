@@ -14,6 +14,7 @@ val LineHeightSmall16 = 16.sp
 val LetterSpacing0 = 0.sp
 val WrapperPaddingHorizontal16 = 16.dp
 val WrapperPaddingVertical8 = 8.dp
+val WrapperPaddingVertical16 = 16.dp
 
 val TopAppBarHeight64 = 64.dp
 val WidthForInfoImage328 = 328.dp
@@ -26,6 +27,7 @@ val SpacerHeight24 = 24.dp
 val SpacerHeight8 = 8.dp
 val Height24 = 24.dp
 val Height96 = 96.dp
+val Height30 = 30.dp
 
 val Height60 = 60.dp
 val Height56 = 56.dp
