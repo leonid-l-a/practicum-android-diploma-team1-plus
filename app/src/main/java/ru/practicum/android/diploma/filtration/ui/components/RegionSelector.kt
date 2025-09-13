@@ -1,9 +1,13 @@
 package ru.practicum.android.diploma.filtration.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -25,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -33,6 +38,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 import ru.practicum.android.diploma.core.ui.components.SearchBar
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
+import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.filtration.domain.model.Region
 
@@ -88,30 +94,115 @@ fun RegionSelector(
                 onResetRequest = onResetRequest
             )
 
-            LazyColumn(
-                modifier = Modifier,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                items(items = regions) {
-                    FilterItem(
-                        labelText = it.name,
-                        checked = false,
-                        onClick = onClick
-                    ) { checked ->
-                        val resId = if (checked) {
-                            R.drawable.close_24
-                        } else {
-                            R.drawable.arrow_forward_24
-                        }
-                        Icon(
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            painter = painterResource(
-                                id = resId
-                            ),
-                            contentDescription = null
-                        )
-                    }
+            ShowContent(
+//                viewModel = viewModel,
+                onClick = onClick,
+                onSearchHandler = onSearchHandler,
+                onResetRequest = onResetRequest
+            )
+        }
+    }
+}
+
+@Composable
+fun ShowContent(
+//    viewModel: AreasViewModel = koinViewModel(),
+    onClick: (String) -> Unit,
+    onSearchHandler: (String) -> Unit,
+    onResetRequest: () -> Unit = {}
+) {
+//    val regionState = viewModel.regionsMap.collectAsState()
+
+//    when (regionState) {
+        // Ну тут уж когда сами стейты будут
+//    }
+}
+
+@Composable
+fun ShowNoRegion() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier.width(WidthForInfoImage328),
+            contentScale = ContentScale.Crop,
+            painter = painterResource(R.drawable.no_region),
+            contentDescription = null
+        )
+        Text(
+            text = stringResource(R.string.no_region),
+            style = MaterialTheme.typography.titleLarge
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ShowNoRegionPreview() {
+    ApplicationTheme {
+        ShowNoRegion()
+    }
+}
+
+@Composable
+fun ShowErrorRegion() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier.width(WidthForInfoImage328),
+            contentScale = ContentScale.Crop,
+            painter = painterResource(R.drawable.region_error),
+            contentDescription = null
+        )
+        Text(
+            text = stringResource(R.string.region_error),
+            style = MaterialTheme.typography.titleLarge
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ShowErrorRegionPreview() {
+    ApplicationTheme {
+        ShowErrorRegion()
+    }
+}
+
+@Composable
+fun ShowRegions(
+    regions: List<Region>,
+    onClick: (String) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        items(items = regions) {
+            FilterItem(
+                labelText = it.name,
+                checked = false,
+                onClick = onClick
+            ) { checked ->
+                val resId = if (checked) {
+                    R.drawable.close_24
+                } else {
+                    R.drawable.arrow_forward_24
                 }
+                Icon(
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    painter = painterResource(
+                        id = resId
+                    ),
+                    contentDescription = null
+                )
             }
         }
     }
