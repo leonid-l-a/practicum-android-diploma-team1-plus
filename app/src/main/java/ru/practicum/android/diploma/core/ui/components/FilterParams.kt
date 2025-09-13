@@ -10,12 +10,18 @@ import ru.practicum.android.diploma.core.ui.theme.gray
 
 @Immutable
 object FilterParams {
-    private const val ONE_LINE = 1
-    private const val TWO_LINE = 2
+    const val ONE_LINE = 1
+    const val TWO_LINE = 2
+
+    enum class FIELDTYPE {
+        TEXT,
+        CHECK_BOX,
+        RADIO_BUTTON
+    }
 
     @Composable
     internal fun getParams(checked: Boolean): Triple<TextStyle, Color, Int> {
-        val label = if (checked) {
+        val typography = if (checked) {
             MaterialTheme.typography.labelSmall
         } else {
             MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400)
@@ -27,7 +33,7 @@ object FilterParams {
         }
         val maxLines = if (checked) ONE_LINE else TWO_LINE
         return Triple(
-            first = label,
+            first = typography,
             second = color,
             third = maxLines
         )
