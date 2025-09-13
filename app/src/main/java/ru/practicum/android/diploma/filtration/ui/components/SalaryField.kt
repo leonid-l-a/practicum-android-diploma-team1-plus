@@ -34,25 +34,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.Height24
 import ru.practicum.android.diploma.core.ui.theme.Height56
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal16
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.core.ui.theme.blue
 
 @Composable
+private fun BottomPlaceHolder(
+    value: String,
+    isFocused: Boolean,
+    bottomPlaceholder: @Composable ((Color) -> Unit),
+) {
+    if (value.isEmpty()) {
+        val bottomLabelColor = when {
+            value.isNotEmpty() && !isFocused -> blackUniversal
+            else -> MaterialTheme.colorScheme.onTertiary
+        }
+        bottomPlaceholder(bottomLabelColor)
+    }
+}
+
+@Composable
 private fun DecorationBox(
     isFocused: Boolean,
+    value: String,
     topPlaceholder: @Composable ((Color) -> Unit),
     bottomPlaceholder: @Composable ((Color) -> Unit),
+    innerTextField: @Composable () -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
-    value: String,
-    innerTextField: @Composable () -> Unit
 ) {
     Row(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = WrapperPaddingHorizontal16),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -68,14 +83,11 @@ private fun DecorationBox(
             }
             topPlaceholder(topLabelColor)
             Box(Modifier.fillMaxWidth()) {
-                if (value.isEmpty()) {
-                    val bottomLabelColor = when {
-                        value.isNotEmpty() && !isFocused -> blackUniversal
-                        else -> MaterialTheme.colorScheme.onTertiary
-                    }
-                    bottomPlaceholder(bottomLabelColor)
-
-                }
+                BottomPlaceHolder(
+                    value = value,
+                    isFocused = isFocused,
+                    bottomPlaceholder = bottomPlaceholder
+                )
                 innerTextField()
             }
         }
