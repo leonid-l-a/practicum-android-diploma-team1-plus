@@ -59,6 +59,7 @@
 
     <string name="country">Страна</string>
     <string name="region">Регион</string>
+    <string name="search_region_placeholder">Введите регион</string>
 
     <string name="error">error</string>
     <string name="server_error">server error</string>
