@@ -1,3 +1,60 @@
 <resources>
     <string name="app_name">Practicum-Android-Diploma</string>
+    <string name="list_is_empty">Не удалось получить список вакансий</string>
+    <string name="search_bar_placeholder">Введите запрос</string>
+    <string name="search_title">Поиск вакансий</string>
+    <string name="favorite_title">Избранное</string>
+    <string name="favorites_is_empty">Список пуст</string>
+    <string name="favorites_is_error">Не удалось получить\n список вакансий</string>
+    <string name="command_title">Команда</string>
+
+    <string name="app_developers">Над приложением работали</string>
+    <string name="developers">Андрей @anrobo07 - Developer,
+        Валерий @valerangb3 - Developer,
+        Леонид @leonidlapaeff - Team Lead,
+        Никита @usual_dude - Developer,
+        Николай @DruNik - Developer</string>
+
+    <string name="main_menu_item">Главная</string>
+    <string name="favorite_menu_item">Избранное</string>
+    <string name="command_menu_item">Команда</string>
+    <string name="no_connection">Нет интернета</string>
+
+    <string name="no_such_vacancies">Таких вакансий нет</string>
+
+    <plurals name="items_count">
+        <item quantity="one">Найдена %d вакансия</item>
+        <item quantity="few">Найдено %d вакансии</item>
+        <item quantity="many">Найдено %d вакансий</item>
+        <item quantity="other">Найдено %d вакансий</item>
+    </plurals>
+
+    <string name="vacancy_title">Вакансия</string>
+    <string name="back">Назад</string>
+    <string name="share">Поделиться</string>
+
+    <string name="required_experience">Требуемый опыт</string>
+    <string name="remote_work">Удалённая работа</string>
+
+    <string name="description_section">Описание вакансии</string>
+    <string name="contacts_section">Контакты (кликните, чтобы связаться)</string>
+
+    <string name="call">Позвонить</string>
+    <string name="write_email">Написать email</string>
+
+    <string name="bullet">•</string>
+
+    <string name="schedule">График</string>
+    <string name="skills">Навыки</string>
+    <string name="industry">Отрасль</string>
+    <string name="address">Адрес</string>
+    <string name="description">Описание</string>
+
+    <string name="salary_not_specified">Уровень зарплаты не указан</string>
+    <string name="salary_not_marked">Зарплата не указана</string>
+    <string name="employer_image">employer image</string>
+
+    <string name="error">error</string>
+    <string name="server_error">server error</string>
+ 
 </resources>

@@ -19,7 +19,7 @@ val Typography = Typography(
         fontFamily = YsDisplay,
         fontWeight = FontWeight.Bold,
         fontSize = FontSizeLarge,
-        lineHeight = LineHeightLarge,
+        lineHeight = LineHeightExtraLarge,
         letterSpacing = LetterSpacing
     ),
 
