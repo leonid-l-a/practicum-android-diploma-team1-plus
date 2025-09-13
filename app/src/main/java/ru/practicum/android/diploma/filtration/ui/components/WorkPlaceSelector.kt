@@ -65,7 +65,7 @@ fun WorkPlaceSelector(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FilterItem(
-                labelText = "Страна",
+                labelText = stringResource(R.string.country),
                 checked = false,
                 isMainField = true,
                 onClick = onClick,
@@ -85,7 +85,7 @@ fun WorkPlaceSelector(
                 )
             }
             FilterItem(
-                labelText = "Регион",
+                labelText = stringResource(R.string.region),
                 checked = false,
                 isMainField = true,
                 onClick = onClick,
