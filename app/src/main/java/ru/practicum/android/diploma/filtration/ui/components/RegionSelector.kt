@@ -1,5 +1,8 @@
 package ru.practicum.android.diploma.filtration.ui.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,22 +17,33 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
+import ru.practicum.android.diploma.core.ui.components.SearchBar
+import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
+import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.filtration.domain.model.Region
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegionSelector(
     regions: List<Region>,
-    /** viewModel: AreasViewModel, */
-    onClick: (String) -> Unit
+//    viewModel: AreasViewModel = koinViewModel(),
+    onClick: (String) -> Unit,
+    onSearchHandler: (String) -> Unit,
+    onResetRequest: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -60,33 +74,89 @@ fun RegionSelector(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        Column(
             modifier = Modifier
-                .padding(paddingValues = paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            items(items = regions) {
-                FilterItem(
-                    labelText = it.name,
-                    checked = false,
-                    onClick = onClick
-                ) { checked ->
-                    val resId = if (checked) {
-                        R.drawable.close_24
-                    } else {
-                        R.drawable.arrow_forward_24
+            SearchRegions(
+                modifier = Modifier,
+                onSearchHandler = {
+                    onSearchHandler
+                    // popBackStack
+                },
+                onResetRequest = onResetRequest
+            )
+
+            LazyColumn(
+                modifier = Modifier,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(items = regions) {
+                    FilterItem(
+                        labelText = it.name,
+                        checked = false,
+                        onClick = onClick
+                    ) { checked ->
+                        val resId = if (checked) {
+                            R.drawable.close_24
+                        } else {
+                            R.drawable.arrow_forward_24
+                        }
+                        Icon(
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            painter = painterResource(
+                                id = resId
+                            ),
+                            contentDescription = null
+                        )
                     }
-                    Icon(
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        painter = painterResource(
-                            id = resId
-                        ),
-                        contentDescription = null
-                    )
                 }
             }
         }
     }
+}
+
+@Composable
+fun SearchRegions(
+    modifier: Modifier = Modifier,
+    onSearchHandler: (String) -> Unit = {},
+    onResetRequest: () -> Unit = {}
+) {
+    var text by rememberSaveable { mutableStateOf("") }
+    SearchBar(
+        modifier = modifier,
+        value = text,
+        onValueChange = { newText ->
+            text = newText
+            if (text.isNotEmpty()) {
+                onSearchHandler(text)
+            } else {
+                onResetRequest()
+            }
+        },
+        placeholder = {
+            Text(
+                color = MaterialTheme.colorScheme.onSurface,
+                text = stringResource(R.string.search_region_placeholder),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        },
+        trailingIcon = {
+            val ico = if (text.isEmpty()) R.drawable.ic_search else R.drawable.ic_close
+            Icon(
+                tint = blackUniversal,
+                modifier = Modifier.clickable {
+                    if (text.isNotEmpty()) {
+                        text = ""
+                        onResetRequest()
+                    }
+                },
+                imageVector = ImageVector.vectorResource(id = ico),
+                contentDescription = null
+            )
+        }
+    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -103,5 +173,13 @@ fun RegionSelectorPreview() {
         Region(7, "Невервинтер", 0),
         Region(8, "Священная Терра", 0)
     )
-    RegionSelector(regions = regions, {})
+
+    ApplicationTheme {
+        RegionSelector(
+            regions = regions,
+//            viewModel =  koinViewModel(),
+            onClick = {},
+            onSearchHandler = {},
+            onResetRequest = {})
+    }
 }
