@@ -43,6 +43,51 @@ import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.core.ui.theme.blue
 
 @Composable
+private fun DecorationBox(
+    isFocused: Boolean,
+    topPlaceholder: @Composable ((Color) -> Unit),
+    bottomPlaceholder: @Composable ((Color) -> Unit),
+    trailingIcon: @Composable (() -> Unit)? = null,
+    value: String,
+    innerTextField: @Composable () -> Unit
+) {
+    Row(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .weight(1F).fillMaxHeight()
+        ) {
+            val topLabelColor = if (isFocused) {
+                blue
+            } else if (value.isNotEmpty()) {
+                blackUniversal
+            } else {
+                MaterialTheme.colorScheme.onTertiary
+            }
+            topPlaceholder(topLabelColor)
+            Box(Modifier.fillMaxWidth()) {
+                if (value.isEmpty()) {
+                    val bottomLabelColor = if (value.isNotEmpty() && !isFocused) {
+                        blackUniversal
+                    } else {
+                        MaterialTheme.colorScheme.onTertiary
+                    }
+                    bottomPlaceholder(bottomLabelColor)
+
+                }
+                innerTextField()
+            }
+        }
+        if (value.isNotEmpty() && isFocused) {
+            trailingIcon?.invoke()
+        }
+    }
+}
+
+@Composable
 fun SalaryField(
     value: String,
     onValueChange: (String) -> Unit,
@@ -75,47 +120,21 @@ fun SalaryField(
         cursorBrush = SolidColor(value = blue),
         onValueChange = onValueChange,
         decorationBox = { innerTextField ->
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .weight(1F)
-                        .fillMaxHeight()
-                ) {
-                    val topLabelColor = if (isFocused) {
-                        blue
-                    } else if (value.isNotEmpty()) {
-                        blackUniversal
-                    } else {
-                        MaterialTheme.colorScheme.onTertiary
-                    }
-                    topPlaceholder(topLabelColor)
-                    Box(Modifier.fillMaxWidth()) {
-                        if (value.isEmpty()) {
-                            val bottomLabelColor = if (value.isNotEmpty() && !isFocused) {
-                                blackUniversal
-                            } else {
-                                MaterialTheme.colorScheme.onTertiary
-                            }
-                            bottomPlaceholder(bottomLabelColor)
-
-                        }
-                        innerTextField()
-                    }
-                }
-                if (value.isNotEmpty() && isFocused) {
-                    trailingIcon?.invoke()
-                }
-            }
+            DecorationBox(
+                isFocused = isFocused,
+                topPlaceholder = topPlaceholder,
+                trailingIcon = trailingIcon,
+                bottomPlaceholder = bottomPlaceholder,
+                value = value,
+                innerTextField = innerTextField
+            )
         }
     )
 }
 
 @Preview(
-    showBackground = true, showSystemUi = true,
+    showBackground = true,
+    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
 )
 @Composable
