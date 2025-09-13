@@ -180,6 +180,7 @@ fun RegionSelectorPreview() {
 //            viewModel =  koinViewModel(),
             onClick = {},
             onSearchHandler = {},
-            onResetRequest = {})
+            onResetRequest = {}
+        )
     }
 }
