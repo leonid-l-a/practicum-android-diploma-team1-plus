@@ -3,6 +3,9 @@
     <string name="list_is_empty">Не удалось получить список вакансий</string>
     <string name="search_bar_placeholder">Введите запрос</string>
     <string name="search_title">Поиск вакансий</string>
+    <string name="work_place_title">Выбор места работы</string>
+    <string name="country_selector">Выбор страны</string>
+    <string name="region_selector">Выбор региона</string>
     <string name="favorite_title">Избранное</string>
     <string name="favorites_is_empty">Список пуст</string>
     <string name="favorites_is_error">Не удалось получить\n список вакансий</string>
