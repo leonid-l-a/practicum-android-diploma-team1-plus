@@ -34,7 +34,6 @@ import ru.practicum.android.diploma.core.ui.theme.Height60
 import ru.practicum.android.diploma.core.ui.theme.LineHeightMedium19
 import ru.practicum.android.diploma.core.ui.theme.LineHeightSmall16
 
-
 /**
  * Это реализация поля, используйте его как хотите: в LazyColumn или просто в Column.
  *
@@ -131,8 +130,16 @@ fun FilterItem(
             val fieldParams = when (fieldType) {
                 FilterParams.FIELDTYPE.TEXT -> {
                     Triple(
-                        first = if (isMainField) defaultLabel else MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
-                        second = if (isMainField) defaultColor else MaterialTheme.colorScheme.onBackground,
+                        first = if (isMainField) {
+                            defaultLabel
+                        } else {
+                            MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400)
+                        },
+                        second = if (isMainField) {
+                            defaultColor
+                        } else {
+                            MaterialTheme.colorScheme.onBackground
+                        },
                         third = defaultMaxLines,
                     )
                 }
