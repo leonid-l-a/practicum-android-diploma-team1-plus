@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.core.ui.components
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
