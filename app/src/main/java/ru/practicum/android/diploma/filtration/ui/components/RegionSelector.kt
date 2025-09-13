@@ -114,7 +114,7 @@ fun ShowContent(
 //    val regionState = viewModel.regionsMap.collectAsState()
 
 //    when (regionState) {
-        // Ну тут уж когда сами стейты будут
+    // Ну тут уж когда сами стейты будут
 //    }
 }
 
