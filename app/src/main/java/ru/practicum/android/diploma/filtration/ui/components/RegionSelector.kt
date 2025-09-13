@@ -91,6 +91,7 @@ fun RegionSelector(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RegionSelectorPreview() {
+    @Suppress("MagicNumber")
     val regions = listOf(
         Region(1, "Вайтран", 0),
         Region(2, "Врата Балдура", 0),

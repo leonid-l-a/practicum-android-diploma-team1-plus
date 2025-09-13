@@ -48,8 +48,9 @@ fun CountrySelector(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            // TODO Изменение стейта с прокидыванием значения (типа навигация наша)
-                        }) {
+                            // Изменение стейта с прокидыванием значения (типа навигация наша)
+                        }
+                    ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back)
@@ -91,6 +92,7 @@ fun CountrySelector(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CountryScreenPreview() {
+    @Suppress("MagicNumber")
     val countries = listOf(
         Country(1, "Скайрим"),
         Country(2, "Морровинд"),

@@ -47,8 +47,9 @@ fun WorkPlaceSelector(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            // TODO navController.popBackStack()
-                        }) {
+                            // navController.popBackStack()
+                        }
+                    ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back)
