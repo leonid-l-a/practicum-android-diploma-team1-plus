@@ -28,3 +28,4 @@ val Height24 = 24.dp
 val Height96 = 96.dp
 
 val Height60 = 60.dp
+val Height56 = 56.dp
