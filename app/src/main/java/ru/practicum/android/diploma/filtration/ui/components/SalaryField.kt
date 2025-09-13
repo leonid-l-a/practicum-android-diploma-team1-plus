@@ -58,22 +58,20 @@ private fun DecorationBox(
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .weight(1F).fillMaxHeight()
+                .weight(1F)
+                .fillMaxHeight()
         ) {
-            val topLabelColor = if (isFocused) {
-                blue
-            } else if (value.isNotEmpty()) {
-                blackUniversal
-            } else {
-                MaterialTheme.colorScheme.onTertiary
+            val topLabelColor = when {
+                isFocused -> blue
+                value.isNotEmpty() -> blackUniversal
+                else -> MaterialTheme.colorScheme.onTertiary
             }
             topPlaceholder(topLabelColor)
             Box(Modifier.fillMaxWidth()) {
                 if (value.isEmpty()) {
-                    val bottomLabelColor = if (value.isNotEmpty() && !isFocused) {
-                        blackUniversal
-                    } else {
-                        MaterialTheme.colorScheme.onTertiary
+                    val bottomLabelColor = when {
+                        value.isNotEmpty() && !isFocused -> blackUniversal
+                        else -> MaterialTheme.colorScheme.onTertiary
                     }
                     bottomPlaceholder(bottomLabelColor)
 
