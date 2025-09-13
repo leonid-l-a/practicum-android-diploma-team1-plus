@@ -1,13 +1,12 @@
 package ru.practicum.android.diploma.core.data.repository
 
-
 import ru.practicum.android.diploma.core.data.sharedprefs.AppStorage
 import ru.practicum.android.diploma.core.data.sharedprefs.AppStorage.StorageKey
-import ru.practicum.android.diploma.core.domain.repository.AppStorageRepository
+import ru.practicum.android.diploma.core.domain.repository.AppRepository
 
-class AppStorageRepositoryImpl(
+class AppRepositoryImpl(
     val appStorage: AppStorage
-) : AppStorageRepository {
+) : AppRepository {
 
     override fun saveArea(area: Int) {
         appStorage.saveStorage(StorageKey.AREA_KEY, area)

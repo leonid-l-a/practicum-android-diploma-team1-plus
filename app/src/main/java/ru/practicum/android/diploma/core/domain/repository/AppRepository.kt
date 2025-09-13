@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.core.domain.repository
 
-interface AppStorageRepository {
+interface AppRepository {
     fun saveArea(area: Int)
 
     suspend fun getArea(): String?

@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.core.domain
 
-interface AppStorageInteractor {
+interface AppInteractor {
     fun saveArea(area: Int)
 
     suspend fun getArea(): String?
