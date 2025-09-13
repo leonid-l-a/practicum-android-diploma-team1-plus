@@ -27,7 +27,6 @@ fun FilterButton(
     containerColor: Color = Color.Unspecified,
     onClick: () -> Unit,
 ) {
-
     Button(
         colors = ButtonDefaults.buttonColors(
             contentColor = textColor,
