@@ -1,17 +1,21 @@
 package ru.practicum.android.diploma.core.domain.repository
 
 interface AppRepository {
+
+    fun saveIndustry(industry: Int)
+    fun getIndustry(): String?
+
     fun saveArea(area: Int)
 
-    suspend fun getArea(): String?
+    fun getArea(): String?
 
     fun saveSalary(salary: Int)
 
-    suspend fun getSalary(): String?
+    fun getSalary(): String?
 
     fun saveOnlyWithSalary(onlyWithSalary: Boolean)
 
-    suspend fun getOnlyWithSalary(): String?
+    fun getOnlyWithSalary(): String?
 
-    suspend fun getData(): Map<String, String?>
+    fun getData(): Map<String, String?>
 }

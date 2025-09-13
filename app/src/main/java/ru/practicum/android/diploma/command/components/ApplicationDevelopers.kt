@@ -62,7 +62,8 @@ fun Developers(
 ) {
     val developers = stringResource(R.string.developers)
         .split(",")
-        .map { it.trim()
+        .map {
+            it.trim()
         }
 
     Column(

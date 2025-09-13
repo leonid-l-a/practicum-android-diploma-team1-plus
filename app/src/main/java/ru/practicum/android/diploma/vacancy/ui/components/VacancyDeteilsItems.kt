@@ -74,6 +74,7 @@ fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<S
             .filter { it.isNotEmpty() }
     )
 }
+
 fun createContactItemsList(vacancy: VacancyDetail): List<Triple<String, Boolean?, Boolean>> {
     return listOfNotNull(
         vacancy.contacts.email.takeIf { it.isNotBlank() }?.let { Triple(it, true, true) },

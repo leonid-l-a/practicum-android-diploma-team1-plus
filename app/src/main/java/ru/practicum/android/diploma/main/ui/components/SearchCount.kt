@@ -24,7 +24,8 @@ fun SearchCount(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.height(38.dp)
+        modifier = modifier
+            .height(38.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

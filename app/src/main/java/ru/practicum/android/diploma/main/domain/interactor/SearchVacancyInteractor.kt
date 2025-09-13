@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.main.domain.state.Resource
 interface SearchVacancyInteractor {
     fun searchVacancy(
         expression: String,
-        page: Int
+        page: Int,
+        filterMap: Map<String, String?>
     ): Flow<Resource<VacancyMainData>>
 }

@@ -8,11 +8,19 @@ class AppRepositoryImpl(
     val appStorage: AppStorage
 ) : AppRepository {
 
+    override fun saveIndustry(industry: Int) {
+        appStorage.saveStorage(StorageKey.IDUSTRY, industry)
+    }
+
+    override fun getIndustry(): String? {
+        return appStorage.getStorageByKey(StorageKey.IDUSTRY)
+    }
+
     override fun saveArea(area: Int) {
         appStorage.saveStorage(StorageKey.AREA_KEY, area)
     }
 
-    override suspend fun getArea(): String? {
+    override fun getArea(): String? {
         return appStorage.getStorageByKey(StorageKey.AREA_KEY)
     }
 
@@ -20,7 +28,7 @@ class AppRepositoryImpl(
         appStorage.saveStorage(StorageKey.SALARY_KEY, salary)
     }
 
-    override suspend fun getSalary(): String? {
+    override fun getSalary(): String? {
         return appStorage.getStorageByKey(StorageKey.SALARY_KEY)
     }
 
@@ -28,11 +36,11 @@ class AppRepositoryImpl(
         appStorage.saveStorage(StorageKey.ONLY_WITH_SALARY_KEY, onlyWithSalary)
     }
 
-    override suspend fun getOnlyWithSalary(): String? {
+    override fun getOnlyWithSalary(): String? {
         return appStorage.getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
     }
 
-    override suspend fun getData(): Map<String, String?> {
+    override fun getData(): Map<String, String?> {
         return appStorage.getData()
     }
 }

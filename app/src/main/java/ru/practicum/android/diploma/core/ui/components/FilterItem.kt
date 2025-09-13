@@ -143,6 +143,7 @@ fun FilterItem(
                         third = defaultMaxLines,
                     )
                 }
+
                 FilterParams.FIELDTYPE.CHECK_BOX -> {
                     Triple(
                         first = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
@@ -150,6 +151,7 @@ fun FilterItem(
                         third = FilterParams.ONE_LINE,
                     )
                 }
+
                 FilterParams.FIELDTYPE.RADIO_BUTTON -> {
                     Triple(
                         first = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
