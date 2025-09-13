@@ -48,8 +48,9 @@ fun RegionSelector(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            // TODO Изменение стейта с прокидыванием значения (типа навигация наша)
-                        }) {
+                            // Изменение стейта с прокидыванием значения (типа навигация наша)
+                        }
+                    ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back)
