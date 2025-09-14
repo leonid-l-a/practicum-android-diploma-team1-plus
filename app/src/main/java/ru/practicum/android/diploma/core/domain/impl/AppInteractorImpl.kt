@@ -6,11 +6,19 @@ import ru.practicum.android.diploma.core.domain.repository.AppRepository
 class AppInteractorImpl(
     val appRepository: AppRepository
 ) : AppInteractor {
+    override fun saveIndustry(industry: Int) {
+        appRepository.saveIndustry(industry)
+    }
+
+    override fun getIndustry(): String? {
+        return appRepository.getIndustry()
+    }
+
     override fun saveArea(area: Int) {
         appRepository.saveArea(area)
     }
 
-    override suspend fun getArea(): String? {
+    override fun getArea(): String? {
         return appRepository.getArea()
     }
 
@@ -18,7 +26,7 @@ class AppInteractorImpl(
         appRepository.saveSalary(salary)
     }
 
-    override suspend fun getSalary(): String? {
+    override fun getSalary(): String? {
         return appRepository.getSalary()
     }
 
@@ -26,11 +34,11 @@ class AppInteractorImpl(
         appRepository.saveOnlyWithSalary(onlyWithSalary)
     }
 
-    override suspend fun getOnlyWithSalary(): String? {
+    override fun getOnlyWithSalary(): String? {
         return appRepository.getOnlyWithSalary()
     }
 
-    override suspend fun getData(): Map<String, String?> {
+    override fun getData(): Map<String, String?> {
         return appRepository.getData()
     }
 }

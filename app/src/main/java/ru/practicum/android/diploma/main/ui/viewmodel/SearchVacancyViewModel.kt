@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import ru.practicum.android.diploma.core.domain.AppInteractor
 import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
@@ -15,13 +16,15 @@ import ru.practicum.android.diploma.util.DebounceUtil
 
 class SearchVacancyViewModel(
 
-    val searchVacancyInteractor: SearchVacancyInteractor
+    val searchVacancyInteractor: SearchVacancyInteractor,
+    val appInteractor: AppInteractor
 
 ) : ViewModel() {
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
+
     private var currentPage = 1
     private var maxPages = 0
     private var isClickAllowed = true
@@ -39,6 +42,10 @@ class SearchVacancyViewModel(
         maxPages = 0
     }
 
+    fun getData(): Map<String, String?> {
+        return appInteractor.getData()
+    }
+
     private fun searchVacancy(expression: String, isLazyLoad: Boolean = false) {
         if (expression.isNotEmpty()) {
             if (!isLazyLoad) {
@@ -54,8 +61,10 @@ class SearchVacancyViewModel(
                     )
                 )
             }
+
             debounce.invoke {
-                searchVacancyInteractor.searchVacancy(expression, currentPage)
+                val filter: Map<String, String?> = getData()
+                searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
                     .collect { vacancy ->
                         searchState(vacancy)
                     }
