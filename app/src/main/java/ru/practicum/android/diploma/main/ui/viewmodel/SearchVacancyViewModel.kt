@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
-import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
