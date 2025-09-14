@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
 import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 import ru.practicum.android.diploma.main.data.model.VacancyMainData
@@ -32,6 +33,17 @@ class SearchVacancyViewModel(
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
 
+    private val _stateSearchFilter = MutableStateFlow<Map<String, String?>>(value = emptyMap())
+    val stateSearchFilter = _stateSearchVacancy.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            appInteractor.getAllData().collect { data ->
+                _stateSearchFilter.value = data
+            }
+        }
+    }
+
     val debounce = DebounceUtil(
         delayMillis = SEARCH_DEBOUNCE_DELAY,
         coroutineScope = viewModelScope
@@ -40,10 +52,6 @@ class SearchVacancyViewModel(
     private fun resetPages() {
         currentPage = 1
         maxPages = 0
-    }
-
-    fun getData(): Map<String, String?> {
-        return appInteractor.getData()
     }
 
     private fun searchVacancy(expression: String, isLazyLoad: Boolean = false) {
@@ -63,7 +71,7 @@ class SearchVacancyViewModel(
             }
 
             debounce.invoke {
-                val filter: Map<String, String?> = getData()
+                val filter: Map<String, String?> = _stateSearchFilter.value
                 searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
                     .collect { vacancy ->
                         searchState(vacancy)

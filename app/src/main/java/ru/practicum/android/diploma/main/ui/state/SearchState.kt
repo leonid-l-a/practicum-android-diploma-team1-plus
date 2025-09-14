@@ -17,5 +17,4 @@ sealed class SearchState {
     object Error : SearchState()
 
     data object Default : SearchState()
-
 }
