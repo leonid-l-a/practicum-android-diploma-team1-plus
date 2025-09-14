@@ -16,11 +16,15 @@ import ru.practicum.android.diploma.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(modifier: Modifier = Modifier, onBackNavigate: () -> Unit) {
+fun TopBar(
+    text: String,
+    modifier: Modifier = Modifier,
+    onBackNavigate: () -> Unit
+) {
     TopAppBar(
         title = {
             Text(
-                stringResource(R.string.filter_settings),
+                text,
                 style = MaterialTheme.typography.headlineMedium,
             )
         },

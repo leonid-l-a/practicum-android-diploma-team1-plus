@@ -12,6 +12,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.navigation.Screen
 import ru.practicum.android.diploma.core.ui.components.FilterButton
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 import ru.practicum.android.diploma.core.ui.components.FilterParams
@@ -44,23 +46,27 @@ import ru.practicum.android.diploma.filtration.ui.components.TopBar
 
 @Composable
 fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController? = null) {
-    Column(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        TopBar(
-            onBackNavigate = {
-                navController?.popBackStack()
-            }
-        )
+    Scaffold(
+        topBar = {
+            TopBar(
+                text = stringResource(R.string.filter_settings),
+                onBackNavigate = {
+                    navController?.popBackStack()
+                }
+            )
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = WrapperPaddingVertical16),
+                .padding(paddingValues),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             var salaryText by remember { mutableStateOf("") }
             var showSalary by remember { mutableStateOf(false) }
-            Column {
+            Column(
+                modifier = Modifier.padding(top = WrapperPaddingVertical16)
+            ) {
                 FilterItem(
                     labelText = stringResource(R.string.work_place),
                     isMainField = true,
@@ -81,6 +87,9 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
                 FilterItem(
                     labelText = stringResource(R.string.industry),
                     isMainField = true,
+                    onClick = {
+                        navController?.navigate(Screen.IndustrySelection.route)
+                    }
                 ) { checked ->
                     val resId = if (checked) {
                         R.drawable.close_24
@@ -136,8 +145,10 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
 
                 FilterItem(
                     labelText = stringResource(R.string.industry),
-                    checked = false,
-                    fieldType = FilterParams.FIELDTYPE.CHECK_BOX
+                    checked = showSalary,
+                    isMainField = true,
+                    fieldType = FilterParams.FIELDTYPE.CHECK_BOX,
+                    onToggle = { showSalary = it }
                 ) { checked ->
                     Checkbox(
                         colors = CheckboxDefaults.colors(
@@ -145,7 +156,7 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
                             checkedColor = blue,
                             checkmarkColor = MaterialTheme.colorScheme.background
                         ),
-                        checked = showSalary,
+                        checked = checked,
                         onCheckedChange = {
                             showSalary = it
                         },
@@ -180,6 +191,12 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
                 )
             }
         }
+    }
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+
+
     }
 }
 

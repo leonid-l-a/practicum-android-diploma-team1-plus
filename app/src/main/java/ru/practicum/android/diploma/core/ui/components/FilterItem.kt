@@ -35,7 +35,7 @@ import ru.practicum.android.diploma.core.ui.theme.LineHeightMedium19
 import ru.practicum.android.diploma.core.ui.theme.LineHeightSmall16
 
 /**
- * Это реализация поля, используйте его как хотите: в LazyColumn или просто в Column.
+ * Это реализация поля FilterItem, используйте его как хотите: в LazyColumn или просто в Column.
  *
  * 1.У каждого экрана фильтра есть поля, которые можно сбросить, так вот это поля, которые имют isMainField = true
  * Остальные поля нельзя сбросить, по ним можно чисто кликнуть для навигации или какого-то другого действия (checkbox, radiobutton).
@@ -101,6 +101,30 @@ private fun DrawContent(
 }
 
 @Composable
+private fun Modifier.handleClick(
+    fieldType: FilterParams.FIELDTYPE,
+    checked: Boolean,
+    idValue: String = "",
+    onClick: ((String) -> Unit)? = null,
+    onToggle: ((Boolean) -> Unit)? = null,
+): Modifier {
+    return if (fieldType == FilterParams.FIELDTYPE.RADIO_BUTTON) {
+        this
+    } else {
+        this
+            .clickable {
+                if (fieldType == FilterParams.FIELDTYPE.CHECK_BOX) {
+                    onToggle?.invoke(!checked)
+                } else if (fieldType == FilterParams.FIELDTYPE.TEXT) {
+                    if (!checked) {
+                        onClick?.invoke(idValue)
+                    }
+                }
+            }
+    }
+}
+
+@Composable
 fun FilterItem(
     labelText: String,
     modifier: Modifier = Modifier,
@@ -110,6 +134,7 @@ fun FilterItem(
     checked: Boolean = false,
     onClick: ((String) -> Unit)? = null,
     onClear: (() -> Unit)? = null,
+    onToggle: ((Boolean) -> Unit)? = null,
     fieldType: FilterParams.FIELDTYPE = FilterParams.FIELDTYPE.TEXT,
     content: @Composable (checked: Boolean) -> Unit
 ) {
@@ -160,9 +185,15 @@ fun FilterItem(
                     )
                 }
             }
+            val modifierClick = Modifier.handleClick(
+                fieldType = fieldType,
+                checked = checked,
+                onToggle = onToggle,
+                onClick = onClick,
+                idValue = idValue
+            )
             Column(
-                modifier = Modifier
-                    .padding(vertical = 6.dp)
+                modifier = modifierClick
                     .fillMaxHeight()
                     .weight(1F),
                 verticalArrangement = Arrangement.Center
