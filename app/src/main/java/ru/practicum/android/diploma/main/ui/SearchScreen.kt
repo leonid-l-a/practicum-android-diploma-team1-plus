@@ -33,12 +33,12 @@ import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.navigation.Screen
+import ru.practicum.android.diploma.core.ui.components.SearchBar
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.main.ui.components.CircularIndicator
 import ru.practicum.android.diploma.main.ui.components.ErrorResult
-import ru.practicum.android.diploma.core.ui.components.SearchBar
 import ru.practicum.android.diploma.main.ui.components.SearchCount
 import ru.practicum.android.diploma.main.ui.components.ShowVacancyList
 import ru.practicum.android.diploma.main.ui.components.VacancyAppBar
