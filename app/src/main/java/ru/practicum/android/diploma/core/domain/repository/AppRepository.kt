@@ -1,21 +1,12 @@
 package ru.practicum.android.diploma.core.domain.repository
 
+import kotlinx.coroutines.flow.Flow
+
 interface AppRepository {
 
-    fun saveIndustry(industry: Int)
-    fun getIndustry(): String?
+    fun <T : Any> saveData(key: StorageKey, data: T)
 
-    fun saveArea(area: Int)
+    suspend fun getData(key: StorageKey): String?
 
-    fun getArea(): String?
-
-    fun saveSalary(salary: Int)
-
-    fun getSalary(): String?
-
-    fun saveOnlyWithSalary(onlyWithSalary: Boolean)
-
-    fun getOnlyWithSalary(): String?
-
-    fun getData(): Map<String, String?>
+    suspend fun getAllData(): Flow<Map<String, String?>>
 }

@@ -1,46 +1,23 @@
 package ru.practicum.android.diploma.core.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.core.data.sharedprefs.AppStorage
-import ru.practicum.android.diploma.core.data.sharedprefs.AppStorage.StorageKey
 import ru.practicum.android.diploma.core.domain.repository.AppRepository
+import ru.practicum.android.diploma.core.domain.repository.StorageKey
 
 class AppRepositoryImpl(
     val appStorage: AppStorage
 ) : AppRepository {
 
-    override fun saveIndustry(industry: Int) {
-        appStorage.saveStorage(StorageKey.IDUSTRY, industry)
+    override fun <T : Any> saveData(key: StorageKey, data: T) {
+        appStorage.saveStorage(key, data)
     }
 
-    override fun getIndustry(): String? {
-        return appStorage.getStorageByKey(StorageKey.IDUSTRY)
+    override suspend fun getData(key: StorageKey): String? {
+        return appStorage.getStorageByKey(key)
     }
 
-    override fun saveArea(area: Int) {
-        appStorage.saveStorage(StorageKey.AREA_KEY, area)
-    }
-
-    override fun getArea(): String? {
-        return appStorage.getStorageByKey(StorageKey.AREA_KEY)
-    }
-
-    override fun saveSalary(salary: Int) {
-        appStorage.saveStorage(StorageKey.SALARY_KEY, salary)
-    }
-
-    override fun getSalary(): String? {
-        return appStorage.getStorageByKey(StorageKey.SALARY_KEY)
-    }
-
-    override fun saveOnlyWithSalary(onlyWithSalary: Boolean) {
-        appStorage.saveStorage(StorageKey.ONLY_WITH_SALARY_KEY, onlyWithSalary)
-    }
-
-    override fun getOnlyWithSalary(): String? {
-        return appStorage.getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
-    }
-
-    override fun getData(): Map<String, String?> {
+    override suspend fun getAllData(): Flow<Map<String, String?>> {
         return appStorage.getData()
     }
 }

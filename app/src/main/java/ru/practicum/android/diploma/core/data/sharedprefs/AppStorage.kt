@@ -2,33 +2,34 @@ package ru.practicum.android.diploma.core.data.sharedprefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import ru.practicum.android.diploma.core.domain.repository.StorageKey
 
 class AppStorage(
     val sharedPrefs: SharedPreferences,
 ) {
-
-    enum class StorageKey(val key: String) {
-        AREA_KEY("area_key"),
-        SALARY_KEY("salary_key"),
-        IDUSTRY("industry_key"),
-        ONLY_WITH_SALARY_KEY("only_with_salary_key")
-    }
-
     fun <T : Any> saveStorage(key: StorageKey, data: T) {
         clearStorageByKey(key.key)
         saveStorageByKey(key.key, data.toString())
     }
 
-    fun getStorageByKey(key: StorageKey): String? {
+    suspend fun getStorageByKey(key: StorageKey): String? {
         return sharedPrefs.getString(key.key, null)
     }
 
-    fun getData(): Map<String, String?> {
-        return mapOf(
-            "area" to getStorageByKey(StorageKey.AREA_KEY),
-            "salary" to getStorageByKey(StorageKey.SALARY_KEY),
-            "onlyWithSalary" to getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY),
-            "industry" to getStorageByKey(StorageKey.IDUSTRY),
+    fun getData(): Flow<Map<String, String?>> = flow {
+        val area = getStorageByKey(StorageKey.AREA_KEY)
+        val salary = getStorageByKey(StorageKey.SALARY_KEY)
+        val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
+        val industry = getStorageByKey(StorageKey.INDUSTRY)
+        emit(
+            mapOf(
+                "area" to area,
+                "salary" to salary,
+                "onlyWithSalary" to onlyWithSalary,
+                "industry" to industry,
+            )
         )
     }
 
