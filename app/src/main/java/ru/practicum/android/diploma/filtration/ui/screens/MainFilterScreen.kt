@@ -192,12 +192,6 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
             }
         }
     }
-    Column(
-        modifier = modifier.fillMaxWidth()
-    ) {
-
-
-    }
 }
 
 @Preview(showSystemUi = true, showBackground = true)

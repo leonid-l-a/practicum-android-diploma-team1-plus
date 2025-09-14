@@ -110,7 +110,6 @@ private fun ShowItems(
     onSelectionChanged: (Industry?) -> Unit,
     industryItems: List<Industry>,
 ) {
-    //val (selectedOption, onOptionSelected) = remember { mutableStateOf(industryItems[0]) }
     Column {
         LazyColumn(
             modifier = modifier
