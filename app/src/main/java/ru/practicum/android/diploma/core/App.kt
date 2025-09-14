@@ -46,7 +46,7 @@ class App : Application() {
                 favoriteRepositoryModule,
                 filtrationDataModule,
                 filtrationInteractorModule,
-                filtrationViewModelModule
+                filtrationViewModelModule,
             )
         }
     }
