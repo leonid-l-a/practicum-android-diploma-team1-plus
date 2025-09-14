@@ -12,6 +12,7 @@ import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.command.CommandScreen
 import ru.practicum.android.diploma.favorites.ui.FavoritesScreen
 import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesViewModel
+import ru.practicum.android.diploma.filtration.ui.screens.IndustryFilterScreen
 import ru.practicum.android.diploma.filtration.ui.screens.MainFilterScreen
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
@@ -64,6 +65,8 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable(Screen.Placement.route) { Text("Placement Screen") }
         composable(Screen.CountrySelection.route) { Text("Country Selection Screen") }
         composable(Screen.RegionSelection.route) { Text("Region Selection Screen") }
-        composable(Screen.IndustrySelection.route) { Text("Industry Selection Screen") }
+        composable(Screen.IndustrySelection.route) {
+            IndustryFilterScreen(navController = navController)
+        }
     }
 }
