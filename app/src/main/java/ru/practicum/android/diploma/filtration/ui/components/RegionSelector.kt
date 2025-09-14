@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filtration.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,23 +22,19 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
-import ru.practicum.android.diploma.core.ui.components.SearchBar
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
-import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.filtration.domain.model.Region
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +46,7 @@ fun RegionSelector(
     onSearchHandler: (String) -> Unit,
     onResetRequest: () -> Unit = {}
 ) {
+    var text by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -85,13 +81,14 @@ fun RegionSelector(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            SearchRegions(
+            SearchFilterItems(
+                text = text,
                 modifier = Modifier,
                 onSearchHandler = {
                     onSearchHandler
                     // popBackStack
                 },
-                onResetRequest = onResetRequest
+                onResetRequest = {}
             )
 
             ShowContent(
@@ -206,48 +203,6 @@ fun ShowRegions(
             }
         }
     }
-}
-
-@Composable
-fun SearchRegions(
-    modifier: Modifier = Modifier,
-    onSearchHandler: (String) -> Unit = {},
-    onResetRequest: () -> Unit = {}
-) {
-    var text by rememberSaveable { mutableStateOf("") }
-    SearchBar(
-        modifier = modifier,
-        value = text,
-        onValueChange = { newText ->
-            text = newText
-            if (text.isNotEmpty()) {
-                onSearchHandler(text)
-            } else {
-                onResetRequest()
-            }
-        },
-        placeholder = {
-            Text(
-                color = MaterialTheme.colorScheme.onSurface,
-                text = stringResource(R.string.search_region_placeholder),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        },
-        trailingIcon = {
-            val ico = if (text.isEmpty()) R.drawable.ic_search else R.drawable.ic_close
-            Icon(
-                tint = blackUniversal,
-                modifier = Modifier.clickable {
-                    if (text.isNotEmpty()) {
-                        text = ""
-                        onResetRequest()
-                    }
-                },
-                imageVector = ImageVector.vectorResource(id = ico),
-                contentDescription = null
-            )
-        }
-    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)
