@@ -38,8 +38,6 @@ class SearchVacancyViewModel(
     val stateSearchFilter = _stateSearchVacancy.asStateFlow()
 
     init {
-        appInteractor.saveData(StorageKey.AREA_KEY, data = 1)
-        appInteractor.saveData(StorageKey.INDUSTRY, data = 7)
         viewModelScope.launch {
             appInteractor.getAllData().collect { data ->
                 _stateSearchFilter.value = data
