@@ -12,6 +12,7 @@ import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.command.CommandScreen
 import ru.practicum.android.diploma.favorites.ui.FavoritesScreen
 import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesViewModel
+import ru.practicum.android.diploma.filtration.ui.screens.MainFilterScreen
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 import ru.practicum.android.diploma.vacancy.ui.components.VacancyScreen
@@ -29,7 +30,8 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             val vm = koinViewModel<SearchVacancyViewModel>()
             SearchScreen(
                 modifier = Modifier,
-                viewModel = vm
+                viewModel = vm,
+                navController = navController
             ) { vacancyId ->
                 if (vm.clickDebounce()) {
                     navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
@@ -56,7 +58,9 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             val viewModel: VacancyViewModel = koinViewModel()
             VacancyScreen(viewModel = viewModel, navController = navController)
         }
-        composable(Screen.Filtration.route) { Text("Filtration Screen") }
+        composable(Screen.Filtration.route) {
+            MainFilterScreen(navController = navController)
+        }
         composable(Screen.Placement.route) { Text("Placement Screen") }
         composable(Screen.CountrySelection.route) { Text("Country Selection Screen") }
         composable(Screen.RegionSelection.route) { Text("Region Selection Screen") }

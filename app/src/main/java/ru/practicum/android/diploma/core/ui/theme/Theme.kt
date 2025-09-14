@@ -17,6 +17,8 @@ private val DarkTheme = darkColorScheme(
     secondary = red,
     onSecondary = whiteUniversal,
 
+    onTertiary = whiteUniversal,
+
     surface = gray,
     onSurface = whiteUniversal,
 )
@@ -31,6 +33,8 @@ private val LightTheme = lightColorScheme(
 
     secondary = red,
     onSecondary = whiteUniversal,
+
+    onTertiary = gray,
 
     surface = lightGray,
     onSurface = blackUniversal,
