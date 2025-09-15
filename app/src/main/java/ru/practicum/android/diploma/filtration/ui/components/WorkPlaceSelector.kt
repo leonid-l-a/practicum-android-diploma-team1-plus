@@ -25,8 +25,8 @@ import ru.practicum.android.diploma.core.ui.components.FilterItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkPlaceSelector(
-    onClick: (String) -> Unit,
-    onClear: () -> Unit,
+    onCountryClick: (String) -> Unit,
+    onRegionClick: (String) -> Unit,
     /** viewModel: AreasViewModel,
      *  navController: NavController */
 ) {
@@ -68,8 +68,7 @@ fun WorkPlaceSelector(
                 labelText = stringResource(R.string.country),
                 checked = false,
                 isMainField = true,
-                onClick = onClick,
-                onClear = onClear
+                onClick = onCountryClick,
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
@@ -88,8 +87,7 @@ fun WorkPlaceSelector(
                 labelText = stringResource(R.string.region),
                 checked = false,
                 isMainField = true,
-                onClick = onClick,
-                onClear = onClear
+                onClick = onRegionClick,
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
