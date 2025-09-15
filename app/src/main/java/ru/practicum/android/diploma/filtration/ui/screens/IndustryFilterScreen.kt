@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.filtration.ui.screens
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +27,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.ui.components.CircularIndicator
 import ru.practicum.android.diploma.core.ui.components.ErrorResult
 import ru.practicum.android.diploma.core.ui.components.FilterButton
 import ru.practicum.android.diploma.core.ui.components.FilterItem
@@ -89,7 +92,7 @@ private fun ShowContent(
     var selectedValue by remember { mutableStateOf(selectedIndustry) }
     when (industryState) {
         is IndustryState.Idle -> {}
-        is IndustryState.Loading -> {}
+        is IndustryState.Loading -> CircularIndicator()
         is IndustryState.Content -> {
             ShowItems(
                 selectedValue = selectedValue,
@@ -98,7 +101,18 @@ private fun ShowContent(
             )
         }
 
-        is IndustryState.EmptyResult -> ShowError()
+        is IndustryState.EmptyResult -> ShowError(
+            textRes = R.string.choose_industry_not_exist,
+            painterRes = R.drawable.favorites_error
+        )
+        is IndustryState.ClientError -> ShowError(
+            textRes = R.string.no_connection,
+            painterRes = R.drawable.no_connection
+        )
+        is IndustryState.ServerError -> ShowError(
+            textRes = R.string.server_error_text,
+            painterRes = R.drawable.ph_server_error_vacancy_screen
+        )
     }
 
 }
@@ -158,10 +172,12 @@ private fun ShowItems(
 
 @Composable
 private fun ShowError(
+    @StringRes textRes: Int,
+    @DrawableRes painterRes: Int,
     modifier: Modifier = Modifier,
 ) {
     ErrorResult(
-        textRes = R.string.choose_industry_not_exist,
-        painterRes = R.drawable.favorites_error
+        textRes = textRes,
+        painterRes = painterRes
     )
 }

@@ -12,6 +12,10 @@ val filtrationDataModule = module {
     }
 
     single<IndustriesRepository> {
-        IndustriesRepositoryImpl(get())
+        IndustriesRepositoryImpl(
+            networkUtil = get(),
+            context = get(),
+            networkClient = get()
+        )
     }
 }

@@ -6,5 +6,7 @@ sealed class IndustryState {
     object Idle : IndustryState()
     object Loading : IndustryState()
     object EmptyResult : IndustryState()
+    object ClientError : IndustryState()
+    object ServerError : IndustryState()
     data class Content(val items: List<Industry>) : IndustryState()
 }
