@@ -19,16 +19,16 @@ class AppStorage(
     }
 
     fun getData(): Flow<Map<String, String?>> = flow {
-        val area = getStorageByKey(StorageKey.AREA_KEY)
-        val salary = getStorageByKey(StorageKey.SALARY_KEY)
+        val area = getStorageByKey(StorageKey.AREA_ID_KEY)
+        val salary = getStorageByKey(StorageKey.SALARY_ID_KEY)
         val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
-        val industry = getStorageByKey(StorageKey.INDUSTRY)
+        val industry = getStorageByKey(StorageKey.INDUSTRY_ID_KEY)
         emit(
             mapOf(
-                "area" to area,
-                "salary" to salary,
-                "onlyWithSalary" to onlyWithSalary,
-                "industry" to industry,
+                StorageKey.AREA_ID_KEY.key to area,
+                StorageKey.SALARY_ID_KEY.key to salary,
+                StorageKey.ONLY_WITH_SALARY_KEY.key to onlyWithSalary,
+                StorageKey.INDUSTRY_ID_KEY.key to industry,
             )
         )
     }
@@ -44,6 +44,13 @@ class AppStorage(
         sharedPrefs
             .edit {
                 remove(key)
+            }
+    }
+
+    fun clearStorage(){
+        sharedPrefs
+            .edit{
+                clear()
             }
     }
 }
