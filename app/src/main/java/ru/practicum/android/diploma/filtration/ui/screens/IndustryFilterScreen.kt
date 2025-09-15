@@ -41,12 +41,13 @@ import ru.practicum.android.diploma.filtration.ui.components.TopBar
 import ru.practicum.android.diploma.filtration.ui.model.data.Industry
 import ru.practicum.android.diploma.filtration.ui.state.IndustryState
 import ru.practicum.android.diploma.filtration.ui.viewmodel.IndustryViewModel
+import ru.practicum.android.diploma.filtration.ui.viewmodel.MainFilterViewModel
 
 @Composable
 fun IndustryFilterScreen(
     modifier: Modifier = Modifier,
     navController: NavController? = null,
-    vm: IndustryViewModel = koinViewModel()
+    industryVm: IndustryViewModel = koinViewModel(),
 ) {
     Scaffold(
         topBar = {
@@ -68,15 +69,16 @@ fun IndustryFilterScreen(
                 text = text,
                 onSearchHandler = {
                     text = it
-                    vm.filerItems(text)
+                    industryVm.filerItems(text)
                 },
                 onResetRequest = {
                     text = ""
-                    vm.filerItems(text)
+                    industryVm.filerItems(text)
                 }
             )
             ShowContent(
-                vm = vm,
+                industryVm = industryVm,
+                navController = navController
             )
         }
     }
@@ -85,10 +87,11 @@ fun IndustryFilterScreen(
 @Composable
 private fun ShowContent(
     modifier: Modifier = Modifier,
-    vm: IndustryViewModel = koinViewModel(),
+    industryVm: IndustryViewModel = koinViewModel(),
+    navController: NavController? = null,
     selectedIndustry: Industry? = null
 ) {
-    val industryState by vm.industryState.collectAsState()
+    val industryState by industryVm.industryState.collectAsState()
     var selectedValue by remember { mutableStateOf(selectedIndustry) }
     when (industryState) {
         is IndustryState.Idle -> {}
@@ -97,7 +100,8 @@ private fun ShowContent(
             ShowItems(
                 selectedValue = selectedValue,
                 industryItems = (industryState as IndustryState.Content).items,
-                onSelectionChanged = { selectedValue = it }
+                onSelectionChanged = { selectedValue = it },
+                navController = navController
             )
         }
 
@@ -119,10 +123,13 @@ private fun ShowContent(
 
 @Composable
 private fun ShowItems(
-    modifier: Modifier = Modifier,
-    selectedValue: Industry? = null,
     onSelectionChanged: (Industry?) -> Unit,
     industryItems: List<Industry>,
+    modifier: Modifier = Modifier,
+    industryVm: IndustryViewModel = koinViewModel(),
+    mainFilterViewModel: MainFilterViewModel = koinViewModel(),
+    navController: NavController? = null,
+    selectedValue: Industry? = null,
 ) {
     Column {
         LazyColumn(
@@ -164,7 +171,10 @@ private fun ShowItems(
                     .fillMaxWidth(),
 
                 textButton = stringResource(R.string.filter_add),
-                onClick = {}
+                onClick = {
+                    mainFilterViewModel.saveIndustry(industry = selectedValue)
+                    navController?.popBackStack()
+                }
             )
         }
     }

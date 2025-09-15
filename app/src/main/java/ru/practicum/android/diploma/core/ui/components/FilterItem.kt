@@ -219,13 +219,11 @@ fun FilterItem(
                 }
             }
             DrawContent(
-                modifier = Modifier.apply {
-                    clickable {
-                        if (checked) {
-                            onClear?.invoke()
-                        } else {
-                            onClick?.invoke(idValue)
-                        }
+                modifier = Modifier.clickable {
+                    if (checked) {
+                        onClear?.invoke()
+                    } else {
+                        onClick?.invoke(idValue)
                     }
                 },
                 checked = checked,
