@@ -47,9 +47,9 @@ class AppStorage(
             }
     }
 
-    fun clearStorage(){
+    fun clearStorage() {
         sharedPrefs
-            .edit{
+            .edit {
                 clear()
             }
     }
