@@ -20,4 +20,8 @@ class AppRepositoryImpl(
     override suspend fun getAllData(): Flow<Map<String, String?>> {
         return appStorage.getData()
     }
+
+    override fun clearStorage() {
+        appStorage.clearStorage()
+    }
 }

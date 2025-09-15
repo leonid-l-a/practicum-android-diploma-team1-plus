@@ -20,4 +20,8 @@ class AppInteractorImpl(
     override suspend fun getAllData(): Flow<Map<String, String?>> {
         return appRepository.getAllData()
     }
+
+    override fun clearStorage() {
+        appRepository.clearStorage()
+    }
 }

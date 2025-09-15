@@ -9,4 +9,6 @@ interface AppRepository {
     suspend fun getData(key: StorageKey): String?
 
     suspend fun getAllData(): Flow<Map<String, String?>>
+
+    fun clearStorage()
 }
