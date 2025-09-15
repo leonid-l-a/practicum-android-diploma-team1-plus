@@ -9,8 +9,9 @@ class AreaRepositoryImplementation(
     private val vacancyNetworkClient: VacancyNetworkClient,
 ) : AreaRepository {
     override suspend fun getAreas(): Result<FilterAreasResponse> {
+        val successResponseCode = 200
         val response = vacancyNetworkClient.getFilterAreas()
-        return if (response.resultCode == 200) {
+        return if (response.resultCode == successResponseCode) {
             Result.Success(response)
         } else {
             Result.Error("Ошибка сети (код: ${response.resultCode})")

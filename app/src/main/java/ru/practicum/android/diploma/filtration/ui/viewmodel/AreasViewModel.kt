@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filtration.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -22,8 +23,6 @@ class AreasViewModel(
 
     private var cachedCountries: List<Country> = emptyList()
     private var cachedRegionsMap: Map<Int, List<Region>> = emptyMap()
-
-
     private var loadJob: Job? = null
 
     init {
@@ -60,6 +59,8 @@ class AreasViewModel(
                 }
             } catch (e: IOException) {
                 setLoading(false)
+                Log.e("AreasViewModel", "Error loading areas", e)
+
             }
         }
     }
@@ -93,14 +94,21 @@ class AreasViewModel(
     }
 
     fun selectCountry(country: Country) {
-        _screenState.value = AreasScreenState.Main(isLoading = false, selectedCountry = country)
+        _screenState.value = AreasScreenState.Main(
+            isLoading = false,
+            selectedCountry = country
+        )
         // тут сохранить в префсы
     }
 
     fun selectRegion(region: Region) {
         val country = cachedCountries.find { it.id == region.countryId }
         // И тут тоже
-        _screenState.value = AreasScreenState.Main(isLoading = false, selectedRegion = region, selectedCountry = country)
+        _screenState.value = AreasScreenState.Main(
+            isLoading = false,
+            selectedRegion = region,
+            selectedCountry = country
+        )
     }
 
     fun searchRegions(query: String) {
