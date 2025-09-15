@@ -6,20 +6,22 @@ import ru.practicum.android.diploma.filtration.domain.model.Region
 sealed class AreasScreenState {
     data class Main(
         val selectedCountry: Country? = null,
-        val selectedRegion: Region? = null,
-        val isLoading: Boolean = true
+        val selectedRegion: Region? = null
     ) : AreasScreenState()
 
     data class CountrySelection(
-        val countries: List<Country> = emptyList(),
+        val countries: List<Country>,
     ) : AreasScreenState()
 
+    object CountryErrorState : AreasScreenState()
+
     data class RegionSelection(
-        val countryId: Int,
-        val allRegions: List<Region> = emptyList(),
-        val filteredRegions: List<Region> = emptyList(),
-        val searchQuery: String = "",
-        val hasError: Boolean = false,
-        val noResults: Boolean = false
+        val countryId: Int? = null,
+        val regions: List<Region>,
+        val searchQuery: String = ""
     ) : AreasScreenState()
+
+    object RegionErrorState : AreasScreenState()
+
+    object RegionEmptyState : AreasScreenState()
 }

@@ -1,5 +1,8 @@
 package ru.practicum.android.diploma.filtration.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 import ru.practicum.android.diploma.filtration.domain.model.Country
@@ -48,7 +53,7 @@ fun CountrySelector(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            // Изменение стейта с прокидыванием значения (типа навигация наша)
+                             viewModel.goToWorkPlaceScreen()
                         }
                     ) {
                         Icon(
@@ -60,31 +65,59 @@ fun CountrySelector(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues = paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            items(countries) {
-                FilterItem(
-                    labelText = it.name,
-                    checked = false,
-                    onClick = onClick
-                ) { checked ->
-                    val resId = if (checked) {
-                        R.drawable.close_24
-                    } else {
-                        R.drawable.arrow_forward_24
+        if (countries.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(paddingValues = paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(countries) {
+                    FilterItem(
+                        labelText = it.name,
+                        checked = false,
+                        onClick = onClick
+                    ) { checked ->
+                        val resId = if (checked) {
+                            R.drawable.close_24
+                        } else {
+                            R.drawable.arrow_forward_24
+                        }
+                        Icon(
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            painter = painterResource(
+                                id = resId
+                            ),
+                            contentDescription = null
+                        )
                     }
-                    Icon(
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        painter = painterResource(
-                            id = resId
-                        ),
-                        contentDescription = null
-                    )
                 }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                ShowErrorRegion()
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun CountryScreenPreview() {
+    @Suppress("MagicNumber")
+    val countries = listOf(
+        Country(1, "Скайрим"),
+        Country(2, "Морровинд"),
+        Country(3, "Побережье мечей"),
+        Country(4, "Альянс"),
+        Country(5, "Орда"),
+        Country(6, "Империум человечества"),
+        Country(7, "Вестерос"),
+        Country(8, "Эссос")
+    )
+    CountrySelector(countries = countries, koinViewModel(), {})
 }

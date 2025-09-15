@@ -19,16 +19,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
+import ru.practicum.android.diploma.filtration.ui.viewmodel.AreasViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkPlaceSelector(
-    onCountryClick: (String) -> Unit,
-    onRegionClick: (String) -> Unit,
-    /** viewModel: AreasViewModel,
-     *  navController: NavController */
+    onCountryClick: () -> Unit,
+    onRegionClick: () -> Unit,
+    viewModel: AreasViewModel,
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
@@ -47,7 +49,7 @@ fun WorkPlaceSelector(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            // navController.popBackStack()
+                            navController.popBackStack()
                         }
                     ) {
                         Icon(
@@ -68,7 +70,8 @@ fun WorkPlaceSelector(
                 labelText = stringResource(R.string.country),
                 checked = false,
                 isMainField = true,
-                onClick = onCountryClick,
+                onClick = { onCountryClick },
+                onClear = {  }
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
@@ -87,7 +90,8 @@ fun WorkPlaceSelector(
                 labelText = stringResource(R.string.region),
                 checked = false,
                 isMainField = true,
-                onClick = onRegionClick,
+                onClick = { onRegionClick },
+                onClear = {  }
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
@@ -104,10 +108,4 @@ fun WorkPlaceSelector(
             }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun WorkPlaceScreenPreview() {
-    WorkPlaceSelector({}, {})
 }

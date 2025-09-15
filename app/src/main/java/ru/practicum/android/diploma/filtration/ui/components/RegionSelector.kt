@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filtration.ui.components
 
+import android.R.attr.onClick
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,17 +32,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
 import ru.practicum.android.diploma.filtration.domain.model.Region
+import ru.practicum.android.diploma.filtration.ui.viewmodel.AreasViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegionSelector(
     regions: List<Region>,
-//    viewModel: AreasViewModel = koinViewModel(),
+    viewModel: AreasViewModel,
     onClick: (String) -> Unit,
     onSearchHandler: (String) -> Unit,
     onResetRequest: () -> Unit = {}
@@ -223,7 +226,7 @@ fun RegionSelectorPreview() {
     ApplicationTheme {
         RegionSelector(
             regions = regions,
-//            viewModel =  koinViewModel(),
+            viewModel =  koinViewModel(),
             onClick = {},
             onSearchHandler = {},
             onResetRequest = {}
