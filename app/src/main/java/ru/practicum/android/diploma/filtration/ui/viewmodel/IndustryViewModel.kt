@@ -94,4 +94,16 @@ class IndustryViewModel(
     private fun renderState(state: IndustryState) {
         _industryState.value = state
     }
+
+    fun saveIndustry(industry: Industry?) {
+        industry?.let {
+            appInteractor.saveData(StorageKey.INDUSTRY_ID_KEY, industry.id)
+            appInteractor.saveData(StorageKey.INDUSTRY_NAME_KEY, industry.name)
+           /* val tmp = _.value.copy(
+                industryId = industry.id.toString(),
+                industryValue = industry.name
+            )*/
+            //_stateFilter.value = tmp
+        }
+    }
 }

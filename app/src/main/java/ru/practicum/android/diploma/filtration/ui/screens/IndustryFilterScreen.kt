@@ -127,7 +127,6 @@ private fun ShowItems(
     industryItems: List<Industry>,
     modifier: Modifier = Modifier,
     industryVm: IndustryViewModel = koinViewModel(),
-    mainFilterViewModel: MainFilterViewModel = koinViewModel(),
     navController: NavController? = null,
     selectedValue: Industry? = null,
 ) {
@@ -172,7 +171,7 @@ private fun ShowItems(
 
                 textButton = stringResource(R.string.filter_add),
                 onClick = {
-                    mainFilterViewModel.saveIndustry(industry = selectedValue)
+                    industryVm.saveIndustry(industry = selectedValue)
                     navController?.popBackStack()
                 }
             )
