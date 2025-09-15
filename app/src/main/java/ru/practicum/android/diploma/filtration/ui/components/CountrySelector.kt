@@ -19,16 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 import ru.practicum.android.diploma.filtration.domain.model.Country
+import ru.practicum.android.diploma.filtration.ui.viewmodel.AreasViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CountrySelector(
     countries: List<Country>,
-    /** viewModel: AreasViewModel, */
+    viewModel: AreasViewModel,
     onClick: (String) -> Unit
 ) {
     Scaffold(
@@ -89,19 +89,4 @@ fun CountrySelector(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CountryScreenPreview() {
-    @Suppress("MagicNumber")
-    val countries = listOf(
-        Country(1, "Скайрим"),
-        Country(2, "Морровинд"),
-        Country(3, "Побережье мечей"),
-        Country(4, "Альянс"),
-        Country(5, "Орда"),
-        Country(6, "Империум человечества"),
-        Country(7, "Вестерос"),
-        Country(8, "Эссос")
-    )
-    CountrySelector(countries = countries, {})
-}
+
