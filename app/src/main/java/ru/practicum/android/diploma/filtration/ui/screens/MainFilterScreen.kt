@@ -83,7 +83,7 @@ fun MainFilterScreen(
                     )
                         .filter { it.isNotEmpty() }
                         .joinToString(", "),
-                    checked = (filterState.countryValue.isNotEmpty() || filterState.regionValue.isNotEmpty()),
+                    checked = filterState.countryValue.isNotEmpty() || filterState.regionValue.isNotEmpty(),
                     idValue = filterState.areaId,
                     isMainField = true,
                     onClick = {
