@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.practicum.android.diploma.R
 
@@ -18,7 +17,6 @@ import ru.practicum.android.diploma.R
 @Composable
 fun TopBar(
     text: String,
-    modifier: Modifier = Modifier,
     onBackNavigate: () -> Unit
 ) {
     TopAppBar(

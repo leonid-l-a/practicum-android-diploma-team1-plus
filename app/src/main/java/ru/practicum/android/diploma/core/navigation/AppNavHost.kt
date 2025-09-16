@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.core.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -12,8 +11,14 @@ import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.command.CommandScreen
 import ru.practicum.android.diploma.favorites.ui.FavoritesScreen
 import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesViewModel
+import ru.practicum.android.diploma.filtration.ui.screens.CountrySelectionScreen
 import ru.practicum.android.diploma.filtration.ui.screens.IndustryFilterScreen
 import ru.practicum.android.diploma.filtration.ui.screens.MainFilterScreen
+import ru.practicum.android.diploma.filtration.ui.screens.RegionSelectionScreen
+import ru.practicum.android.diploma.filtration.ui.screens.WorkPlaceScreen
+import ru.practicum.android.diploma.filtration.ui.viewmodel.CountrySelectionViewModel
+import ru.practicum.android.diploma.filtration.ui.viewmodel.RegionSelectionViewModel
+import ru.practicum.android.diploma.filtration.ui.viewmodel.WorkPlaceViewModel
 import ru.practicum.android.diploma.main.ui.SearchScreen
 import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 import ru.practicum.android.diploma.vacancy.ui.components.VacancyScreen
@@ -57,14 +62,48 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             arguments = listOf(navArgument("vacancyId") { type = NavType.StringType })
         ) { backStackEntry ->
             val viewModel: VacancyViewModel = koinViewModel()
-            VacancyScreen(viewModel = viewModel, navController = navController)
+            VacancyScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
         }
         composable(Screen.Filtration.route) {
             MainFilterScreen(navController = navController)
         }
-        composable(Screen.Placement.route) { Text("Placement Screen") }
-        composable(Screen.CountrySelection.route) { Text("Country Selection Screen") }
-        composable(Screen.RegionSelection.route) { Text("Region Selection Screen") }
+        composable(Screen.WorkPlace.route) {
+            val viewModel: WorkPlaceViewModel = koinViewModel()
+            WorkPlaceScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable(Screen.CountrySelection.route) {
+            val viewModel: CountrySelectionViewModel = koinViewModel()
+            CountrySelectionScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable(
+            route = "region_selection?countryId={countryId}",
+            arguments = listOf(
+                navArgument("countryId") {
+                    type = NavType.StringType
+                    defaultValue = "null"
+                    nullable = true
+                }
+            )
+        ) { backStackEntry ->
+            val countryIdString = backStackEntry.arguments?.getString("countryId")
+            val countryId = countryIdString?.toIntOrNull() // вот оно — nullable Int
+            val viewModel: RegionSelectionViewModel = koinViewModel()
+            RegionSelectionScreen(
+                viewModel = viewModel,
+                navController = navController,
+                currentCountryId = countryId
+            )
+        }
+
         composable(
             route = Screen.IndustrySelection.route,
             arguments = listOf(
