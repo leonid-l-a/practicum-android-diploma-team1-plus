@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
-import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
-import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
 import ru.practicum.android.diploma.main.domain.model.FilterRequestData
+import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
+import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.state.Resource
 import ru.practicum.android.diploma.main.ui.mapper.FilterRequestMapper
 import ru.practicum.android.diploma.main.ui.model.FilterRequest

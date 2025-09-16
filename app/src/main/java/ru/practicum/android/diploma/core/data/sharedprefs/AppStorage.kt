@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.filtration.domain.model.FilterStorage
-import kotlin.String
 
 class AppStorage(
     val sharedPrefs: SharedPreferences,
@@ -114,7 +113,7 @@ class AppStorage(
         val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
         val industry = getStorageByKey(StorageKey.INDUSTRY_ID_KEY)
         val industryValue = getStorageByKey(StorageKey.INDUSTRY_NAME_KEY)
-        _storageState.value.copy(
+        _storageState.value = FilterStorage(
             industryValue = industryValue ?: "",
             industryId = industry ?: "",
             areaId = area ?: "",

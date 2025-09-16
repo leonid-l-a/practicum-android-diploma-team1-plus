@@ -108,10 +108,12 @@ private fun ShowContent(
             textRes = R.string.choose_industry_not_exist,
             painterRes = R.drawable.favorites_error
         )
+
         is IndustryState.ClientError -> ShowError(
             textRes = R.string.no_connection,
             painterRes = R.drawable.no_connection
         )
+
         is IndustryState.ServerError -> ShowError(
             textRes = R.string.server_error_text,
             painterRes = R.drawable.ph_server_error_vacancy_screen
