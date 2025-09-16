@@ -30,6 +30,52 @@ class AppStorage(
         )
     }
 
+    private fun clearArea(): FilterStorage {
+        sharedPrefs
+            .edit {
+                remove(StorageKey.AREA_ID_KEY.key)
+                remove(StorageKey.AREA_NAME_KEY.key)
+            }
+        return _storageState.value.copy(
+            areaId = "",
+            areaValue = ""
+        )
+    }
+
+    private fun clearSalary(): FilterStorage {
+        sharedPrefs
+            .edit {
+                remove(StorageKey.SALARY_ID_KEY.key)
+                remove(StorageKey.SALARY_NAME_KEY.key)
+            }
+        return _storageState.value.copy(
+            salaryId = "",
+            salaryValue = ""
+        )
+    }
+
+    private fun clearIndustry(): FilterStorage {
+        sharedPrefs
+            .edit {
+                remove(StorageKey.INDUSTRY_ID_KEY.key)
+                remove(StorageKey.INDUSTRY_NAME_KEY.key)
+            }
+        return _storageState.value.copy(
+            industryId = "",
+            industryValue = ""
+        )
+    }
+
+    private fun clearWithSalary(): FilterStorage {
+        sharedPrefs
+            .edit {
+                remove(StorageKey.ONLY_WITH_SALARY_KEY.key)
+            }
+        return _storageState.value.copy(
+            withSalary = ""
+        )
+    }
+
     private fun saveStorageByKey(key: String, value: String) {
         sharedPrefs
             .edit {
@@ -81,49 +127,19 @@ class AppStorage(
     fun clearByKey(key: StorageKey): Flow<FilterStorage> {
         val newStorage = when (key) {
             StorageKey.AREA_ID_KEY, StorageKey.AREA_NAME_KEY -> {
-                sharedPrefs
-                    .edit {
-                        remove(StorageKey.AREA_ID_KEY.key)
-                        remove(StorageKey.AREA_NAME_KEY.key)
-                    }
-                _storageState.value.copy(
-                    areaId = "",
-                    areaValue = ""
-                )
+                clearArea()
             }
 
             StorageKey.SALARY_ID_KEY, StorageKey.SALARY_NAME_KEY -> {
-                sharedPrefs
-                    .edit {
-                        remove(StorageKey.SALARY_ID_KEY.key)
-                        remove(StorageKey.SALARY_NAME_KEY.key)
-                    }
-                _storageState.value.copy(
-                    salaryId = "",
-                    salaryValue = ""
-                )
+                clearSalary()
             }
 
             StorageKey.INDUSTRY_ID_KEY, StorageKey.INDUSTRY_NAME_KEY -> {
-                sharedPrefs
-                    .edit {
-                        remove(StorageKey.INDUSTRY_ID_KEY.key)
-                        remove(StorageKey.INDUSTRY_NAME_KEY.key)
-                    }
-                _storageState.value.copy(
-                    industryId = "",
-                    industryValue = ""
-                )
+                clearIndustry()
             }
 
             StorageKey.ONLY_WITH_SALARY_KEY -> {
-                sharedPrefs
-                    .edit {
-                        remove(StorageKey.ONLY_WITH_SALARY_KEY.key)
-                    }
-                _storageState.value.copy(
-                    withSalary = ""
-                )
+                clearWithSalary()
             }
         }
         _storageState.value = newStorage
