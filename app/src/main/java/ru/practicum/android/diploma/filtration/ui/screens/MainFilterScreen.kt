@@ -41,6 +41,7 @@ import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical16
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.core.ui.theme.blue
 import ru.practicum.android.diploma.core.ui.theme.red
+import ru.practicum.android.diploma.filtration.domain.model.hasActiveFilters
 import ru.practicum.android.diploma.filtration.ui.components.SalaryField
 import ru.practicum.android.diploma.filtration.ui.components.TopBar
 import ru.practicum.android.diploma.filtration.ui.viewmodel.MainFilterViewModel
@@ -207,11 +208,7 @@ fun MainFilterScreen(
                     }
                 )
 
-                if (filterState.areaValue.isNotEmpty()
-                    || filterState.salaryValue.isNotEmpty()
-                    || filterState.industryValue.isNotEmpty()
-                    || filterState.withSalary.isNotEmpty()
-                ) {
+                if (filterState.hasActiveFilters()) {
                     FilterButton(
                         modifier = Modifier
                             .height(Height60)
