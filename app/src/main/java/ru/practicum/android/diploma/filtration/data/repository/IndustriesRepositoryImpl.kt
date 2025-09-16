@@ -18,16 +18,20 @@ class IndustriesRepositoryImpl(
     val context: Context
 ) : IndustriesRepository {
 
+    private fun initError(storageCode: StorageResultCode): Resource.Error<Industries> {
+        return Resource.Error(
+            Industries(
+                items = emptyList(),
+                resultCode = storageCode,
+            )
+        )
+    }
+
     override suspend fun getIndustries(): Flow<Resource<Industries>> {
         return flow {
             if (!networkUtil.isInternetAvailable(context)) {
                 emit(
-                    Resource.Error(
-                        Industries(
-                            items = emptyList(),
-                            resultCode = StorageResultCode.CLIENT_ERROR,
-                        )
-                    )
+                    initError(storageCode = StorageResultCode.CLIENT_ERROR)
                 )
             } else {
                 val response = networkClient.getFilterIndustries()
@@ -43,21 +47,11 @@ class IndustriesRepositoryImpl(
                     }
 
                     ResponseCode.IO_ERROR -> emit(
-                        Resource.Error(
-                            Industries(
-                                items = emptyList(),
-                                resultCode = StorageResultCode.SERVER_ERROR,
-                            )
-                        )
+                        initError(storageCode = StorageResultCode.SERVER_ERROR)
                     )
 
                     else -> emit(
-                        Resource.Error(
-                            Industries(
-                                items = emptyList(),
-                                resultCode = StorageResultCode.SERVER_ERROR,
-                            )
-                        )
+                        initError(storageCode = StorageResultCode.SERVER_ERROR)
                     )
                 }
             }
