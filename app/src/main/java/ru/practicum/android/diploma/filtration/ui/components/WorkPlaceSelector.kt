@@ -25,9 +25,16 @@ import ru.practicum.android.diploma.core.ui.components.FilterItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkPlaceSelector(
+    countryLabel: String?,
+    regionLabel: String?,
+    countryChecked: Boolean,
+    regionChecked: Boolean,
     onCountryClick: () -> Unit,
     onRegionClick: () -> Unit,
-    navController: NavController
+    onCountryClear: () -> Unit,
+    onRegionClear: () -> Unit,
+    navController: NavController,
+    bottomBar: @Composable (() -> Unit),
 ) {
     Scaffold(
         topBar = {
@@ -56,7 +63,8 @@ fun WorkPlaceSelector(
                     }
                 }
             )
-        }
+        },
+        bottomBar = bottomBar
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -64,11 +72,11 @@ fun WorkPlaceSelector(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FilterItem(
-                labelText = stringResource(R.string.country),
-                checked = false,
+                labelText = if (!countryLabel.isNullOrBlank()) countryLabel else stringResource(R.string.country),
+                checked = countryChecked,
                 isMainField = true,
                 onClick = { onCountryClick() },
-                onClear = {}
+                onClear = { onCountryClear() }
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
@@ -77,18 +85,17 @@ fun WorkPlaceSelector(
                 }
                 Icon(
                     tint = MaterialTheme.colorScheme.onBackground,
-                    painter = painterResource(
-                        id = resId
-                    ),
+                    painter = painterResource(id = resId),
                     contentDescription = null
                 )
             }
+
             FilterItem(
-                labelText = stringResource(R.string.region),
-                checked = false,
+                labelText = if (!regionLabel.isNullOrBlank()) regionLabel else stringResource(R.string.region),
+                checked = regionChecked,
                 isMainField = true,
                 onClick = { onRegionClick() },
-                onClear = {}
+                onClear = { onRegionClear() }
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
@@ -97,9 +104,7 @@ fun WorkPlaceSelector(
                 }
                 Icon(
                     tint = MaterialTheme.colorScheme.onBackground,
-                    painter = painterResource(
-                        id = resId
-                    ),
+                    painter = painterResource(id = resId),
                     contentDescription = null
                 )
             }

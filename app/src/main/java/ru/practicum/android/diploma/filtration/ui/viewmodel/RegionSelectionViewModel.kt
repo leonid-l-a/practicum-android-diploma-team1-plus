@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okio.IOException
+import ru.practicum.android.diploma.core.domain.AppInteractor
+import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.filtration.domain.interactor.GetAreasUseCase
 import ru.practicum.android.diploma.filtration.domain.model.Region
 import ru.practicum.android.diploma.filtration.domain.state.Result
@@ -17,6 +19,7 @@ import ru.practicum.android.diploma.util.DebounceUtil
 
 class RegionSelectionViewModel(
     private val getAreasUseCase: GetAreasUseCase,
+    private val appInteractor: AppInteractor
 ) : ViewModel() {
 
     private val _screenState =
@@ -27,10 +30,10 @@ class RegionSelectionViewModel(
     private var allRegions: List<Region> = emptyList()
 
     companion object {
-        const val DEBOUNCE_DELAY = 1000L // Задержка в миллисекундах
+        const val DEBOUNCE_DELAY = 1000L
     }
 
-    private val searchDebounce = DebounceUtil(DEBOUNCE_DELAY, viewModelScope) // 1 секунда
+    private val searchDebounce = DebounceUtil(DEBOUNCE_DELAY, viewModelScope)
 
     fun loadData(countryId: Int? = null) {
         loadJob?.cancel()
@@ -94,8 +97,10 @@ class RegionSelectionViewModel(
         }
     }
 
-    fun onCountryClicked(region: Region, navController: NavController) {
-        // сохранить выбранный  регион в SharedPreferences
+    fun onRegionClicked(region: Region, navController: NavController) {
+        appInteractor.saveData(StorageKey.AREA_ID_KEY, region.id)
+        appInteractor.saveData(StorageKey.REGION_NAME_KEY, region.name)
+
         navController.popBackStack()
     }
 }
