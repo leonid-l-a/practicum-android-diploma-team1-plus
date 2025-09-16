@@ -6,12 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
-import ru.practicum.android.diploma.filtration.domain.model.FilterStorage
-import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
-import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
-import ru.practicum.android.diploma.main.domain.model.Filter
+import ru.practicum.android.diploma.main.domain.model.FilterRequestData
+import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
+import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.state.Resource
+import ru.practicum.android.diploma.main.ui.mapper.FilterRequestMapper
+import ru.practicum.android.diploma.main.ui.model.FilterRequest
 import ru.practicum.android.diploma.main.ui.model.Vacancy
 import ru.practicum.android.diploma.main.ui.state.SearchState
 import ru.practicum.android.diploma.main.util.getFormatSalary
@@ -35,13 +36,13 @@ class SearchVacancyViewModel(
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
 
-    private val _stateSearchFilter = MutableStateFlow(value = FilterStorage())
+    private val _stateSearchFilter = MutableStateFlow<FilterRequest>(value = FilterRequest())
     val stateSearchFilter = _stateSearchFilter.asStateFlow()
 
     init {
         viewModelScope.launch {
             appInteractor.getAllDataWithNames().collect { data ->
-                _stateSearchFilter.value = data
+                _stateSearchFilter.value = FilterRequestMapper.toFilterRequest(data)
             }
         }
     }
@@ -78,16 +79,8 @@ class SearchVacancyViewModel(
             val withSalary = stateSearchFilter.value.withSalary.isNotEmpty()
 
             debounce.invoke {
-                searchVacancyInteractor.searchVacancy(
-                    expression = expression,
-                    page = currentPage,
-                    filter = Filter(
-                        area = if (area.isNotEmpty()) area.toInt() else null,
-                        industry = if (industry.isNotEmpty()) industry.toInt() else null,
-                        salary = if (salary.isNotEmpty()) salary.toInt() else null,
-                        withSalary = withSalary
-                    )
-                )
+                val filter: FilterRequestData = FilterRequestMapper.toFilterRequestData(_stateSearchFilter.value)
+                searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
                     .collect { vacancy ->
                         searchState(vacancy)
                     }

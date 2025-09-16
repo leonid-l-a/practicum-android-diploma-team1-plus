@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.main.data.model
+package ru.practicum.android.diploma.main.domain.model
 
 data class SalaryMainData(
     val from: Int?,

@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.main.util
 
-import ru.practicum.android.diploma.main.data.model.SalaryMainData
+import ru.practicum.android.diploma.main.domain.model.SalaryMainData
 
 private const val SALARY_FROM_TO = "от %1\$s и до %2\$s"
 private const val SALARY_FROM = "от %s"
