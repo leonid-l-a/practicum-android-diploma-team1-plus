@@ -10,3 +10,10 @@ data class FilterStorage(
     val salaryValue: String = "",
     val withSalary: String = "",
 )
+
+fun FilterStorage.hasActiveFilters(): Boolean {
+    return areaValue.isNotEmpty() ||
+        salaryValue.isNotEmpty() ||
+        industryValue.isNotEmpty() ||
+        withSalary.isNotEmpty()
+}

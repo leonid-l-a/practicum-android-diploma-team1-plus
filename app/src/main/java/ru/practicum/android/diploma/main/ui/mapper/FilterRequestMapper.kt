@@ -9,7 +9,7 @@ object FilterRequestMapper {
         return FilterRequest(
             areaId = if (data.areaId == "") null else data.areaId,
             industryId = if (data.industryId == "") null else data.industryId,
-            salaryId = if (data.salaryId == "") null else data.salaryId,
+            salaryId = if (data.salaryValue == "") null else data.salaryValue,
             withSalary = if (data.withSalary == "") null else data.withSalary,
         )
     }
