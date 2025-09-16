@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.main.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +46,7 @@ class SearchVacancyViewModel(
     init {
         viewModelScope.launch {
             appInteractor.getAllDataWithNames().collect { data ->
+                Log.d("CHECK_vacancyRequest_data", data.toString())
                 _stateSearchFilter.value = FilterRequestMapper.toFilterRequest(data)
             }
         }
