@@ -17,9 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -44,14 +41,17 @@ import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingVertical16
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
 import ru.practicum.android.diploma.core.ui.theme.blue
 import ru.practicum.android.diploma.core.ui.theme.red
+import ru.practicum.android.diploma.filtration.domain.model.hasActiveFilters
 import ru.practicum.android.diploma.filtration.ui.components.SalaryField
 import ru.practicum.android.diploma.filtration.ui.components.TopBar
 import ru.practicum.android.diploma.filtration.ui.viewmodel.MainFilterViewModel
+import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 @Composable
 fun MainFilterScreen(
     modifier: Modifier = Modifier,
     vm: MainFilterViewModel = koinViewModel(),
+    searchVm: SearchVacancyViewModel = koinViewModel(),
     navController: NavController? = null
 ) {
     Scaffold(
@@ -70,9 +70,8 @@ fun MainFilterScreen(
                 .padding(paddingValues),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            var salaryText by remember { mutableStateOf("") }
-            var showSalary by remember { mutableStateOf(false) }
             val filterState by vm.stateFilter.collectAsState()
+
             Column(
                 modifier = Modifier.padding(top = WrapperPaddingVertical16)
             ) {
@@ -96,15 +95,18 @@ fun MainFilterScreen(
                         contentDescription = null
                     )
                 }
-                val industryValue = filterState.industryValue
-
                 FilterItem(
                     labelText = stringResource(R.string.industry),
-                    labelValue = industryValue,
-                    checked = industryValue.isNotEmpty(),
+                    labelValue = filterState.industryValue,
+                    checked = filterState.industryValue.isNotEmpty(),
                     isMainField = true,
-                    onClick = {
-                        navController?.navigate(Screen.IndustrySelection.route)
+                    idValue = filterState.industryId,
+                    onClick = { industryId ->
+                        navController?.navigate(
+                            Screen.IndustrySelection.createRoute(
+                                industryId = industryId
+                            )
+                        )
                     },
                     onClear = {
                         vm.clearByKey(key = StorageKey.INDUSTRY_ID_KEY)
@@ -130,9 +132,9 @@ fun MainFilterScreen(
                             horizontal = WrapperPaddingHorizontal16,
                             vertical = SpacerHeight24
                         ),
-                    value = salaryText,
+                    value = filterState.salaryValue,
                     onValueChange = { newText ->
-                        salaryText = newText
+                        vm.saveSalary(newText)
                     },
                     topPlaceholder = { topLabelColor ->
                         Text(
@@ -149,25 +151,29 @@ fun MainFilterScreen(
                         )
                     },
                     trailingIcon = {
-                        Icon(
-                            modifier = Modifier
-                                .size(Height24)
-                                .clickable {
-                                    salaryText = ""
-                                },
-                            painter = painterResource(R.drawable.close_24),
-                            contentDescription = null,
-                            tint = blackUniversal
-                        )
+                        if (filterState.salaryValue.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(Height24)
+                                    .clickable {
+                                        vm.saveSalary("")
+                                    },
+                                painter = painterResource(R.drawable.close_24),
+                                contentDescription = null,
+                                tint = blackUniversal
+                            )
+                        }
                     }
                 )
 
                 FilterItem(
-                    labelText = stringResource(R.string.industry),
-                    checked = showSalary,
+                    labelText = stringResource(R.string.not_show_without_salary),
+                    checked = filterState.withSalary.isNotEmpty(),
                     isMainField = true,
                     fieldType = FilterParams.FIELDTYPE.CHECK_BOX,
-                    onToggle = { showSalary = it }
+                    onToggle = {
+                        vm.saveWithSalary(withSalary = it)
+                    }
                 ) { checked ->
                     Checkbox(
                         colors = CheckboxDefaults.colors(
@@ -177,12 +183,11 @@ fun MainFilterScreen(
                         ),
                         checked = checked,
                         onCheckedChange = {
-                            showSalary = it
+                            vm.saveWithSalary(withSalary = it)
                         },
                     )
                 }
             }
-
             Column(
                 modifier = Modifier
                     .padding(
@@ -197,17 +202,25 @@ fun MainFilterScreen(
                         .height(Height60)
                         .fillMaxWidth(),
                     textButton = stringResource(R.string.filter_apply),
-                    onClick = {}
+                    onClick = {
+                        searchVm.setShouldRepeatRequest(shouldRepeat = true)
+                        navController?.popBackStack()
+                    }
                 )
-                FilterButton(
-                    modifier = Modifier
-                        .height(Height60)
-                        .fillMaxWidth(),
-                    textColor = red,
-                    containerColor = Color.Transparent,
-                    textButton = stringResource(R.string.filter_reset),
-                    onClick = {}
-                )
+
+                if (filterState.hasActiveFilters()) {
+                    FilterButton(
+                        modifier = Modifier
+                            .height(Height60)
+                            .fillMaxWidth(),
+                        textColor = red,
+                        containerColor = Color.Transparent,
+                        textButton = stringResource(R.string.filter_reset),
+                        onClick = {
+                            vm.clearStorage()
+                        }
+                    )
+                }
             }
         }
     }

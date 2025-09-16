@@ -31,15 +31,15 @@ import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
  */
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+    val searchVm = koinViewModel<SearchVacancyViewModel>()
     NavHost(navController = navController, startDestination = Screen.Main.route, modifier = modifier) {
         composable(Screen.Main.route) {
-            val vm = koinViewModel<SearchVacancyViewModel>()
             SearchScreen(
                 modifier = Modifier,
-                viewModel = vm,
+                viewModel = searchVm,
                 navController = navController
             ) { vacancyId ->
-                if (vm.clickDebounce()) {
+                if (searchVm.clickDebounce()) {
                     navController.navigate(Screen.VacancyDetails.route + "/$vacancyId")
                 }
             }
@@ -68,7 +68,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             )
         }
         composable(Screen.Filtration.route) {
-            MainFilterScreen(navController = navController)
+            MainFilterScreen(navController = navController, searchVm = searchVm)
         }
         composable(Screen.WorkPlace.route) {
             val viewModel: WorkPlaceViewModel = koinViewModel()
@@ -104,8 +104,21 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             )
         }
 
-        composable(Screen.IndustrySelection.route) {
-            IndustryFilterScreen(navController = navController)
+        composable(
+            route = Screen.IndustrySelection.route,
+            arguments = listOf(
+                navArgument("industryId") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ) { backStackEntry ->
+            val industryId = backStackEntry.arguments?.getString("industryId") ?: ""
+            IndustryFilterScreen(
+                industryId = industryId,
+                navController = navController
+            )
         }
     }
 }

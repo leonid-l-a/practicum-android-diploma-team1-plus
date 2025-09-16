@@ -15,6 +15,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +46,7 @@ import ru.practicum.android.diploma.filtration.ui.viewmodel.IndustryViewModel
 @Composable
 fun IndustryFilterScreen(
     modifier: Modifier = Modifier,
+    industryId: String? = null,
     navController: NavController? = null,
     industryVm: IndustryViewModel = koinViewModel(),
 ) {
@@ -77,7 +79,8 @@ fun IndustryFilterScreen(
             )
             ShowContent(
                 industryVm = industryVm,
-                navController = navController
+                navController = navController,
+                industryId = industryId
             )
         }
     }
@@ -88,17 +91,25 @@ private fun ShowContent(
     modifier: Modifier = Modifier,
     industryVm: IndustryViewModel = koinViewModel(),
     navController: NavController? = null,
-    selectedIndustry: Industry? = null
+    industryId: String? = null,
 ) {
     val industryState by industryVm.industryState.collectAsState()
-    var selectedValue by remember { mutableStateOf(selectedIndustry) }
+    var selectedValue by remember { mutableStateOf<Industry?>(null) }
+    LaunchedEffect(industryId, industryState) {
+        if (industryId?.isNotEmpty() == true && selectedValue == null) {
+            val items = (industryState as? IndustryState.Content)?.items ?: emptyList()
+            selectedValue = items.firstOrNull { it.id.toString() == industryId }
+        }
+    }
     when (industryState) {
         is IndustryState.Idle -> {}
         is IndustryState.Loading -> CircularIndicator()
         is IndustryState.Content -> {
+            val items = (industryState as IndustryState.Content).items
+
             ShowItems(
                 selectedValue = selectedValue,
-                industryItems = (industryState as IndustryState.Content).items,
+                industryItems = items,
                 onSelectionChanged = { selectedValue = it },
                 navController = navController
             )

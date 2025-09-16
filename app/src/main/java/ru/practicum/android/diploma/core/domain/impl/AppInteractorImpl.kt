@@ -26,8 +26,8 @@ class AppInteractorImpl(
         return appRepository.getAllDataWithNames()
     }
 
-    override fun clearByKey(key: StorageKey): Flow<FilterStorage> {
-        return appRepository.clearByKey(key = key)
+    override fun clearByKey(key: StorageKey) {
+        appRepository.clearByKey(key = key)
     }
 
     override fun clearStorage() {

@@ -116,9 +116,10 @@ private fun Modifier.handleClick(
                 if (fieldType == FilterParams.FIELDTYPE.CHECK_BOX) {
                     onToggle?.invoke(!checked)
                 } else if (fieldType == FilterParams.FIELDTYPE.TEXT) {
-                    if (!checked) {
+                    /*if (!checked) {
                         onClick?.invoke(idValue)
-                    }
+                    }*/
+                    onClick?.invoke(idValue)
                 }
             }
     }
@@ -132,7 +133,7 @@ fun FilterItem(
     idValue: String = "",
     labelValue: String = "",
     checked: Boolean = false,
-    onClick: ((String) -> Unit)? = null,
+    onClick: ((String?) -> Unit)? = null,
     onClear: (() -> Unit)? = null,
     onToggle: ((Boolean) -> Unit)? = null,
     fieldType: FilterParams.FIELDTYPE = FilterParams.FIELDTYPE.TEXT,

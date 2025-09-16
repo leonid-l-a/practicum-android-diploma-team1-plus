@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -159,6 +160,13 @@ private fun ShowContent(
     onVacancyClick: (String) -> Unit = {}
 ) {
     val searchState by viewModel.stateSearchVacancy.collectAsState()
+    val shouldRepeatRequest by viewModel.shouldRepeatRequest.collectAsState()
+    LaunchedEffect(shouldRepeatRequest) {
+        if (shouldRepeatRequest) {
+            viewModel.repeatRequest()
+            viewModel.setShouldRepeatRequest(shouldRepeat = false)
+        }
+    }
     when (searchState) {
         is SearchState.Empty -> {
             SearchCount(text = stringResource(id = R.string.no_such_vacancies))
