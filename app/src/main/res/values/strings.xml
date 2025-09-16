@@ -61,7 +61,7 @@
     <string name="region">Регион</string>
     <string name="search_region_placeholder">Введите регион</string>
     <string name="no_region">Такого региона нет</string>
-    <string name="region_error">Не удалось загрузить список</string>
+    <string name="work_place_error">Не удалось загрузить список</string>
 
     <string name="error">error</string>
     <string name="server_error">server error</string>

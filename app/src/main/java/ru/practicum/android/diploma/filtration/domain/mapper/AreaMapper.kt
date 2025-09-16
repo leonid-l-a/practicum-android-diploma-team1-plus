@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.core.data.dto.FilterAreasResponse
 import ru.practicum.android.diploma.filtration.domain.model.Country
 import ru.practicum.android.diploma.filtration.domain.model.Region
 
-object AreaMapper {
+class AreaMapper {
     fun toCountriesAndRegions(response: FilterAreasResponse): Pair<List<Country>,
         Map<Int, List<Region>>> {
         val countries = mutableListOf<Country>()

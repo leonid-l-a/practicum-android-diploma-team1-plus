@@ -79,6 +79,9 @@ fun MainFilterScreen(
                 FilterItem(
                     labelText = stringResource(R.string.work_place),
                     isMainField = true,
+                    onClick = {
+                        navController?.navigate(Screen.WorkPlace.route)
+                    }
                 ) { checked ->
                     val resId = if (checked) {
                         R.drawable.close_24
