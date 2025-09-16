@@ -5,6 +5,7 @@ import ru.practicum.android.diploma.filtration.domain.interactor.GetAreasUseCase
 import ru.practicum.android.diploma.filtration.domain.interactor.GetAreasUseCaseImplementation
 import ru.practicum.android.diploma.filtration.domain.interactor.IndustriesInteractor
 import ru.practicum.android.diploma.filtration.domain.interactor.IndustriesInteractorImpl
+import ru.practicum.android.diploma.filtration.domain.mapper.AreaMapper
 
 val filtrationInteractorModule = module {
     factory<GetAreasUseCase> {
@@ -13,5 +14,8 @@ val filtrationInteractorModule = module {
 
     single<IndustriesInteractor> {
         IndustriesInteractorImpl(get())
+
+
     }
+    single<AreaMapper> { AreaMapper() }
 }
