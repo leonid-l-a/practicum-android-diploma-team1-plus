@@ -15,6 +15,6 @@ class SearchVacancyInteractorImpl(
         page: Int,
         filterMap: FilterRequestData
     ): Flow<Resource<VacancyMainData>> {
-        return searchVacancyRepository.searchVacancy(expression, page, filter)
+        return searchVacancyRepository.searchVacancy(expression, page, filterMap)
     }
 }
