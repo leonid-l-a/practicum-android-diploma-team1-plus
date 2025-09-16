@@ -38,7 +38,8 @@ class AppStorage(
             }
         return _storageState.value.copy(
             areaId = "",
-            regionValue = ""
+            regionValue = "",
+            countryValue = ""
         )
     }
 
@@ -155,6 +156,7 @@ class AppStorage(
         val newStorage = _storageState.value.copy(
             areaId = "",
             regionValue = "",
+            countryValue = "",
             industryId = "",
             industryValue = "",
             salaryId = "",
