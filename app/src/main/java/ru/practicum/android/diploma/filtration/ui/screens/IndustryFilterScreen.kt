@@ -41,7 +41,6 @@ import ru.practicum.android.diploma.filtration.ui.components.TopBar
 import ru.practicum.android.diploma.filtration.ui.model.data.Industry
 import ru.practicum.android.diploma.filtration.ui.state.IndustryState
 import ru.practicum.android.diploma.filtration.ui.viewmodel.IndustryViewModel
-import ru.practicum.android.diploma.filtration.ui.viewmodel.MainFilterViewModel
 
 @Composable
 fun IndustryFilterScreen(

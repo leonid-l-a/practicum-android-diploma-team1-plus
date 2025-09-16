@@ -31,8 +31,6 @@ class IndustryViewModel(
             industries.collect {
                 industryState(state = it)
             }
-            //items = map(industries = industries)
-            //_industryState.value = IndustryState.Content(items = items)
 
         }
     }
@@ -99,11 +97,6 @@ class IndustryViewModel(
         industry?.let {
             appInteractor.saveData(StorageKey.INDUSTRY_ID_KEY, industry.id)
             appInteractor.saveData(StorageKey.INDUSTRY_NAME_KEY, industry.name)
-           /* val tmp = _.value.copy(
-                industryId = industry.id.toString(),
-                industryValue = industry.name
-            )*/
-            //_stateFilter.value = tmp
         }
     }
 }

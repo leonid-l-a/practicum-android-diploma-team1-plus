@@ -38,7 +38,6 @@ class AppStorage(
     }
 
     fun <T : Any> saveStorage(key: StorageKey, data: T) {
-        //clearByKey(key)
         val value = data.toString()
         saveStorageByKey(key.key, value)
         val newStorage = when (key) {
