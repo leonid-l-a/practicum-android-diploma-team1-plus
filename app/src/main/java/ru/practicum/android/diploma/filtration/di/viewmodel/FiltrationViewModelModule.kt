@@ -9,9 +9,18 @@ import ru.practicum.android.diploma.filtration.ui.viewmodel.RegionSelectionViewM
 import ru.practicum.android.diploma.filtration.ui.viewmodel.WorkPlaceViewModel
 
 val filtrationViewModelModule = module {
+    viewModel {
+        IndustryViewModel(
+            industriesInteractor = get(),
+            appInteractor = get()
+        )
+    }
+    viewModel {
+        MainFilterViewModel(
+            appInteractor = get()
+        )
+    }
     viewModel { WorkPlaceViewModel() }
     viewModel { CountrySelectionViewModel(get()) }
     viewModel { RegionSelectionViewModel(get()) }
-    viewModel { IndustriesViewModel(get()) }
-    viewModel { IndustryViewModel() }
 }

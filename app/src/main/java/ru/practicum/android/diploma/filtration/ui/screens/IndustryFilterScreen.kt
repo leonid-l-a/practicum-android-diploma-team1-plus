@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.filtration.ui.screens
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +27,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.ui.components.CircularIndicator
 import ru.practicum.android.diploma.core.ui.components.ErrorResult
 import ru.practicum.android.diploma.core.ui.components.FilterButton
 import ru.practicum.android.diploma.core.ui.components.FilterItem
@@ -43,7 +46,7 @@ import ru.practicum.android.diploma.filtration.ui.viewmodel.IndustryViewModel
 fun IndustryFilterScreen(
     modifier: Modifier = Modifier,
     navController: NavController? = null,
-    vm: IndustryViewModel = koinViewModel()
+    industryVm: IndustryViewModel = koinViewModel(),
 ) {
     Scaffold(
         topBar = {
@@ -65,15 +68,16 @@ fun IndustryFilterScreen(
                 text = text,
                 onSearchHandler = {
                     text = it
-                    vm.filerItems(text)
+                    industryVm.filerItems(text)
                 },
                 onResetRequest = {
                     text = ""
-                    vm.filerItems(text)
+                    industryVm.filerItems(text)
                 }
             )
             ShowContent(
-                vm = vm,
+                industryVm = industryVm,
+                navController = navController
             )
         }
     }
@@ -82,33 +86,48 @@ fun IndustryFilterScreen(
 @Composable
 private fun ShowContent(
     modifier: Modifier = Modifier,
-    vm: IndustryViewModel = koinViewModel(),
+    industryVm: IndustryViewModel = koinViewModel(),
+    navController: NavController? = null,
     selectedIndustry: Industry? = null
 ) {
-    val industryState by vm.industryState.collectAsState()
+    val industryState by industryVm.industryState.collectAsState()
     var selectedValue by remember { mutableStateOf(selectedIndustry) }
     when (industryState) {
         is IndustryState.Idle -> {}
-        is IndustryState.Loading -> {}
+        is IndustryState.Loading -> CircularIndicator()
         is IndustryState.Content -> {
             ShowItems(
                 selectedValue = selectedValue,
                 industryItems = (industryState as IndustryState.Content).items,
-                onSelectionChanged = { selectedValue = it }
+                onSelectionChanged = { selectedValue = it },
+                navController = navController
             )
         }
 
-        is IndustryState.EmptyResult -> ShowError()
+        is IndustryState.EmptyResult -> ShowError(
+            textRes = R.string.choose_industry_not_exist,
+            painterRes = R.drawable.favorites_error
+        )
+        is IndustryState.ClientError -> ShowError(
+            textRes = R.string.no_connection,
+            painterRes = R.drawable.no_connection
+        )
+        is IndustryState.ServerError -> ShowError(
+            textRes = R.string.server_error_text,
+            painterRes = R.drawable.ph_server_error_vacancy_screen
+        )
     }
 
 }
 
 @Composable
 private fun ShowItems(
-    modifier: Modifier = Modifier,
-    selectedValue: Industry? = null,
     onSelectionChanged: (Industry?) -> Unit,
     industryItems: List<Industry>,
+    modifier: Modifier = Modifier,
+    industryVm: IndustryViewModel = koinViewModel(),
+    navController: NavController? = null,
+    selectedValue: Industry? = null,
 ) {
     Column {
         LazyColumn(
@@ -150,7 +169,10 @@ private fun ShowItems(
                     .fillMaxWidth(),
 
                 textButton = stringResource(R.string.filter_add),
-                onClick = {}
+                onClick = {
+                    industryVm.saveIndustry(industry = selectedValue)
+                    navController?.popBackStack()
+                }
             )
         }
     }
@@ -158,10 +180,12 @@ private fun ShowItems(
 
 @Composable
 private fun ShowError(
+    @StringRes textRes: Int,
+    @DrawableRes painterRes: Int,
     modifier: Modifier = Modifier,
 ) {
     ErrorResult(
-        textRes = R.string.choose_industry_not_exist,
-        painterRes = R.drawable.favorites_error
+        textRes = textRes,
+        painterRes = painterRes
     )
 }
