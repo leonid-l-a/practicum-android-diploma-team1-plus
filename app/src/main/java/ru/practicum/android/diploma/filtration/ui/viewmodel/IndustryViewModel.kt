@@ -1,57 +1,56 @@
 package ru.practicum.android.diploma.filtration.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.core.domain.AppInteractor
+import ru.practicum.android.diploma.core.domain.repository.StorageKey
+import ru.practicum.android.diploma.filtration.domain.interactor.IndustriesInteractor
+import ru.practicum.android.diploma.filtration.domain.model.Industries
+import ru.practicum.android.diploma.filtration.domain.model.IndustryDetail
+import ru.practicum.android.diploma.filtration.domain.model.StorageResultCode
+import ru.practicum.android.diploma.filtration.domain.state.Resource
 import ru.practicum.android.diploma.filtration.ui.model.data.Industry
 import ru.practicum.android.diploma.filtration.ui.state.IndustryState
 
-class IndustryViewModel : ViewModel() {
-    private val demoItems = listOf(
-        Industry(
-            id = "111",
-            name = "Авиаперевозки",
-        ),
-        Industry(
-            id = "222",
-            name = "Авиационная, вертолетная и аэрокосмическая промышленность"
-        ),
-        Industry(
-            id = "333",
-            name = "Автокомпоненты, запчасти (производство)",
-        ),
-        Industry(
-            id = "444",
-            name = "Автокомпоненты, запчасти, шины (продвеждение, оптовая торговля)"
-        ),
-        Industry(
-            id = "555",
-            name = "Автомобильные перевозки"
-        ),
-        Industry(
-            id = "777",
-            name = "Автошкола"
-        ),
-        Industry(
-            id = "1060",
-            name = "Просто школа"
-        ),
-    )
+class IndustryViewModel(
+    val industriesInteractor: IndustriesInteractor,
+    val appInteractor: AppInteractor
+) : ViewModel() {
+    private var items = emptyList<Industry>()
 
     private val _industryState = MutableStateFlow<IndustryState>(IndustryState.Idle)
     val industryState = _industryState.asStateFlow()
 
     init {
-        _industryState.value = IndustryState.Content(items = demoItems)
+        _industryState.value = IndustryState.Loading
+        viewModelScope.launch {
+            val industries = industriesInteractor.getIndustries()
+            industries.collect {
+                industryState(state = it)
+            }
+
+        }
+    }
+
+    private fun map(industries: List<IndustryDetail>): List<Industry> {
+        return industries.map {
+            Industry(
+                id = it.id,
+                name = it.name
+            )
+        }
     }
 
     fun filerItems(input: String) {
         if (input.isEmpty()) {
             _industryState.value = IndustryState.Content(
-                items = demoItems
+                items = items
             )
         } else {
-            val newList = demoItems.filter {
+            val newList = items.filter {
                 it.name.contains(input, ignoreCase = true)
             }
             if (newList.isNotEmpty()) {
@@ -61,6 +60,43 @@ class IndustryViewModel : ViewModel() {
             } else {
                 _industryState.value = IndustryState.EmptyResult
             }
+        }
+    }
+
+    private fun industryState(state: Resource<Industries>) {
+        when (state) {
+            is Resource.Error -> {
+                when (state.data.resultCode) {
+                    StorageResultCode.SUCCESS -> {}
+                    StorageResultCode.CLIENT_ERROR -> {
+                        renderState(
+                            IndustryState.ClientError
+                        )
+                    }
+                    StorageResultCode.SERVER_ERROR -> {
+                        renderState(
+                            IndustryState.ServerError
+                        )
+                    }
+                }
+            }
+            is Resource.Success -> {
+                items = map(industries = state.data.items)
+                renderState(
+                    state = IndustryState.Content(items = items)
+                )
+            }
+        }
+    }
+
+    private fun renderState(state: IndustryState) {
+        _industryState.value = state
+    }
+
+    fun saveIndustry(industry: Industry?) {
+        industry?.let {
+            appInteractor.saveData(StorageKey.INDUSTRY_ID_KEY, industry.id)
+            appInteractor.saveData(StorageKey.INDUSTRY_NAME_KEY, industry.name)
         }
     }
 }

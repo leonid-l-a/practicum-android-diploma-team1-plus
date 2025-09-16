@@ -24,7 +24,7 @@ import ru.practicum.android.diploma.favorites.ui.components.ShowFavoritesList
 import ru.practicum.android.diploma.favorites.ui.components.ShowPlaceHolder
 import ru.practicum.android.diploma.favorites.ui.state.FavoriteState
 import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesViewModel
-import ru.practicum.android.diploma.main.ui.components.CircularIndicator
+import ru.practicum.android.diploma.core.ui.components.CircularIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
