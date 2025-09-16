@@ -5,10 +5,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ru.practicum.android.diploma.filtration.ui.state.WorkPlaceScreenState
 
-class WorkPlaceViewModel(
-) : ViewModel() {
+class WorkPlaceViewModel : ViewModel() {
 
-    private val _screenState = MutableStateFlow<WorkPlaceScreenState>(WorkPlaceScreenState.Data())
+    private val _screenState = MutableStateFlow<WorkPlaceScreenState>(
+        WorkPlaceScreenState.Data()
+    )
     val screenState = _screenState.asStateFlow()
     init {
         // получить данные из префсов

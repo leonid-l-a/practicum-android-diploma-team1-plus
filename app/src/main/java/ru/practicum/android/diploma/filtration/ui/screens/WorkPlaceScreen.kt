@@ -18,7 +18,6 @@ fun WorkPlaceScreen(
 ) {
     val workPlaceState by viewModel.screenState.collectAsState()
 
-
     val currentCountry = (workPlaceState as WorkPlaceScreenState.Data).selectedCountry
     WorkPlaceSelector(
         onCountryClick = {

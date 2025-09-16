@@ -14,8 +14,6 @@ val filtrationInteractorModule = module {
 
     single<IndustriesInteractor> {
         IndustriesInteractorImpl(get())
-
-
     }
     single<AreaMapper> { AreaMapper() }
 }

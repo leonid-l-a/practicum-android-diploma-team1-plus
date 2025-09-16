@@ -26,7 +26,11 @@ class RegionSelectionViewModel(
     private var loadJob: Job? = null
     private var allRegions: List<Region> = emptyList()
 
-    private val searchDebounce = DebounceUtil(1000L, viewModelScope) // 1 секунда
+    companion object {
+        const val DEBOUNCE_DELAY = 1000L // Задержка в миллисекундах
+    }
+
+    private val searchDebounce = DebounceUtil(DEBOUNCE_DELAY, viewModelScope) // 1 секунда
 
     fun loadData(countryId: Int? = null) {
         loadJob?.cancel()
@@ -93,4 +97,5 @@ class RegionSelectionViewModel(
     fun onCountryClicked(region: Region, navController: NavController) {
         // сохранить выбранный  регион в SharedPreferences
         navController.popBackStack()
-    }}
+    }
+}
