@@ -12,6 +12,8 @@ import ru.practicum.android.diploma.filtration.domain.model.FilterStorage
 class MainFilterViewModel(
     val appInteractor: AppInteractor
 ) : ViewModel() {
+
+    private var latestSalary: String? = null
     private val _stateFilter = MutableStateFlow(value = FilterStorage())
     val stateFilter = _stateFilter.asStateFlow()
 
@@ -24,10 +26,30 @@ class MainFilterViewModel(
     }
 
     fun clearByKey(key: StorageKey) {
-        viewModelScope.launch {
-            appInteractor.clearByKey(key = key).collect {
-                _stateFilter.value = it
+        appInteractor.clearByKey(key = key)
+    }
+
+    fun clearStorage() {
+        appInteractor.clearStorage()
+    }
+
+    fun saveSalary(salary: String) {
+        if (salary.isNotEmpty()) {
+            if (salary == latestSalary) {
+                return
             }
+            appInteractor.saveData(StorageKey.SALARY_NAME_KEY, salary)
+        } else {
+            appInteractor.clearByKey(StorageKey.SALARY_NAME_KEY)
+        }
+        latestSalary = salary
+    }
+
+    fun saveWithSalary(withSalary: Boolean) {
+        if (withSalary) {
+            appInteractor.saveData(StorageKey.ONLY_WITH_SALARY_KEY, true.toString())
+        } else {
+            appInteractor.clearByKey(StorageKey.ONLY_WITH_SALARY_KEY)
         }
     }
 }

@@ -13,7 +13,7 @@ interface AppRepository {
 
     suspend fun getAllDataWithNames(): Flow<FilterStorage>
 
-    fun clearByKey(key: StorageKey): Flow<FilterStorage>
+    fun clearByKey(key: StorageKey)
 
     fun clearStorage()
 }

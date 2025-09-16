@@ -176,7 +176,7 @@ fun ShowErrorRegionPreview() {
 @Composable
 fun ShowRegions(
     regions: List<Region>,
-    onClick: (String) -> Unit
+    onClick: (String?) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier,

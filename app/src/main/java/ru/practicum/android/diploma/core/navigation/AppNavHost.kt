@@ -65,8 +65,21 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable(Screen.Placement.route) { Text("Placement Screen") }
         composable(Screen.CountrySelection.route) { Text("Country Selection Screen") }
         composable(Screen.RegionSelection.route) { Text("Region Selection Screen") }
-        composable(Screen.IndustrySelection.route) {
-            IndustryFilterScreen(navController = navController)
+        composable(
+            route = Screen.IndustrySelection.route,
+            arguments = listOf(
+                navArgument("industryId") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                }
+            )
+        ) { backStackEntry ->
+            val industryId = backStackEntry.arguments?.getString("industryId") ?: ""
+            IndustryFilterScreen(
+                industryId = industryId,
+                navController = navController
+            )
         }
     }
 }

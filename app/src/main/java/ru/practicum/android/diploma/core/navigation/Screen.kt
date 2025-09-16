@@ -28,5 +28,9 @@ sealed class Screen(val route: String) {
     object Placement : Screen("placement")
     object CountrySelection : Screen("country_selection")
     object RegionSelection : Screen("region_selection")
-    object IndustrySelection : Screen("industry_selection")
+    object IndustrySelection : Screen("industry_selection/{industryId}") {
+        fun createRoute(industryId: String?): String {
+            return "industry_selection/$industryId"
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filtration.ui.screens
 
+import android.os.Bundle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -70,9 +71,8 @@ fun MainFilterScreen(
                 .padding(paddingValues),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            var salaryText by remember { mutableStateOf("") }
-            var showSalary by remember { mutableStateOf(false) }
             val filterState by vm.stateFilter.collectAsState()
+
             Column(
                 modifier = Modifier.padding(top = WrapperPaddingVertical16)
             ) {
@@ -93,15 +93,18 @@ fun MainFilterScreen(
                         contentDescription = null
                     )
                 }
-                val industryValue = filterState.industryValue
-
                 FilterItem(
                     labelText = stringResource(R.string.industry),
-                    labelValue = industryValue,
-                    checked = industryValue.isNotEmpty(),
+                    labelValue = filterState.industryValue,
+                    checked = filterState.industryValue.isNotEmpty(),
                     isMainField = true,
-                    onClick = {
-                        navController?.navigate(Screen.IndustrySelection.route)
+                    idValue = filterState.industryId,
+                    onClick = { industryId ->
+                        navController?.navigate(
+                            Screen.IndustrySelection.createRoute(
+                                industryId = industryId
+                            )
+                        )
                     },
                     onClear = {
                         vm.clearByKey(key = StorageKey.INDUSTRY_ID_KEY)
@@ -127,9 +130,9 @@ fun MainFilterScreen(
                             horizontal = WrapperPaddingHorizontal16,
                             vertical = SpacerHeight24
                         ),
-                    value = salaryText,
+                    value = filterState.salaryValue,
                     onValueChange = { newText ->
-                        salaryText = newText
+                        vm.saveSalary(newText)
                     },
                     topPlaceholder = { topLabelColor ->
                         Text(
@@ -146,25 +149,29 @@ fun MainFilterScreen(
                         )
                     },
                     trailingIcon = {
-                        Icon(
-                            modifier = Modifier
-                                .size(Height24)
-                                .clickable {
-                                    salaryText = ""
-                                },
-                            painter = painterResource(R.drawable.close_24),
-                            contentDescription = null,
-                            tint = blackUniversal
-                        )
+                        if (filterState.salaryValue.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(Height24)
+                                    .clickable {
+                                        vm.saveSalary("")
+                                    },
+                                painter = painterResource(R.drawable.close_24),
+                                contentDescription = null,
+                                tint = blackUniversal
+                            )
+                        }
                     }
                 )
 
                 FilterItem(
-                    labelText = stringResource(R.string.industry),
-                    checked = showSalary,
+                    labelText = stringResource(R.string.not_show_without_salary),
+                    checked = filterState.withSalary.isNotEmpty(),
                     isMainField = true,
                     fieldType = FilterParams.FIELDTYPE.CHECK_BOX,
-                    onToggle = { showSalary = it }
+                    onToggle = {
+                        vm.saveWithSalary(withSalary = it)
+                    }
                 ) { checked ->
                     Checkbox(
                         colors = CheckboxDefaults.colors(
@@ -174,12 +181,11 @@ fun MainFilterScreen(
                         ),
                         checked = checked,
                         onCheckedChange = {
-                            showSalary = it
+                            vm.saveWithSalary(withSalary = it)
                         },
                     )
                 }
             }
-
             Column(
                 modifier = Modifier
                     .padding(
@@ -196,15 +202,24 @@ fun MainFilterScreen(
                     textButton = stringResource(R.string.filter_apply),
                     onClick = {}
                 )
-                FilterButton(
-                    modifier = Modifier
-                        .height(Height60)
-                        .fillMaxWidth(),
-                    textColor = red,
-                    containerColor = Color.Transparent,
-                    textButton = stringResource(R.string.filter_reset),
-                    onClick = {}
-                )
+
+                if (filterState.areaValue.isNotEmpty()
+                    || filterState.salaryValue.isNotEmpty()
+                    || filterState.industryValue.isNotEmpty()
+                    || filterState.withSalary.isNotEmpty()
+                ) {
+                    FilterButton(
+                        modifier = Modifier
+                            .height(Height60)
+                            .fillMaxWidth(),
+                        textColor = red,
+                        containerColor = Color.Transparent,
+                        textButton = stringResource(R.string.filter_reset),
+                        onClick = {
+                            vm.clearStorage()
+                        }
+                    )
+                }
             }
         }
     }

@@ -29,7 +29,7 @@ import ru.practicum.android.diploma.filtration.ui.viewmodel.AreasViewModel
 fun CountrySelector(
     countries: List<Country>,
     viewModel: AreasViewModel,
-    onClick: (String) -> Unit
+    onClick: (String?) -> Unit
 ) {
     Scaffold(
         topBar = {

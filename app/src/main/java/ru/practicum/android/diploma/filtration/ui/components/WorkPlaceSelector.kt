@@ -25,8 +25,8 @@ import ru.practicum.android.diploma.core.ui.components.FilterItem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkPlaceSelector(
-    onCountryClick: (String) -> Unit,
-    onRegionClick: (String) -> Unit,
+    onCountryClick: (String?) -> Unit,
+    onRegionClick: (String?) -> Unit,
     /** viewModel: AreasViewModel,
      *  navController: NavController */
 ) {

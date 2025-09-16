@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
+import ru.practicum.android.diploma.filtration.domain.model.FilterStorage
 import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
 import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
+import ru.practicum.android.diploma.main.domain.model.Filter
 import ru.practicum.android.diploma.main.domain.state.Resource
 import ru.practicum.android.diploma.main.ui.model.Vacancy
 import ru.practicum.android.diploma.main.ui.state.SearchState
@@ -33,12 +35,12 @@ class SearchVacancyViewModel(
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
 
-    private val _stateSearchFilter = MutableStateFlow<Map<String, String?>>(value = emptyMap())
+    private val _stateSearchFilter = MutableStateFlow(value = FilterStorage())
     val stateSearchFilter = _stateSearchFilter.asStateFlow()
 
     init {
         viewModelScope.launch {
-            appInteractor.getAllData().collect { data ->
+            appInteractor.getAllDataWithNames().collect { data ->
                 _stateSearchFilter.value = data
             }
         }
@@ -70,9 +72,22 @@ class SearchVacancyViewModel(
                 )
             }
 
+            val area = stateSearchFilter.value.areaId
+            val industry = stateSearchFilter.value.industryId
+            val salary = stateSearchFilter.value.salaryValue
+            val withSalary = stateSearchFilter.value.withSalary.isNotEmpty()
+
             debounce.invoke {
-                val filter: Map<String, String?> = _stateSearchFilter.value
-                searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
+                searchVacancyInteractor.searchVacancy(
+                    expression = expression,
+                    page = currentPage,
+                    filter = Filter(
+                        area = if (area.isNotEmpty()) area.toInt() else null,
+                        industry = if (industry.isNotEmpty()) industry.toInt() else null,
+                        salary = if (salary.isNotEmpty()) salary.toInt() else null,
+                        withSalary = withSalary
+                    )
+                )
                     .collect { vacancy ->
                         searchState(vacancy)
                     }
@@ -181,5 +196,9 @@ class SearchVacancyViewModel(
 
     fun renderSearchState(state: SearchState) {
         _stateSearchVacancy.value = state
+    }
+
+    fun repeatRequest() {
+        searchRequestText(expression = latestRequestText ?: "")
     }
 }
