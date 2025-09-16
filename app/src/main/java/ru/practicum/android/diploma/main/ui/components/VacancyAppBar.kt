@@ -37,12 +37,7 @@ fun VacancyAppBar(
 ) {
     val stateFilter = viewModel.stateSearchFilter.collectAsState().value
 
-    val cardContainer = if (
-        stateFilter.areaId == null &&
-        stateFilter.industryId == null &&
-        stateFilter.salaryId == null &&
-        stateFilter.withSalary == null
-    ) {
+    val cardContainer = if (stateFilter.isEmpty) {
         MaterialTheme.colorScheme.background
     } else {
         MaterialTheme.colorScheme.primary
