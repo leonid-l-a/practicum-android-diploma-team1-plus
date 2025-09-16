@@ -1,7 +1,9 @@
 package ru.practicum.android.diploma.filtration.domain.repository
 
-import ru.practicum.android.diploma.core.data.dto.FilterIndustryResponse
+import kotlinx.coroutines.flow.Flow
+import ru.practicum.android.diploma.filtration.domain.model.Industries
+import ru.practicum.android.diploma.filtration.domain.state.Resource
 
 interface IndustriesRepository {
-    suspend fun getIndustries(): FilterIndustryResponse
+    suspend fun getIndustries(): Flow<Resource<Industries>>
 }

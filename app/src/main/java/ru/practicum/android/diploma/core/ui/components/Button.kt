@@ -23,7 +23,7 @@ import ru.practicum.android.diploma.core.ui.theme.red
 fun FilterButton(
     textButton: String,
     modifier: Modifier = Modifier,
-    textColor: Color = MaterialTheme.colorScheme.background,
+    textColor: Color = MaterialTheme.colorScheme.onPrimary,
     containerColor: Color = Color.Unspecified,
     onClick: () -> Unit,
 ) {

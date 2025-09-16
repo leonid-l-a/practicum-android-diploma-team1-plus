@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.main.data.repository
 
 import android.content.Context
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.data.dto.VacancyRequest
@@ -30,8 +29,6 @@ class SearchVacancyRepositoryImpl(
                     Resource.Error()
                 )
             } else {
-                filterMap
-                Log.d("filterMap", "$filterMap")
                 val vacancyRequest = VacancyRequest(
                     text = expression,
                     page = page,

@@ -34,7 +34,7 @@ class SearchVacancyViewModel(
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
 
     private val _stateSearchFilter = MutableStateFlow<Map<String, String?>>(value = emptyMap())
-    val stateSearchFilter = _stateSearchVacancy.asStateFlow()
+    val stateSearchFilter = _stateSearchFilter.asStateFlow()
 
     init {
         viewModelScope.launch {

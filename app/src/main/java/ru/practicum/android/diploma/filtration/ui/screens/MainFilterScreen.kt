@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.core.navigation.Screen
 import ru.practicum.android.diploma.core.ui.components.FilterButton
 import ru.practicum.android.diploma.core.ui.components.FilterItem
@@ -43,9 +46,14 @@ import ru.practicum.android.diploma.core.ui.theme.blue
 import ru.practicum.android.diploma.core.ui.theme.red
 import ru.practicum.android.diploma.filtration.ui.components.SalaryField
 import ru.practicum.android.diploma.filtration.ui.components.TopBar
+import ru.practicum.android.diploma.filtration.ui.viewmodel.MainFilterViewModel
 
 @Composable
-fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController? = null) {
+fun MainFilterScreen(
+    modifier: Modifier = Modifier,
+    vm: MainFilterViewModel = koinViewModel(),
+    navController: NavController? = null
+) {
     Scaffold(
         topBar = {
             TopBar(
@@ -64,6 +72,7 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
         ) {
             var salaryText by remember { mutableStateOf("") }
             var showSalary by remember { mutableStateOf(false) }
+            val filterState by vm.stateFilter.collectAsState()
             Column(
                 modifier = Modifier.padding(top = WrapperPaddingVertical16)
             ) {
@@ -84,11 +93,18 @@ fun MainFilterScreen(modifier: Modifier = Modifier, navController: NavController
                         contentDescription = null
                     )
                 }
+                val industryValue = filterState.industryValue
+
                 FilterItem(
                     labelText = stringResource(R.string.industry),
+                    labelValue = industryValue,
+                    checked = industryValue.isNotEmpty(),
                     isMainField = true,
                     onClick = {
                         navController?.navigate(Screen.IndustrySelection.route)
+                    },
+                    onClear = {
+                        vm.clearByKey(key = StorageKey.INDUSTRY_ID_KEY)
                     }
                 ) { checked ->
                     val resId = if (checked) {
