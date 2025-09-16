@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okio.IOException
+import ru.practicum.android.diploma.core.domain.AppInteractor
+import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.filtration.domain.interactor.GetAreasUseCase
 import ru.practicum.android.diploma.filtration.domain.model.Country
 import ru.practicum.android.diploma.filtration.domain.state.Result
@@ -15,6 +17,7 @@ import ru.practicum.android.diploma.filtration.ui.state.CountrySelectionScreenSt
 
 class CountrySelectionViewModel(
     private val getAreasUseCase: GetAreasUseCase,
+    private val appInteractor: AppInteractor,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<CountrySelectionScreenState>(CountrySelectionScreenState.Loading)
@@ -44,8 +47,15 @@ class CountrySelectionViewModel(
         }
     }
 
-    fun onCountryClicked(country: Country, navController: NavController) {
-        // сохранить выбранную страну в префы
+    fun onCountryClicked(
+        country: Country,
+        navController: NavController,
+    ) {
+        appInteractor.saveData(StorageKey.AREA_ID_KEY, country.id)
+
+        appInteractor.saveData(StorageKey.COUNTRY_NAME_KEY, country.name)
+
+        appInteractor.saveData(StorageKey.REGION_NAME_KEY, "")
         navController.popBackStack()
     }
 }

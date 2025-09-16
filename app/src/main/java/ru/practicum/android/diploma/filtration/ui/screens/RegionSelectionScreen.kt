@@ -79,7 +79,7 @@ fun RegionSelectionScreen(
                                 labelText = region.name,
                                 checked = false,
                                 onClick = {
-                                    viewModel.onCountryClicked(region, navController)
+                                    viewModel.onRegionClicked(region, navController)
                                 }
                             ) { checked ->
                                 val resId = if (checked) {

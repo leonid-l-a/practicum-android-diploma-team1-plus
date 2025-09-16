@@ -77,9 +77,22 @@ fun MainFilterScreen(
             ) {
                 FilterItem(
                     labelText = stringResource(R.string.work_place),
+                    labelValue = listOf(
+                        filterState.countryValue,
+                        filterState.regionValue
+                    )
+                        .filter { it.isNotEmpty() }
+                        .joinToString(", "),
+                    checked = filterState.countryValue.isNotEmpty() || filterState.regionValue.isNotEmpty(),
+                    idValue = filterState.areaId,
                     isMainField = true,
                     onClick = {
                         navController?.navigate(Screen.WorkPlace.route)
+                    },
+                    onClear = {
+                        vm.clearByKey(StorageKey.AREA_ID_KEY)
+                        vm.clearByKey(StorageKey.COUNTRY_NAME_KEY)
+                        vm.clearByKey(StorageKey.REGION_NAME_KEY)
                     }
                 ) { checked ->
                     val resId = if (checked) {

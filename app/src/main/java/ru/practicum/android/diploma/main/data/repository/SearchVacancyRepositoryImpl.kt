@@ -34,6 +34,7 @@ class SearchVacancyRepositoryImpl(
                 val vacancyRequest = VacancyRequest(
                     text = expression,
                     page = page,
+
                     area = filterMap.areaId?.toInt(),
                     industry = filterMap.industryId?.toInt(),
                     salary = filterMap.salaryId?.toInt(),

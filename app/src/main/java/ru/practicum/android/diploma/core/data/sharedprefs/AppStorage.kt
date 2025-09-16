@@ -33,11 +33,13 @@ class AppStorage(
         sharedPrefs
             .edit {
                 remove(StorageKey.AREA_ID_KEY.key)
-                remove(StorageKey.AREA_NAME_KEY.key)
+                remove(StorageKey.REGION_NAME_KEY.key)
+                remove(StorageKey.COUNTRY_NAME_KEY.key)
             }
         return _storageState.value.copy(
             areaId = "",
-            areaValue = ""
+            regionValue = "",
+            countryValue = ""
         )
     }
 
@@ -87,7 +89,8 @@ class AppStorage(
         saveStorageByKey(key.key, value)
         val newStorage = when (key) {
             StorageKey.AREA_ID_KEY -> _storageState.value.copy(areaId = value)
-            StorageKey.AREA_NAME_KEY -> _storageState.value.copy(areaValue = value)
+            StorageKey.REGION_NAME_KEY -> _storageState.value.copy(regionValue = value)
+            StorageKey.COUNTRY_NAME_KEY -> _storageState.value.copy(countryValue = value)
             StorageKey.SALARY_ID_KEY -> _storageState.value.copy(salaryId = value)
             StorageKey.SALARY_NAME_KEY -> _storageState.value.copy(salaryValue = value)
             StorageKey.INDUSTRY_ID_KEY -> _storageState.value.copy(industryId = value)
@@ -126,7 +129,7 @@ class AppStorage(
 
     fun clearByKey(key: StorageKey) {
         val newStorage = when (key) {
-            StorageKey.AREA_ID_KEY, StorageKey.AREA_NAME_KEY -> {
+            StorageKey.AREA_ID_KEY, StorageKey.COUNTRY_NAME_KEY, StorageKey.REGION_NAME_KEY -> {
                 clearArea()
             }
 
@@ -152,7 +155,8 @@ class AppStorage(
             }
         val newStorage = _storageState.value.copy(
             areaId = "",
-            areaValue = "",
+            regionValue = "",
+            countryValue = "",
             industryId = "",
             industryValue = "",
             salaryId = "",

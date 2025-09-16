@@ -78,6 +78,11 @@ class SearchVacancyViewModel(
                 )
             }
 
+            val area = stateSearchFilter.value.areaId
+            val industry = stateSearchFilter.value.industryId
+            val salary = stateSearchFilter.value.salaryId
+            val withSalary = stateSearchFilter.value.withSalary?.isNotEmpty()
+
             debounce.invoke {
                 val filter: FilterRequestData = FilterRequestMapper.toFilterRequestData(_stateSearchFilter.value)
                 searchVacancyInteractor.searchVacancy(expression, currentPage, filter)

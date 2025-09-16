@@ -20,7 +20,7 @@ val filtrationViewModelModule = module {
             appInteractor = get()
         )
     }
-    viewModel { WorkPlaceViewModel() }
-    viewModel { CountrySelectionViewModel(get()) }
-    viewModel { RegionSelectionViewModel(get()) }
+    viewModel { WorkPlaceViewModel(get()) }
+    viewModel { CountrySelectionViewModel(get(), get()) }
+    viewModel { RegionSelectionViewModel(get(), get()) }
 }

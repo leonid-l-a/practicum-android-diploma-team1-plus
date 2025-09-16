@@ -281,7 +281,7 @@ fun FilterCheckBoxItemPreview() {
                                 painter = painterResource(
                                     id = resId
                                 ),
-                                contentDescription = null
+                                contentDescription = null,
                             )
                         }
 
