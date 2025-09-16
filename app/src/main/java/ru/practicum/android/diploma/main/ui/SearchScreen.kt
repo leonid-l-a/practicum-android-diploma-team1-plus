@@ -56,6 +56,7 @@ fun SearchScreen(
     Scaffold(
         topBar = {
             VacancyAppBar(
+                viewModel = viewModel,
                 modifier = Modifier,
                 onClick = {
                     navController.navigate(Screen.Filtration.route)
