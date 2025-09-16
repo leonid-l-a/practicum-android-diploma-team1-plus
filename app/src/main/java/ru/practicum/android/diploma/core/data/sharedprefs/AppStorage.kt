@@ -3,6 +3,8 @@ package ru.practicum.android.diploma.core.data.sharedprefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.filtration.domain.model.FilterStorage
@@ -11,9 +13,10 @@ import kotlin.String
 class AppStorage(
     val sharedPrefs: SharedPreferences,
 ) {
-    private var storageData = FilterStorage()
+    private var _storageState = MutableStateFlow(FilterStorage())
+    val storageState = _storageState.asStateFlow()
 
-    private suspend fun getMapWithKeys(): Map<String, String?> {
+    private fun getMapWithKeys(): Map<String, String?> {
         val area = getStorageByKey(StorageKey.AREA_ID_KEY)
         val salary = getStorageByKey(StorageKey.SALARY_ID_KEY)
         val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
@@ -38,18 +41,19 @@ class AppStorage(
         //clearByKey(key)
         val value = data.toString()
         saveStorageByKey(key.key, value)
-        storageData = when (key) {
-            StorageKey.AREA_ID_KEY -> storageData.copy(areaId = value)
-            StorageKey.AREA_NAME_KEY -> storageData.copy(areaValue = value)
-            StorageKey.SALARY_ID_KEY -> storageData.copy(salaryId = value)
-            StorageKey.SALARY_NAME_KEY -> storageData.copy(salaryValue = value)
-            StorageKey.INDUSTRY_ID_KEY -> storageData.copy(industryId = value)
-            StorageKey.INDUSTRY_NAME_KEY -> storageData.copy(industryValue = value)
-            StorageKey.ONLY_WITH_SALARY_KEY -> storageData.copy(withSalary = value)
+        val newStorage = when (key) {
+            StorageKey.AREA_ID_KEY -> _storageState.value.copy(areaId = value)
+            StorageKey.AREA_NAME_KEY -> _storageState.value.copy(areaValue = value)
+            StorageKey.SALARY_ID_KEY -> _storageState.value.copy(salaryId = value)
+            StorageKey.SALARY_NAME_KEY -> _storageState.value.copy(salaryValue = value)
+            StorageKey.INDUSTRY_ID_KEY -> _storageState.value.copy(industryId = value)
+            StorageKey.INDUSTRY_NAME_KEY -> _storageState.value.copy(industryValue = value)
+            StorageKey.ONLY_WITH_SALARY_KEY -> _storageState.value.copy(withSalary = value)
         }
+        _storageState.value = newStorage
     }
 
-    suspend fun getStorageByKey(key: StorageKey): String? {
+    fun getStorageByKey(key: StorageKey): String? {
         return sharedPrefs.getString(key.key, null)
     }
 
@@ -59,31 +63,31 @@ class AppStorage(
         )
     }
 
-    fun getDataWithNames(): Flow<FilterStorage> = flow {
+    fun getDataWithNames(): Flow<FilterStorage> {
         val area = getStorageByKey(StorageKey.AREA_ID_KEY)
         val salary = getStorageByKey(StorageKey.SALARY_ID_KEY)
         val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
         val industry = getStorageByKey(StorageKey.INDUSTRY_ID_KEY)
         val industryValue = getStorageByKey(StorageKey.INDUSTRY_NAME_KEY)
-        storageData = storageData.copy(
+        _storageState.value.copy(
             industryValue = industryValue ?: "",
             industryId = industry ?: "",
             areaId = area ?: "",
             salaryValue = salary ?: "",
             withSalary = onlyWithSalary ?: ""
         )
-        emit(value = storageData)
+        return storageState
     }
 
     fun clearByKey(key: StorageKey): Flow<FilterStorage> {
-        when (key) {
+        val newStorage = when (key) {
             StorageKey.AREA_ID_KEY, StorageKey.AREA_NAME_KEY -> {
                 sharedPrefs
                     .edit {
                         remove(StorageKey.AREA_ID_KEY.key)
                         remove(StorageKey.AREA_NAME_KEY.key)
                     }
-                storageData = storageData.copy(
+                _storageState.value.copy(
                     areaId = "",
                     areaValue = ""
                 )
@@ -95,7 +99,7 @@ class AppStorage(
                         remove(StorageKey.SALARY_ID_KEY.key)
                         remove(StorageKey.SALARY_NAME_KEY.key)
                     }
-                storageData = storageData.copy(
+                _storageState.value.copy(
                     salaryId = "",
                     salaryValue = ""
                 )
@@ -107,7 +111,7 @@ class AppStorage(
                         remove(StorageKey.INDUSTRY_ID_KEY.key)
                         remove(StorageKey.INDUSTRY_NAME_KEY.key)
                     }
-                storageData = storageData.copy(
+                _storageState.value.copy(
                     industryId = "",
                     industryValue = ""
                 )
@@ -118,14 +122,13 @@ class AppStorage(
                     .edit {
                         remove(StorageKey.ONLY_WITH_SALARY_KEY.key)
                     }
-                storageData = storageData.copy(
+                _storageState.value.copy(
                     withSalary = ""
                 )
             }
         }
-        return flow {
-            emit(storageData)
-        }
+        _storageState.value = newStorage
+        return storageState
     }
 
     fun clearStorage() {
@@ -133,7 +136,7 @@ class AppStorage(
             .edit {
                 clear()
             }
-        storageData = storageData.copy(
+        val newStorage = _storageState.value.copy(
             areaId = "",
             areaValue = "",
             industryId = "",
@@ -142,5 +145,7 @@ class AppStorage(
             salaryValue = "",
             withSalary = "",
         )
+        _storageState.value = newStorage
+        return
     }
 }

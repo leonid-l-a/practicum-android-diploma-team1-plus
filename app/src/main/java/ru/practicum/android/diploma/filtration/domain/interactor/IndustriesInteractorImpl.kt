@@ -1,9 +1,7 @@
 package ru.practicum.android.diploma.filtration.domain.interactor
 
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.filtration.data.mapper.IndustriesMapper
 import ru.practicum.android.diploma.filtration.domain.model.Industries
-import ru.practicum.android.diploma.filtration.domain.model.IndustryDetail
 import ru.practicum.android.diploma.filtration.domain.repository.IndustriesRepository
 import ru.practicum.android.diploma.filtration.domain.state.Resource
 
