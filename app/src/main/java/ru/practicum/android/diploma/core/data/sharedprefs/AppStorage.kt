@@ -109,11 +109,11 @@ class AppStorage(
 
     fun getDataWithNames(): Flow<FilterStorage> {
         val area = getStorageByKey(StorageKey.AREA_ID_KEY)
-        val salary = getStorageByKey(StorageKey.SALARY_ID_KEY)
+        val salary = getStorageByKey(StorageKey.SALARY_NAME_KEY)
         val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
         val industry = getStorageByKey(StorageKey.INDUSTRY_ID_KEY)
         val industryValue = getStorageByKey(StorageKey.INDUSTRY_NAME_KEY)
-        _storageState.value = FilterStorage(
+        _storageState.value.copy(
             industryValue = industryValue ?: "",
             industryId = industry ?: "",
             areaId = area ?: "",
