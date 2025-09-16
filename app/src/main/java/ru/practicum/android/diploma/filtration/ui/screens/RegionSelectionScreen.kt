@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.ui.components.CircularIndicator
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 import ru.practicum.android.diploma.filtration.ui.components.SearchFilterItems
 import ru.practicum.android.diploma.filtration.ui.components.ShowEmptyRegion
@@ -29,7 +30,6 @@ import ru.practicum.android.diploma.filtration.ui.components.ShowErrorRegion
 import ru.practicum.android.diploma.filtration.ui.components.TopBar
 import ru.practicum.android.diploma.filtration.ui.state.RegionSelectionScreenState
 import ru.practicum.android.diploma.filtration.ui.viewmodel.RegionSelectionViewModel
-import ru.practicum.android.diploma.main.ui.components.CircularIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

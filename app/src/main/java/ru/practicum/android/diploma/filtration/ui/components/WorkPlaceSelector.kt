@@ -88,7 +88,7 @@ fun WorkPlaceSelector(
                 checked = false,
                 isMainField = true,
                 onClick = { onRegionClick() },
-                onClear = {  }
+                onClear = {}
             ) { checked ->
                 val resId = if (checked) {
                     R.drawable.close_24
