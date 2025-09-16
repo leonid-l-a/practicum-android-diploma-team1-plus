@@ -12,6 +12,7 @@ object IndustriesMapper {
             resultCode = StorageResultCode.SUCCESS
         )
     }
+
     fun toIndustryDetail(data: FilterIndustryResponse): List<IndustryDetail> {
         return data.industries.map { industry ->
             IndustryDetail(
