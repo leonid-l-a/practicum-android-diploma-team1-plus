@@ -12,7 +12,7 @@ data class FilterStorage(
 )
 
 fun FilterStorage.hasActiveFilters(): Boolean {
-    return areaValue.isNotEmpty() ||
+    return areaId.isNotEmpty() ||
         salaryValue.isNotEmpty() ||
         industryValue.isNotEmpty() ||
         withSalary.isNotEmpty()
