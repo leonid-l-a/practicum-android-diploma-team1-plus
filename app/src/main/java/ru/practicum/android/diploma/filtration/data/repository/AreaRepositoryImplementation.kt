@@ -11,6 +11,7 @@ class AreaRepositoryImplementation(
     companion object {
         private const val SUCCESS_RESPONSE_CODE = 200
     }
+
     override suspend fun getAreas(): Result<FilterAreasResponse> {
         val response = vacancyNetworkClient.getFilterAreas()
         return if (response.resultCode == SUCCESS_RESPONSE_CODE) {

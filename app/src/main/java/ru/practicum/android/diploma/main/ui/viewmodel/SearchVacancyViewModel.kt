@@ -6,10 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
-import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
-import ru.practicum.android.diploma.main.data.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
+import ru.practicum.android.diploma.main.domain.model.FilterRequestData
+import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
+import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.state.Resource
+import ru.practicum.android.diploma.main.ui.mapper.FilterRequestMapper
+import ru.practicum.android.diploma.main.ui.model.FilterRequest
 import ru.practicum.android.diploma.main.ui.model.Vacancy
 import ru.practicum.android.diploma.main.ui.state.SearchState
 import ru.practicum.android.diploma.main.util.getFormatSalary
@@ -33,13 +36,13 @@ class SearchVacancyViewModel(
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
 
-    private val _stateSearchFilter = MutableStateFlow<Map<String, String?>>(value = emptyMap())
+    private val _stateSearchFilter = MutableStateFlow<FilterRequest>(value = FilterRequest())
     val stateSearchFilter = _stateSearchFilter.asStateFlow()
 
     init {
         viewModelScope.launch {
-            appInteractor.getAllData().collect { data ->
-                _stateSearchFilter.value = data
+            appInteractor.getAllDataWithNames().collect { data ->
+                _stateSearchFilter.value = FilterRequestMapper.toFilterRequest(data)
             }
         }
     }
@@ -71,7 +74,7 @@ class SearchVacancyViewModel(
             }
 
             debounce.invoke {
-                val filter: Map<String, String?> = _stateSearchFilter.value
+                val filter: FilterRequestData = FilterRequestMapper.toFilterRequestData(_stateSearchFilter.value)
                 searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
                     .collect { vacancy ->
                         searchState(vacancy)

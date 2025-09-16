@@ -7,7 +7,8 @@ import ru.practicum.android.diploma.core.data.dto.VacancyRequest
 import ru.practicum.android.diploma.core.data.network.VacancyNetworkClient
 import ru.practicum.android.diploma.core.data.utils.ResponseCode
 import ru.practicum.android.diploma.main.data.mapper.VacancyMapper
-import ru.practicum.android.diploma.main.data.model.VacancyMainData
+import ru.practicum.android.diploma.main.domain.model.FilterRequestData
+import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.repository.SearchVacancyRepository
 import ru.practicum.android.diploma.main.domain.state.Resource
 import ru.practicum.android.diploma.util.NetworkUtil
@@ -21,7 +22,7 @@ class SearchVacancyRepositoryImpl(
     override fun searchVacancy(
         expression: String,
         page: Int,
-        filterMap: Map<String, String?>
+        filterMap: FilterRequestData
     ): Flow<Resource<VacancyMainData>> =
         flow {
             if (!networkUtil.isInternetAvailable(context)) {
@@ -32,10 +33,10 @@ class SearchVacancyRepositoryImpl(
                 val vacancyRequest = VacancyRequest(
                     text = expression,
                     page = page,
-                    area = filterMap["area"]?.toInt(),
-                    industry = filterMap["industry"]?.toInt(),
-                    salary = filterMap["salary"]?.toInt(),
-                    onlyWithSalary = filterMap["onlyWithSalary"]?.toBoolean() == true
+                    area = filterMap.areaId?.toInt(),
+                    industry = filterMap.industryId?.toInt(),
+                    salary = filterMap.salaryId?.toInt(),
+                    onlyWithSalary = filterMap.withSalary?.toBoolean() == true
                 )
 
                 val networkResponse = networkClient.getVacancies(vacancyRequest)

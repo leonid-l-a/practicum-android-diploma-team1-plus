@@ -73,6 +73,7 @@ class IndustryViewModel(
                             IndustryState.ClientError
                         )
                     }
+
                     StorageResultCode.SERVER_ERROR -> {
                         renderState(
                             IndustryState.ServerError
@@ -80,6 +81,7 @@ class IndustryViewModel(
                     }
                 }
             }
+
             is Resource.Success -> {
                 items = map(industries = state.data.items)
                 renderState(
