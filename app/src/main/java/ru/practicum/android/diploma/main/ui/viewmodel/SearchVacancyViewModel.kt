@@ -38,6 +38,9 @@ class SearchVacancyViewModel(
     private val _stateSearchFilter = MutableStateFlow(value = FilterStorage())
     val stateSearchFilter = _stateSearchFilter.asStateFlow()
 
+    private val _shouldRepeatRequest = MutableStateFlow(value = false)
+    val shouldRepeatRequest = _shouldRepeatRequest.asStateFlow()
+
     init {
         viewModelScope.launch {
             appInteractor.getAllDataWithNames().collect { data ->
@@ -120,18 +123,20 @@ class SearchVacancyViewModel(
         }
     }
 
-    fun searchRequestText(expression: String, isLazyLoad: Boolean = false) {
-        if (latestRequestText == expression) {
-            if (!isLazyLoad) {
-                return
+    fun searchRequestText(expression: String, isLazyLoad: Boolean = false, shouldRepeat: Boolean = false) {
+        if (!shouldRepeat) {
+            if (latestRequestText == expression) {
+                if (!isLazyLoad) {
+                    return
+                }
+            } else {
+                if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
+                    resetPages()
+                }
             }
-        } else {
-            if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
+            if (expression.isEmpty()) {
                 resetPages()
             }
-        }
-        if (expression.isEmpty()) {
-            resetPages()
         }
         latestRequestText = expression
         searchVacancy(
@@ -198,7 +203,11 @@ class SearchVacancyViewModel(
         _stateSearchVacancy.value = state
     }
 
+    fun setShouldRepeatRequest(shouldRepeat: Boolean) {
+        _shouldRepeatRequest.value = shouldRepeat
+    }
+
     fun repeatRequest() {
-        searchRequestText(expression = latestRequestText ?: "")
+        searchRequestText(expression = latestRequestText ?: "", shouldRepeat = true)
     }
 }

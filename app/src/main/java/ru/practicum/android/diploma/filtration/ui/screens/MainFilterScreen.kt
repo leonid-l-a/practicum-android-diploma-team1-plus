@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.filtration.ui.screens
 
-import android.os.Bundle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,9 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -48,11 +44,13 @@ import ru.practicum.android.diploma.core.ui.theme.red
 import ru.practicum.android.diploma.filtration.ui.components.SalaryField
 import ru.practicum.android.diploma.filtration.ui.components.TopBar
 import ru.practicum.android.diploma.filtration.ui.viewmodel.MainFilterViewModel
+import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 @Composable
 fun MainFilterScreen(
     modifier: Modifier = Modifier,
     vm: MainFilterViewModel = koinViewModel(),
+    searchVm: SearchVacancyViewModel = koinViewModel(),
     navController: NavController? = null
 ) {
     Scaffold(
@@ -203,7 +201,10 @@ fun MainFilterScreen(
                         .height(Height60)
                         .fillMaxWidth(),
                     textButton = stringResource(R.string.filter_apply),
-                    onClick = {}
+                    onClick = {
+                        searchVm.setShouldRepeatRequest(shouldRepeat = true)
+                        navController?.popBackStack()
+                    }
                 )
 
                 if (filterState.areaValue.isNotEmpty()
