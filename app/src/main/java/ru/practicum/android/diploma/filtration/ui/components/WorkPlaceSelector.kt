@@ -22,6 +22,41 @@ import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.components.FilterItem
 
+@Composable
+private fun ActionIcon(checked: Boolean, modifier: Modifier = Modifier) {
+    val resId = if (checked) R.drawable.close_24 else R.drawable.arrow_forward_24
+    Icon(
+        painter = painterResource(id = resId),
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.onBackground,
+        modifier = modifier
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun WorkPlaceTopBar(navController: NavController) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent
+        ),
+        title = {
+            Text(
+                text = stringResource(R.string.work_place_title),
+                style = MaterialTheme.typography.headlineMedium
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.back)
+                )
+            }
+        }
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkPlaceSelector(
@@ -37,77 +72,28 @@ fun WorkPlaceSelector(
     bottomBar: @Composable (() -> Unit),
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults
-                    .topAppBarColors()
-                    .copy(
-                        containerColor = Color.Transparent
-                    ),
-                title = {
-                    Text(
-                        text = stringResource(R.string.work_place_title),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
-                    }
-                }
-            )
-        },
+        topBar = { WorkPlaceTopBar(navController) },
         bottomBar = bottomBar
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .padding(paddingValues = paddingValues),
+            modifier = Modifier.padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FilterItem(
-                labelText = if (!countryLabel.isNullOrBlank()) countryLabel else stringResource(R.string.country),
+                labelText = countryLabel.takeIf { !it.isNullOrBlank() } ?: stringResource(R.string.country),
                 checked = countryChecked,
                 isMainField = true,
                 onClick = { onCountryClick() },
-                onClear = { onCountryClear() }
-            ) { checked ->
-                val resId = if (checked) {
-                    R.drawable.close_24
-                } else {
-                    R.drawable.arrow_forward_24
-                }
-                Icon(
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    painter = painterResource(id = resId),
-                    contentDescription = null
-                )
-            }
+                onClear = onCountryClear
+            ) { checked -> ActionIcon(checked) }
 
             FilterItem(
-                labelText = if (!regionLabel.isNullOrBlank()) regionLabel else stringResource(R.string.region),
+                labelText = regionLabel.takeIf { !it.isNullOrBlank() } ?: stringResource(R.string.region),
                 checked = regionChecked,
                 isMainField = true,
                 onClick = { onRegionClick() },
-                onClear = { onRegionClear() }
-            ) { checked ->
-                val resId = if (checked) {
-                    R.drawable.close_24
-                } else {
-                    R.drawable.arrow_forward_24
-                }
-                Icon(
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    painter = painterResource(id = resId),
-                    contentDescription = null
-                )
-            }
+                onClear = onRegionClear
+            ) { checked -> ActionIcon(checked) }
         }
     }
 }

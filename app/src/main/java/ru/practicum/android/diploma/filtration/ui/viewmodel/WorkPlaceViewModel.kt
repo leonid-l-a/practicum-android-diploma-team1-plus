@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
 import ru.practicum.android.diploma.core.domain.repository.StorageKey
-import ru.practicum.android.diploma.filtration.ui.state.WorkPlaceScreenState
 
 class WorkPlaceViewModel(
     private val appInteractor: AppInteractor,

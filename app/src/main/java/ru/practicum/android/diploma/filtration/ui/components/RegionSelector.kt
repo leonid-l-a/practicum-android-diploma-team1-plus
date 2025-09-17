@@ -19,7 +19,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
 import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
 
-
 @Composable
 fun ShowErrorRegion() {
     Column(
