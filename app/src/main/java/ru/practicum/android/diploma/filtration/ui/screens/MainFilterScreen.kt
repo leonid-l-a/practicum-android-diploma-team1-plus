@@ -49,18 +49,17 @@ import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 
 @Composable
 fun MainFilterScreen(
-    modifier: Modifier = Modifier,
     vm: MainFilterViewModel = koinViewModel(),
     searchVm: SearchVacancyViewModel = koinViewModel(),
     navController: NavController? = null
 ) {
+    val filterState by vm.stateFilter.collectAsState()
+
     Scaffold(
         topBar = {
             TopBar(
                 text = stringResource(R.string.filter_settings),
-                onBackNavigate = {
-                    navController?.popBackStack()
-                }
+                onBackNavigate = { navController?.popBackStack() }
             )
         }
     ) { paddingValues ->
@@ -70,97 +69,53 @@ fun MainFilterScreen(
                 .padding(paddingValues),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            val filterState by vm.stateFilter.collectAsState()
-
-            Column(
-                modifier = Modifier.padding(top = WrapperPaddingVertical16)
-            ) {
-                FilterItem(
-                    labelText = stringResource(R.string.work_place),
-                    labelValue = listOf(
+            Column(Modifier.padding(top = WrapperPaddingVertical16)) {
+                MainFilterItem(
+                    text = stringResource(R.string.work_place),
+                    value = listOf(
                         filterState.countryValue,
                         filterState.regionValue
-                    )
-                        .filter { it.isNotEmpty() }
-                        .joinToString(", "),
+                    ).filter { it.isNotEmpty() }.joinToString(", "),
                     checked = filterState.countryValue.isNotEmpty() || filterState.regionValue.isNotEmpty(),
-                    idValue = filterState.areaId,
-                    isMainField = true,
-                    onClick = {
-                        navController?.navigate(Screen.WorkPlace.route)
-                    },
+                    id = filterState.areaId,
+                    onClick = { navController?.navigate(Screen.WorkPlace.route) },
                     onClear = {
                         vm.clearByKey(StorageKey.AREA_ID_KEY)
                         vm.clearByKey(StorageKey.COUNTRY_NAME_KEY)
                         vm.clearByKey(StorageKey.REGION_NAME_KEY)
                     }
-                ) { checked ->
-                    val resId = if (checked) {
-                        R.drawable.close_24
-                    } else {
-                        R.drawable.arrow_forward_24
-                    }
-                    Icon(
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        painter = painterResource(
-                            id = resId
-                        ),
-                        contentDescription = null
-                    )
-                }
-                FilterItem(
-                    labelText = stringResource(R.string.industry),
-                    labelValue = filterState.industryValue,
+                )
+
+                MainFilterItem(
+                    text = stringResource(R.string.industry),
+                    value = filterState.industryValue,
                     checked = filterState.industryValue.isNotEmpty(),
-                    isMainField = true,
-                    idValue = filterState.industryId,
-                    onClick = { industryId ->
-                        navController?.navigate(
-                            Screen.IndustrySelection.createRoute(
-                                industryId = industryId
-                            )
-                        )
+                    id = filterState.industryId,
+                    onClick = { id ->
+                        navController?.navigate(Screen.IndustrySelection.createRoute(id))
                     },
-                    onClear = {
-                        vm.clearByKey(key = StorageKey.INDUSTRY_ID_KEY)
-                    }
-                ) { checked ->
-                    val resId = if (checked) {
-                        R.drawable.close_24
-                    } else {
-                        R.drawable.arrow_forward_24
-                    }
-                    Icon(
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        painter = painterResource(
-                            id = resId
-                        ),
-                        contentDescription = null
-                    )
-                }
+                    onClear = { vm.clearByKey(StorageKey.INDUSTRY_ID_KEY) }
+                )
 
                 SalaryField(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = WrapperPaddingHorizontal16,
-                            vertical = SpacerHeight24
-                        ),
+                    modifier = Modifier.padding(
+                        horizontal = WrapperPaddingHorizontal16,
+                        vertical = SpacerHeight24
+                    ),
                     value = filterState.salaryValue,
-                    onValueChange = { newText ->
-                        vm.saveSalary(newText)
-                    },
-                    topPlaceholder = { topLabelColor ->
+                    onValueChange = vm::saveSalary,
+                    topPlaceholder = { color ->
                         Text(
                             text = stringResource(R.string.need_salary),
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.W400),
-                            color = topLabelColor
+                            color = color
                         )
                     },
-                    bottomPlaceholder = { bottomLabelColor ->
+                    bottomPlaceholder = { color ->
                         Text(
                             text = stringResource(R.string.input_salary),
-                            color = bottomLabelColor,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = color
                         )
                     },
                     trailingIcon = {
@@ -168,9 +123,7 @@ fun MainFilterScreen(
                             Icon(
                                 modifier = Modifier
                                     .size(Height24)
-                                    .clickable {
-                                        vm.saveSalary("")
-                                    },
+                                    .clickable { vm.saveSalary("") },
                                 painter = painterResource(R.drawable.close_24),
                                 contentDescription = null,
                                 tint = blackUniversal
@@ -184,9 +137,7 @@ fun MainFilterScreen(
                     checked = filterState.withSalary.isNotEmpty(),
                     isMainField = true,
                     fieldType = FilterParams.FIELDTYPE.CHECK_BOX,
-                    onToggle = {
-                        vm.saveWithSalary(withSalary = it)
-                    }
+                    onToggle = vm::saveWithSalary
                 ) { checked ->
                     Checkbox(
                         colors = CheckboxDefaults.colors(
@@ -195,19 +146,17 @@ fun MainFilterScreen(
                             checkmarkColor = MaterialTheme.colorScheme.background
                         ),
                         checked = checked,
-                        onCheckedChange = {
-                            vm.saveWithSalary(withSalary = it)
-                        },
+                        onCheckedChange = vm::saveWithSalary
                     )
                 }
             }
+
             Column(
-                modifier = Modifier
-                    .padding(
-                        bottom = Height24,
-                        start = WrapperPaddingHorizontal16,
-                        end = WrapperPaddingHorizontal16
-                    ),
+                modifier = Modifier.padding(
+                    bottom = Height24,
+                    start = WrapperPaddingHorizontal16,
+                    end = WrapperPaddingHorizontal16
+                ),
                 verticalArrangement = Arrangement.spacedBy(SpacerHeight8)
             ) {
                 FilterButton(
@@ -216,7 +165,7 @@ fun MainFilterScreen(
                         .fillMaxWidth(),
                     textButton = stringResource(R.string.filter_apply),
                     onClick = {
-                        searchVm.setShouldRepeatRequest(shouldRepeat = true)
+                        searchVm.setShouldRepeatRequest(true)
                         navController?.popBackStack()
                     }
                 )
@@ -229,13 +178,37 @@ fun MainFilterScreen(
                         textColor = red,
                         containerColor = Color.Transparent,
                         textButton = stringResource(R.string.filter_reset),
-                        onClick = {
-                            vm.clearStorage()
-                        }
+                        onClick = vm::clearStorage
                     )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun MainFilterItem(
+    text: String,
+    value: String,
+    checked: Boolean,
+    id: String,
+    onClick: (String?) -> Unit,
+    onClear: () -> Unit
+) {
+    FilterItem(
+        labelText = text,
+        labelValue = value,
+        checked = checked,
+        isMainField = true,
+        idValue = id,
+        onClick = onClick,
+        onClear = onClear
+    ) { isChecked ->
+        Icon(
+            tint = MaterialTheme.colorScheme.onBackground,
+            painter = painterResource(if (isChecked) R.drawable.close_24 else R.drawable.arrow_forward_24),
+            contentDescription = null
+        )
     }
 }
 

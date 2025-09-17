@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -116,12 +119,117 @@ private fun Modifier.handleClick(
                 if (fieldType == FilterParams.FIELDTYPE.CHECK_BOX) {
                     onToggle?.invoke(!checked)
                 } else if (fieldType == FilterParams.FIELDTYPE.TEXT) {
-                    /*if (!checked) {
-                        onClick?.invoke(idValue)
-                    }*/
                     onClick?.invoke(idValue)
                 }
             }
+    }
+}
+
+@Composable
+private fun getFieldParams(
+    fieldType: FilterParams.FIELDTYPE,
+    isMainField: Boolean,
+    checked: Boolean,
+): Triple<TextStyle, Color, Int> {
+    val defaultFilterParams = FilterParams.getParams(checked = checked)
+    val defaultLabel = defaultFilterParams.first
+    val defaultColor = defaultFilterParams.second
+    val defaultMaxLines = defaultFilterParams.third
+
+    return when (fieldType) {
+        FilterParams.FIELDTYPE.TEXT -> {
+            Triple(
+                first = if (isMainField) {
+                    defaultLabel
+                } else {
+                    MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400)
+                },
+                second = if (isMainField) {
+                    defaultColor
+                } else {
+                    MaterialTheme.colorScheme.onBackground
+                },
+                third = defaultMaxLines,
+            )
+        }
+
+        FilterParams.FIELDTYPE.CHECK_BOX -> {
+            Triple(
+                first = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
+                second = MaterialTheme.colorScheme.onBackground,
+                third = FilterParams.ONE_LINE,
+            )
+        }
+
+        FilterParams.FIELDTYPE.RADIO_BUTTON -> {
+            Triple(
+                first = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
+                second = MaterialTheme.colorScheme.onBackground,
+                third = FilterParams.TWO_LINE,
+            )
+        }
+    }
+}
+
+@Composable
+private fun FilterItemTexts(
+    labelText: String,
+    labelValue: String,
+    checked: Boolean,
+    fieldParams: Triple<TextStyle, Color, Int>,
+) {
+    Text(
+        color = fieldParams.second,
+        text = labelText,
+        style = fieldParams.first,
+        maxLines = fieldParams.third,
+        overflow = TextOverflow.Ellipsis,
+        lineHeight = if (checked) LineHeightSmall16 else LineHeightMedium19
+    )
+    if (checked && labelValue.isNotEmpty()) {
+        Text(
+            color = MaterialTheme.colorScheme.onBackground,
+            overflow = TextOverflow.Ellipsis,
+            text = labelValue,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.W400
+            ),
+            maxLines = fieldParams.third,
+        )
+    }
+}
+
+@Composable
+private fun FilterItemContent(
+    modifier: Modifier,
+    fieldType: FilterParams.FIELDTYPE,
+    checked: Boolean,
+    onToggle: ((Boolean) -> Unit)?,
+    onClick: ((String) -> Unit)?,
+    idValue: String,
+    labelText: String,
+    labelValue: String,
+    fieldParams: Triple<TextStyle, Color, Int>,
+) {
+    val modifierClick = modifier.handleClick(
+        fieldType = fieldType,
+        checked = checked,
+        onToggle = onToggle,
+        onClick = onClick,
+        idValue = idValue
+    )
+
+    Column(
+        modifier = modifierClick
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        FilterItemTexts(
+            labelText = labelText,
+            labelValue = labelValue,
+            checked = checked,
+            fieldParams = fieldParams
+        )
     }
 }
 
@@ -137,7 +245,7 @@ fun FilterItem(
     onClear: (() -> Unit)? = null,
     onToggle: ((Boolean) -> Unit)? = null,
     fieldType: FilterParams.FIELDTYPE = FilterParams.FIELDTYPE.TEXT,
-    content: @Composable (checked: Boolean) -> Unit
+    content: @Composable (checked: Boolean) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -145,80 +253,25 @@ fun FilterItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(top = 6.dp, bottom = 6.dp, start = 16.dp, end = 4.dp),
+                .padding(top = 6.dp, bottom = 6.dp, start = 16.dp, end = 4.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            val defaultFilterParams = FilterParams.getParams(checked = checked)
-            val defaultLabel = defaultFilterParams.first
-            val defaultColor = defaultFilterParams.second
-            val defaultMaxLines = defaultFilterParams.third
-            val fieldParams = when (fieldType) {
-                FilterParams.FIELDTYPE.TEXT -> {
-                    Triple(
-                        first = if (isMainField) {
-                            defaultLabel
-                        } else {
-                            MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400)
-                        },
-                        second = if (isMainField) {
-                            defaultColor
-                        } else {
-                            MaterialTheme.colorScheme.onBackground
-                        },
-                        third = defaultMaxLines,
-                    )
-                }
+            val fieldParams = getFieldParams(fieldType, isMainField, checked)
 
-                FilterParams.FIELDTYPE.CHECK_BOX -> {
-                    Triple(
-                        first = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
-                        second = MaterialTheme.colorScheme.onBackground,
-                        third = FilterParams.ONE_LINE,
-                    )
-                }
-
-                FilterParams.FIELDTYPE.RADIO_BUTTON -> {
-                    Triple(
-                        first = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.W400),
-                        second = MaterialTheme.colorScheme.onBackground,
-                        third = FilterParams.TWO_LINE,
-                    )
-                }
-            }
-            val modifierClick = Modifier.handleClick(
+            FilterItemContent(
+                modifier = Modifier.weight(1f),
                 fieldType = fieldType,
                 checked = checked,
                 onToggle = onToggle,
                 onClick = onClick,
-                idValue = idValue
+                idValue = idValue,
+                labelText = labelText,
+                labelValue = labelValue,
+                fieldParams = fieldParams
             )
-            Column(
-                modifier = modifierClick
-                    .fillMaxHeight()
-                    .weight(1F),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    color = fieldParams.second,
-                    text = labelText,
-                    style = fieldParams.first,
-                    maxLines = fieldParams.third,
-                    overflow = TextOverflow.Ellipsis,
-                    lineHeight = if (checked) LineHeightSmall16 else LineHeightMedium19
-                )
-                if (checked && labelValue.isNotEmpty()) {
-                    Text(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        overflow = TextOverflow.Ellipsis,
-                        text = labelValue,
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.W400
-                        ),
-                        maxLines = fieldParams.third,
-                    )
-                }
-            }
+
             DrawContent(
                 modifier = Modifier.clickable {
                     if (checked) {
@@ -234,6 +287,62 @@ fun FilterItem(
     }
 }
 
+private fun updateFilterItemState(
+    filterItems: List<FilterItem>,
+    targetId: String,
+): List<FilterItem> {
+    return filterItems.map { item ->
+        if (item.idValue == targetId) {
+            item.copy(checked = !item.checked)
+        } else {
+            item
+        }
+    }
+}
+
+@Composable
+private fun FilterItemPreviewContent(
+    filterItem: FilterItem,
+    onItemClick: () -> Unit,
+    onItemClear: () -> Unit,
+) {
+    FilterItem(
+        labelText = filterItem.textLabel,
+        labelValue = filterItem.textLabelValue,
+        checked = filterItem.checked,
+        onClick = { onItemClick() },
+        onClear = { onItemClear() },
+        isMainField = filterItem.isMainField,
+        fieldType = filterItem.typeField
+    ) { checked ->
+        when (filterItem.typeField) {
+            FilterParams.FIELDTYPE.TEXT -> {
+                val resId = if (checked) {
+                    R.drawable.close_24
+                } else {
+                    R.drawable.arrow_forward_24
+                }
+                Icon(
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    painter = painterResource(
+                        id = resId
+                    ),
+                    contentDescription = null,
+                )
+            }
+
+            FilterParams.FIELDTYPE.CHECK_BOX -> {
+                Checkbox(
+                    checked = true,
+                    onCheckedChange = {}
+                )
+            }
+
+            FilterParams.FIELDTYPE.RADIO_BUTTON -> {}
+        }
+    }
+}
+
 @Preview(
     showSystemUi = true,
     showBackground = true
@@ -244,57 +353,15 @@ fun FilterCheckBoxItemPreview() {
     ApplicationTheme {
         LazyColumn {
             items(items = filterItems, key = { it.idValue }) { filterItem ->
-                FilterItem(
-                    labelText = filterItem.textLabel,
-                    labelValue = filterItem.textLabelValue,
-                    checked = filterItem.checked,
-                    onClick = {
-                        filterItems = filterItems.map {
-                            if (filterItem.idValue == it.idValue) {
-                                filterItem.copy(checked = !filterItem.checked)
-                            } else {
-                                it
-                            }
-                        }
+                FilterItemPreviewContent(
+                    filterItem = filterItem,
+                    onItemClick = {
+                        filterItems = updateFilterItemState(filterItems, filterItem.idValue)
                     },
-                    onClear = {
-                        filterItems = filterItems.map {
-                            if (filterItem.idValue == it.idValue) {
-                                filterItem.copy(checked = !filterItem.checked)
-                            } else {
-                                it
-                            }
-                        }
-                    },
-                    isMainField = filterItem.isMainField,
-                    fieldType = filterItem.typeField
-                ) { checked ->
-                    when (filterItem.typeField) {
-                        FilterParams.FIELDTYPE.TEXT -> {
-                            val resId = if (checked) {
-                                R.drawable.close_24
-                            } else {
-                                R.drawable.arrow_forward_24
-                            }
-                            Icon(
-                                tint = MaterialTheme.colorScheme.onBackground,
-                                painter = painterResource(
-                                    id = resId
-                                ),
-                                contentDescription = null,
-                            )
-                        }
-
-                        FilterParams.FIELDTYPE.CHECK_BOX -> {
-                            Checkbox(
-                                checked = true,
-                                onCheckedChange = {}
-                            )
-                        }
-
-                        FilterParams.FIELDTYPE.RADIO_BUTTON -> {}
+                    onItemClear = {
+                        filterItems = updateFilterItemState(filterItems, filterItem.idValue)
                     }
-                }
+                )
             }
         }
     }
