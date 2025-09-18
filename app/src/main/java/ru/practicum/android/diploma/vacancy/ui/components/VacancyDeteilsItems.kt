@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.data.dto.VacancyDetail
@@ -36,10 +37,10 @@ fun ContactItem(
 }
 
 @Composable
-fun VacancyDescriptionItem(title: String, description: List<String>) {
+fun VacancyDescriptionItem(title: Int, description: List<String>) {
     Column {
         Text(
-            text = title,
+            text = stringResource(title),
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -56,19 +57,19 @@ fun VacancyDescriptionItem(title: String, description: List<String>) {
     }
 }
 
-fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<String>>> {
-    return listOf(
-        R.string.schedule.toString() to listOfNotNull(vacancy.schedule.name),
-        R.string.skills.toString() to vacancy.skills,
-        R.string.industry.toString() to listOfNotNull(vacancy.industry.name),
-        R.string.address.toString() to listOfNotNull(
+fun createDescriptionItemsList(vacancy: VacancyDetail): Map<Int, List<String>> {
+    return mapOf(
+        R.string.schedule to listOfNotNull(vacancy.schedule.name),
+        R.string.skills to vacancy.skills,
+        R.string.industry to listOfNotNull(vacancy.industry.name),
+        R.string.address to listOfNotNull(
             listOfNotNull(
                 vacancy.address.city,
                 vacancy.address.street,
                 vacancy.address.building
             ).takeIf { it.isNotEmpty() }?.joinToString(", ")
         ),
-        R.string.description.toString() to vacancy.description
+        R.string.description to vacancy.description
             .split(Regex("<br>|<br/>|<br />"))
             .map { it.trim() }
             .filter { it.isNotEmpty() }
