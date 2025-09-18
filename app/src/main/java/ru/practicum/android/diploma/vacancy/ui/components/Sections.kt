@@ -24,9 +24,10 @@ fun VacancyHeader(vacancy: VacancyDetail) {
         style = MaterialTheme.typography.headlineLarge
     )
     Text(
-        text = if (vacancy.salary.toDisplayString()
-                .isDigitsOnly()
-        ) stringResource(R.string.salary_not_specified) else vacancy.salary.toDisplayString(),
+        text = if (vacancy.salary.toDisplayString().isDigitsOnly())
+            stringResource(R.string.salary_not_specified)
+        else
+            vacancy.salary.toDisplayString(),
         style = MaterialTheme.typography.headlineMedium
     )
 
