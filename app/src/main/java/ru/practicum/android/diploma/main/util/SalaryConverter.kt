@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.main.util
 
-import ru.practicum.android.diploma.core.providers.ResourceProvider
 import ru.practicum.android.diploma.main.domain.model.SalaryMainData
+import ru.practicum.android.diploma.core.providers.ResourceProvider
 import ru.practicum.android.diploma.R
 
 fun SalaryMainData.getFormatSalary(provider: ResourceProvider): String {
