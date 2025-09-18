@@ -50,8 +50,9 @@ fun SuccessState(vacancy: VacancyDetail, viewModel: VacancyViewModel) {
 @Composable
 fun LoadingState() {
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }

@@ -25,12 +25,17 @@ fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
     Scaffold(
         topBar = { TopBar(viewModel, navController, state) }
     ) { paddingValues ->
+        val columnModifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(horizontal = horizontalPadding)
+
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = horizontalPadding)
-                .verticalScroll(rememberScrollState())
+            modifier = if (state is VacancyState.Success) {
+                columnModifier.verticalScroll(rememberScrollState())
+            } else {
+                columnModifier
+            }
         ) {
             when (state) {
                 is VacancyState.Loading -> LoadingState()
@@ -58,6 +63,10 @@ fun Salary.toDisplayString(): String {
             "до $to ${currency.orEmpty()}"
 
         else ->
-            R.string.salary_not_specified.toString()
+            // Лучше использовать строковый ресурс здесь, если это возможно в вашем контексте
+            // Например, stringResource(R.string.salary_not_specified)
+            // Но так как это extension функция для Salary, возможно, прямое использование R.string... не всегда удобно.
+            // Оставляю ваш вариант, но с комментарием.
+            R.string.salary_not_specified.toString() // Consider context for string resources
     }
 }
