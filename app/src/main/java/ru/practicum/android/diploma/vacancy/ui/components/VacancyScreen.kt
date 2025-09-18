@@ -63,10 +63,6 @@ fun Salary.toDisplayString(): String {
             "до $to ${currency.orEmpty()}"
 
         else ->
-            // Лучше использовать строковый ресурс здесь, если это возможно в вашем контексте
-            // Например, stringResource(R.string.salary_not_specified)
-            // Но так как это extension функция для Salary, возможно, прямое использование R.string... не всегда удобно.
-            // Оставляю ваш вариант, но с комментарием.
-            R.string.salary_not_specified.toString() // Consider context for string resources
+            R.string.salary_not_specified.toString()
     }
 }
