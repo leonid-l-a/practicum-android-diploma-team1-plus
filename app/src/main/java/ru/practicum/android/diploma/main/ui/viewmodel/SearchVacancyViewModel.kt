@@ -78,11 +78,6 @@ class SearchVacancyViewModel(
                 )
             }
 
-            val area = stateSearchFilter.value.areaId
-            val industry = stateSearchFilter.value.industryId
-            val salary = stateSearchFilter.value.salaryId
-            val withSalary = stateSearchFilter.value.withSalary?.isNotEmpty()
-
             debounce.invoke {
                 val filter: FilterRequestData = FilterRequestMapper.toFilterRequestData(_stateSearchFilter.value)
                 searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
@@ -124,10 +119,8 @@ class SearchVacancyViewModel(
                 if (!isLazyLoad) {
                     return
                 }
-            } else {
-                if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
-                    resetPages()
-                }
+            } else if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
+                resetPages()
             }
             if (expression.isEmpty()) {
                 resetPages()
