@@ -23,10 +23,11 @@ fun VacancyHeader(vacancy: VacancyDetail) {
         text = vacancy.name,
         style = MaterialTheme.typography.headlineLarge
     )
-    val salary = if (vacancy.salary.toDisplayString().isDigitsOnly())
+    val salary = if (vacancy.salary.toDisplayString().isDigitsOnly()) {
         stringResource(R.string.salary_not_specified)
-    else
+    } else {
         vacancy.salary.toDisplayString()
+    }
     Text(
         text = salary,
         style = MaterialTheme.typography.headlineMedium
