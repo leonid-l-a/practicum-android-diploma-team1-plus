@@ -3,6 +3,9 @@
     <string name="list_is_empty">Не удалось получить список вакансий</string>
     <string name="search_bar_placeholder">Введите запрос</string>
     <string name="search_title">Поиск вакансий</string>
+    <string name="work_place_title">Выбор места работы</string>
+    <string name="country_selector">Выбор страны</string>
+    <string name="region_selector">Выбор региона</string>
     <string name="favorite_title">Избранное</string>
     <string name="favorites_is_empty">Список пуст</string>
     <string name="favorites_is_error">Не удалось получить\n список вакансий</string>
@@ -54,7 +57,27 @@
     <string name="salary_not_marked">Зарплата не указана</string>
     <string name="employer_image">employer image</string>
 
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
+    <string name="search_region_placeholder">Введите регион</string>
+    <string name="no_region">Такого региона нет</string>
+    <string name="work_place_error">Не удалось загрузить список</string>
+
     <string name="error">error</string>
     <string name="server_error">server error</string>
- 
+
+    <string name="work_place">Место работы</string>
+
+    <string name="need_salary">Ожидаемая зарплата</string>
+    <string name="input_salary">Введите сумму</string>
+
+    <string name="filter_settings">Настройки фильтрации</string>
+    <string name="filter_apply">Применить</string>
+    <string name="filter_add">Выбрать</string>
+    <string name="filter_reset">Сбросить</string>
+    <string name="choose_industry">Выбор отрасли</string>
+    <string name="choose_industry_not_exist">Такой индустрии нет</string>
+
+    <string name="server_error_text">Ошибка сервера</string>
+    <string name="not_show_without_salary">Не показывать без зарплаты</string>
 </resources>

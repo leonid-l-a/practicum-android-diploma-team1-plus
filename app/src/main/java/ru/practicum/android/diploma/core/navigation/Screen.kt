@@ -25,8 +25,19 @@ sealed class Screen(val route: String) {
     object Command : Screen("command")
     object Favorites : Screen("favorite")
     object Filtration : Screen("filtration")
-    object Placement : Screen("placement")
+    object WorkPlace : Screen("work_place")
     object CountrySelection : Screen("country_selection")
     object RegionSelection : Screen("region_selection")
-    object IndustrySelection : Screen("industry_selection")
+    object IndustrySelection : Screen("industry_selection/{industryId}") {
+        fun createRoute(industryId: String?): String {
+            return "industry_selection/$industryId"
+        }
+    }
+    fun regionSelectionRoute(countryId: Int?): String {
+        return if (countryId != null) {
+            "region_selection?countryId=$countryId"
+        } else {
+            "region_selection"
+        }
+    }
 }

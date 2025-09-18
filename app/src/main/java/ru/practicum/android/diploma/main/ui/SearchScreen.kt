@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,14 +30,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.navigation.Screen
+import ru.practicum.android.diploma.core.ui.components.CircularIndicator
+import ru.practicum.android.diploma.core.ui.components.ErrorResult
+import ru.practicum.android.diploma.core.ui.components.SearchBar
 import ru.practicum.android.diploma.core.ui.theme.ApplicationTheme
-import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage
+import ru.practicum.android.diploma.core.ui.theme.WidthForInfoImage328
 import ru.practicum.android.diploma.core.ui.theme.blackUniversal
-import ru.practicum.android.diploma.main.ui.components.CircularIndicator
-import ru.practicum.android.diploma.main.ui.components.ErrorResult
-import ru.practicum.android.diploma.main.ui.components.SearchBar
 import ru.practicum.android.diploma.main.ui.components.SearchCount
 import ru.practicum.android.diploma.main.ui.components.ShowVacancyList
 import ru.practicum.android.diploma.main.ui.components.VacancyAppBar
@@ -46,13 +49,20 @@ import ru.practicum.android.diploma.main.ui.viewmodel.SearchVacancyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: SearchVacancyViewModel = koinViewModel(),
     onVacancyClick: (String) -> Unit = {}
 ) {
     Scaffold(
         topBar = {
-            VacancyAppBar(modifier = Modifier)
+            VacancyAppBar(
+                viewModel = viewModel,
+                modifier = Modifier,
+                onClick = {
+                    navController.navigate(Screen.Filtration.route)
+                }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -92,7 +102,7 @@ fun SearchScreenPreview() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier.width(WidthForInfoImage),
+                    modifier = Modifier.width(WidthForInfoImage328),
                     contentScale = ContentScale.Crop,
                     painter = painterResource(R.drawable.start_search),
                     contentDescription = null
@@ -150,6 +160,13 @@ private fun ShowContent(
     onVacancyClick: (String) -> Unit = {}
 ) {
     val searchState by viewModel.stateSearchVacancy.collectAsState()
+    val shouldRepeatRequest by viewModel.shouldRepeatRequest.collectAsState()
+    LaunchedEffect(shouldRepeatRequest) {
+        if (shouldRepeatRequest) {
+            viewModel.repeatRequest()
+            viewModel.setShouldRepeatRequest(shouldRepeat = false)
+        }
+    }
     when (searchState) {
         is SearchState.Empty -> {
             SearchCount(text = stringResource(id = R.string.no_such_vacancies))

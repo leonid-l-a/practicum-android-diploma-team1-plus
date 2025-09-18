@@ -1,13 +1,19 @@
 package ru.practicum.android.diploma.main.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
-import ru.practicum.android.diploma.main.data.model.VacancyMainData
+import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.core.domain.AppInteractor
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
+import ru.practicum.android.diploma.main.domain.model.FilterRequestData
+import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
+import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 import ru.practicum.android.diploma.main.domain.state.Resource
+import ru.practicum.android.diploma.main.ui.mapper.FilterRequestMapper
+import ru.practicum.android.diploma.main.ui.model.FilterRequest
 import ru.practicum.android.diploma.main.ui.model.Vacancy
 import ru.practicum.android.diploma.main.ui.state.SearchState
 import ru.practicum.android.diploma.main.util.getFormatSalary
@@ -15,19 +21,36 @@ import ru.practicum.android.diploma.util.DebounceUtil
 
 class SearchVacancyViewModel(
 
-    val searchVacancyInteractor: SearchVacancyInteractor
+    val searchVacancyInteractor: SearchVacancyInteractor,
+    val appInteractor: AppInteractor
 
 ) : ViewModel() {
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
+
     private var currentPage = 1
     private var maxPages = 0
     private var isClickAllowed = true
     private var latestRequestText: String? = null
     private val _stateSearchVacancy = MutableStateFlow<SearchState>(value = SearchState.Default)
     val stateSearchVacancy = _stateSearchVacancy.asStateFlow()
+
+    private val _stateSearchFilter = MutableStateFlow<FilterRequest>(value = FilterRequest())
+    val stateSearchFilter = _stateSearchFilter.asStateFlow()
+
+    private val _shouldRepeatRequest = MutableStateFlow(value = false)
+    val shouldRepeatRequest = _shouldRepeatRequest.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            appInteractor.getAllDataWithNames().collect { data ->
+                Log.d("CHECK_vacancyRequest_data", data.toString())
+                _stateSearchFilter.value = FilterRequestMapper.toFilterRequest(data)
+            }
+        }
+    }
 
     val debounce = DebounceUtil(
         delayMillis = SEARCH_DEBOUNCE_DELAY,
@@ -54,8 +77,15 @@ class SearchVacancyViewModel(
                     )
                 )
             }
+
+            val area = stateSearchFilter.value.areaId
+            val industry = stateSearchFilter.value.industryId
+            val salary = stateSearchFilter.value.salaryId
+            val withSalary = stateSearchFilter.value.withSalary?.isNotEmpty()
+
             debounce.invoke {
-                searchVacancyInteractor.searchVacancy(expression, currentPage)
+                val filter: FilterRequestData = FilterRequestMapper.toFilterRequestData(_stateSearchFilter.value)
+                searchVacancyInteractor.searchVacancy(expression, currentPage, filter)
                     .collect { vacancy ->
                         searchState(vacancy)
                     }
@@ -88,18 +118,20 @@ class SearchVacancyViewModel(
         }
     }
 
-    fun searchRequestText(expression: String, isLazyLoad: Boolean = false) {
-        if (latestRequestText == expression) {
-            if (!isLazyLoad) {
-                return
+    fun searchRequestText(expression: String, isLazyLoad: Boolean = false, shouldRepeat: Boolean = false) {
+        if (!shouldRepeat) {
+            if (latestRequestText == expression) {
+                if (!isLazyLoad) {
+                    return
+                }
+            } else {
+                if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
+                    resetPages()
+                }
             }
-        } else {
-            if (latestRequestText?.isNotEmpty() == true && !isLazyLoad) {
+            if (expression.isEmpty()) {
                 resetPages()
             }
-        }
-        if (expression.isEmpty()) {
-            resetPages()
         }
         latestRequestText = expression
         searchVacancy(
@@ -164,5 +196,13 @@ class SearchVacancyViewModel(
 
     fun renderSearchState(state: SearchState) {
         _stateSearchVacancy.value = state
+    }
+
+    fun setShouldRepeatRequest(shouldRepeat: Boolean) {
+        _shouldRepeatRequest.value = shouldRepeat
+    }
+
+    fun repeatRequest() {
+        searchRequestText(expression = latestRequestText ?: "", shouldRepeat = true)
     }
 }

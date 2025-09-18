@@ -3,10 +3,10 @@ package ru.practicum.android.diploma.main.data.mapper
 import ru.practicum.android.diploma.core.data.dto.Vacancy
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employer
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Salary
-import ru.practicum.android.diploma.main.data.model.EmployerMainData
-import ru.practicum.android.diploma.main.data.model.SalaryMainData
-import ru.practicum.android.diploma.main.data.model.VacancyDetailMainData
-import ru.practicum.android.diploma.main.data.model.VacancyMainData
+import ru.practicum.android.diploma.main.domain.model.EmployerMainData
+import ru.practicum.android.diploma.main.domain.model.SalaryMainData
+import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
+import ru.practicum.android.diploma.main.domain.model.VacancyMainData
 
 object VacancyMapper {
     fun vacancyToVacancyMainData(vacancy: Vacancy): VacancyMainData {
