@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.favorites.data.mapper
 
 import ru.practicum.android.diploma.core.data.dto.FilterAreas
 import ru.practicum.android.diploma.core.data.dto.FilterIndustryDetail
-import ru.practicum.android.diploma.core.data.dto.VacancyDetail
+import ru.practicum.android.diploma.core.data.dto.VacancyDetailDto
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Address
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Contacts
 import ru.practicum.android.diploma.core.data.dto.vacancydetails.Employer
@@ -21,167 +21,103 @@ import ru.practicum.android.diploma.favorites.data.model.entity.IndustryEntity
 import ru.practicum.android.diploma.favorites.data.model.entity.SalaryEntity
 import ru.practicum.android.diploma.favorites.data.model.entity.ScheduleEntity
 import ru.practicum.android.diploma.favorites.domain.model.VacancyFavorites
+import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 
 object VacancyDbMapper {
+
     fun favoritesEntityToVacancyFavorites(favoritesEntity: FavoritesEntity?): VacancyFavorites? {
-        return if (favoritesEntity != null) {
+        return favoritesEntity?.let {
             VacancyFavorites(
-                id = favoritesEntity.id,
-                name = favoritesEntity.name,
-                description = favoritesEntity.description,
-                salaryFrom = favoritesEntity.salary?.from,
-                salaryTo = favoritesEntity.salary?.to,
-                salaryCurrency = favoritesEntity.salary?.currency.orEmpty(),
-                addressCity = favoritesEntity.address?.city.orEmpty(),
-                addressStreet = favoritesEntity.address?.street.orEmpty(),
-                addressBuilding = favoritesEntity.address?.building.orEmpty(),
-                fullAddress = favoritesEntity.address?.fullAddress.orEmpty(),
-                experienceId = favoritesEntity.experience?.id.orEmpty(),
-                experienceName = favoritesEntity.experience?.name.orEmpty(),
-                scheduleId = favoritesEntity.schedule?.id.orEmpty(),
-                scheduleName = favoritesEntity.schedule?.name.orEmpty(),
-                employmentId = favoritesEntity.employment?.id.orEmpty(),
-                employmentName = favoritesEntity.employment?.name.orEmpty(),
-                contactsId = favoritesEntity.contacts?.id.orEmpty(),
-                contactsName = favoritesEntity.contacts?.name.orEmpty(),
-                contactsEmail = favoritesEntity.contacts?.email.orEmpty(),
-                contactsPhone = favoritesEntity.contacts?.phone.orEmpty(),
-                employerId = favoritesEntity.employer?.id.orEmpty(),
-                employerName = favoritesEntity.employer?.name.orEmpty(),
-                employerLogo = favoritesEntity.employer?.logo.orEmpty(),
-                areaId = favoritesEntity.area?.id ?: 0,
-                areaName = favoritesEntity.area?.name.orEmpty(),
-                areaParentId = favoritesEntity.area?.parentId ?: 0,
-                skills = favoritesEntity.skills.orEmpty(),
-                url = favoritesEntity.url.orEmpty(),
-                industryId = favoritesEntity.industry?.id ?: 0,
-                industryName = favoritesEntity.industry?.name.orEmpty()
-            )
-        } else {
-            null
-        }
-    }
-
-    fun vacancyDetailToFavoritesEntity(vacancyDetail: VacancyDetail): FavoritesEntity {
-        return FavoritesEntity(
-            id = vacancyDetail.id,
-            name = vacancyDetail.name,
-            description = vacancyDetail.description,
-            salary = mapSalary(vacancyDetail.salary),
-            address = mapAddress(vacancyDetail.address),
-            experience = mapExperience(vacancyDetail.experience),
-            schedule = mapSchedule(vacancyDetail.schedule),
-            employment = mapEmployment(vacancyDetail.employment),
-            contacts = mapContacts(vacancyDetail.contacts),
-            employer = mapEmployer(vacancyDetail.employer),
-            area = mapArea(vacancyDetail.area),
-            skills = vacancyDetail.skills,
-            url = vacancyDetail.url,
-            industry = mapIndustry(vacancyDetail.industry)
-        )
-    }
-
-    private fun mapSalary(salary: Salary): SalaryEntity =
-        SalaryEntity(salary.from, salary.to, salary.currency)
-
-    private fun mapAddress(address: Address): AddressEntity =
-        AddressEntity(address.city, address.street, address.building, address.fullAddress)
-
-    private fun mapExperience(exp: Experience): ExperienceEntity =
-        ExperienceEntity(exp.id, exp.name)
-
-    private fun mapSchedule(schedule: Schedule): ScheduleEntity =
-        ScheduleEntity(schedule.id, schedule.name)
-
-    private fun mapEmployment(emp: Employment): EmploymentEntity =
-        EmploymentEntity(emp.id, emp.name)
-
-    private fun mapContacts(contacts: Contacts): ContactsEntity =
-        ContactsEntity(contacts.id, contacts.name, contacts.email, contacts.phone)
-
-    private fun mapEmployer(emp: Employer): EmployerEntity =
-        EmployerEntity(emp.id, emp.name, emp.logo)
-
-    private fun mapArea(area: FilterAreas): FilterAreaEntity =
-        FilterAreaEntity(area.id, area.name, area.parentId)
-
-    private fun mapIndustry(ind: FilterIndustryDetail): IndustryEntity =
-        IndustryEntity(ind.id, ind.name)
-
-    fun vacancyFavoritesToVacancyDetail(entity: VacancyFavorites?): VacancyDetail? {
-        return entity?.let {
-            VacancyDetail(
                 id = it.id,
                 name = it.name,
                 description = it.description,
-                salary = mapSalary(it),
-                address = mapAddress(it),
-                experience = mapExperience(it),
-                schedule = mapSchedule(it),
-                employment = mapEmployment(it),
-                contacts = mapContacts(it),
-                employer = mapEmployer(it),
-                area = mapArea(it),
-                skills = it.skills,
-                url = it.url,
-                industry = mapIndustry(it)
+                salaryFrom = it.salary?.from,
+                salaryTo = it.salary?.to,
+                salaryCurrency = it.salary?.currency,
+                addressCity = it.address?.city.orEmpty(),
+                addressStreet = it.address?.street.orEmpty(),
+                addressBuilding = it.address?.building.orEmpty(),
+                fullAddress = it.address?.fullAddress.orEmpty(),
+                experienceId = it.experience?.id.orEmpty(),
+                experienceName = it.experience?.name.orEmpty(),
+                scheduleId = it.schedule?.id.orEmpty(),
+                scheduleName = it.schedule?.name.orEmpty(),
+                employmentId = it.employment?.id.orEmpty(),
+                employmentName = it.employment?.name.orEmpty(),
+                contactsId = it.contacts?.id.orEmpty(),
+                contactsName = it.contacts?.name.orEmpty(),
+                contactsEmail = it.contacts?.email.orEmpty(),
+                contactsPhone = it.contacts?.phone,
+                employerId = it.employer?.id.orEmpty(),
+                employerName = it.employer?.name.orEmpty(),
+                employerLogo = it.employer?.logo,
+                areaId = it.area?.id ?: 0,
+                areaName = it.area?.name.orEmpty(),
+                areaParentId = it.area?.parentId ?: 0,
+                skills = it.skills.orEmpty(),
+                url = it.url.orEmpty(),
+                industryId = it.industry?.id ?: 0,
+                industryName = it.industry?.name.orEmpty()
             )
         }
     }
 
-    private fun mapSalary(entity: VacancyFavorites) =
-        Salary(
-            from = entity.salaryFrom,
-            to = entity.salaryTo,
-            currency = entity.salaryCurrency
+    // dto -> entity
+    fun vacancyDetailToFavoritesEntity(dto: VacancyDetailDto): FavoritesEntity {
+        return FavoritesEntity(
+            id = dto.id,
+            name = dto.name,
+            description = dto.description,
+            salary = mapSalary(dto.salary),
+            address = mapAddress(dto.address),
+            experience = mapExperience(dto.experience),
+            schedule = mapSchedule(dto.schedule),
+            employment = mapEmployment(dto.employment),
+            contacts = mapContacts(dto.contacts),
+            employer = mapEmployer(dto.employer),
+            area = mapArea(dto.area),
+            skills = dto.skills,
+            url = dto.url,
+            industry = mapIndustry(dto.industry)
         )
+    }
 
-    private fun mapAddress(entity: VacancyFavorites) =
-        Address(
-            fullAddress = entity.fullAddress,
-            city = entity.addressCity,
-            street = entity.addressStreet,
-            building = entity.addressBuilding
+    // domain -> dto
+    fun detailToDto(detail: VacancyDetail): VacancyDetailDto {
+        return VacancyDetailDto(
+            id = detail.id,
+            name = detail.name,
+            description = detail.description,
+            salary = Salary(detail.salaryFrom, detail.salaryTo, detail.salaryCurrency),
+            address = Address(detail.addressCity, detail.addressStreet, detail.addressBuilding, detail.fullAddress),
+            experience = Experience(detail.experienceId, detail.experienceName),
+            schedule = Schedule(detail.scheduleId, detail.scheduleName),
+            employment = Employment(detail.employmentId, detail.employmentName),
+            contacts = Contacts(
+                detail.contactsId,
+                detail.contactsName,
+                detail.contactsEmail,
+                detail.contactsPhone
+            ),
+            employer = Employer(detail.employerId, detail.employerName, detail.employerLogo),
+            area = FilterAreas(detail.areaId, detail.areaName, detail.areaParentId, emptyList()),
+            skills = detail.skills,
+            url = detail.url,
+            industry = FilterIndustryDetail(detail.industryId, detail.industryName)
         )
+    }
 
-    private fun mapExperience(entity: VacancyFavorites) =
-        Experience(
-            id = entity.experienceId,
-            name = entity.experienceName
-        )
+    private fun mapSalary(salary: Salary) = SalaryEntity(salary.from, salary.to, salary.currency)
+    private fun mapAddress(address: Address) =
+        AddressEntity(address.city, address.street, address.building, address.raw)
 
-    private fun mapSchedule(entity: VacancyFavorites) =
-        Schedule(
-            id = entity.scheduleId,
-            name = entity.scheduleName
-        )
+    private fun mapExperience(exp: Experience) = ExperienceEntity(exp.id, exp.name)
+    private fun mapSchedule(schedule: Schedule) = ScheduleEntity(schedule.id, schedule.name)
+    private fun mapEmployment(emp: Employment) = EmploymentEntity(emp.id, emp.name)
+    private fun mapContacts(contacts: Contacts) =
+        ContactsEntity(contacts.id, contacts.name, contacts.email, contacts.phone)
 
-    private fun mapEmployment(entity: VacancyFavorites) =
-        Employment(
-            id = entity.employmentId,
-            name = entity.employmentName
-        )
-
-    private fun mapContacts(entity: VacancyFavorites) =
-        Contacts(
-            id = entity.contactsId,
-            name = entity.contactsName,
-            email = entity.contactsEmail,
-            phone = entity.contactsPhone
-        )
-
-    private fun mapEmployer(entity: VacancyFavorites) =
-        Employer(id = entity.employerId, name = entity.employerName, logo = entity.employerLogo)
-
-    private fun mapArea(entity: VacancyFavorites) =
-        FilterAreas(
-            id = entity.areaId,
-            name = entity.areaName,
-            parentId = entity.areaParentId,
-            areas = emptyList()
-        )
-
-    private fun mapIndustry(entity: VacancyFavorites) =
-        FilterIndustryDetail(id = entity.industryId, name = entity.industryName)
-
+    private fun mapEmployer(emp: Employer) = EmployerEntity(emp.id, emp.name, emp.logo)
+    private fun mapArea(area: FilterAreas) = FilterAreaEntity(area.id, area.name, area.parentId)
+    private fun mapIndustry(ind: FilterIndustryDetail) = IndustryEntity(ind.id, ind.name)
 }

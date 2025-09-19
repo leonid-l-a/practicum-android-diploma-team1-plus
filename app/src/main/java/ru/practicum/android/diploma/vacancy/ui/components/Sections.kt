@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.data.dto.VacancyDetail
+import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 @Composable
@@ -23,7 +23,7 @@ fun VacancyHeader(vacancy: VacancyDetail) {
         style = MaterialTheme.typography.headlineLarge
     )
     Text(
-        text = vacancy.salary.toDisplayString(),
+        text = vacancy.getSalaryString(),
         style = MaterialTheme.typography.headlineMedium
     )
 
@@ -40,14 +40,14 @@ fun ExperienceSection(vacancy: VacancyDetail) {
     HorizontalDivider(thickness = 4.dp, color = Color.Transparent)
 
     Text(
-        vacancy.experience.name,
+        vacancy.experienceName,
         style = MaterialTheme.typography.bodyLarge
     )
 
     HorizontalDivider(thickness = 8.dp, color = Color.Transparent)
 
     Text(
-        vacancy.employment.name + ", " + stringResource(R.string.remote_work),
+        vacancy.employmentName + ", " + stringResource(R.string.remote_work),
         style = MaterialTheme.typography.bodyLarge
     )
 

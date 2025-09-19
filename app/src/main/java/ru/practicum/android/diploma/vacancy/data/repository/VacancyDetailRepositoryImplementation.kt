@@ -10,5 +10,4 @@ class VacancyDetailRepositoryImplementation(
     override suspend fun getVacancyDetail(id: String): VacancyDetailResponse {
         return vacancyNetworkClient.getVacancy(id)
     }
-
 }

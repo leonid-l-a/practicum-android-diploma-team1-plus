@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.data.dto.VacancyDetail
+import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 @Composable
@@ -58,14 +58,14 @@ fun VacancyDescriptionItem(title: String, description: List<String>) {
 
 fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<String>>> {
     return listOf(
-        R.string.schedule.toString() to listOfNotNull(vacancy.schedule.name),
+        R.string.schedule.toString() to listOfNotNull(vacancy.scheduleName),
         R.string.skills.toString() to vacancy.skills,
-        R.string.industry.toString() to listOfNotNull(vacancy.industry.name),
+        R.string.industry.toString() to listOfNotNull(vacancy.industryName),
         R.string.address.toString() to listOfNotNull(
             listOfNotNull(
-                vacancy.address.city,
-                vacancy.address.street,
-                vacancy.address.building
+                vacancy.addressCity,
+                vacancy.addressStreet,
+                vacancy.addressBuilding
             ).takeIf { it.isNotEmpty() }?.joinToString(", ")
         ),
         R.string.description.toString() to vacancy.description
@@ -77,8 +77,8 @@ fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<S
 
 fun createContactItemsList(vacancy: VacancyDetail): List<Triple<String, Boolean?, Boolean>> {
     return listOfNotNull(
-        vacancy.contacts.email.takeIf { it.isNotBlank() }?.let { Triple(it, true, true) },
-        vacancy.contacts.phone?.firstOrNull()?.let { Triple(it, false, true) },
-        vacancy.contacts.name.let { Triple(it, null, false) }
+        vacancy.contactsEmail.takeIf { it.isNotBlank() }?.let { Triple(it, true, true) },
+        vacancy.contactsPhone?.firstOrNull()?.let { Triple(it, false, true) },
+        Triple(vacancy.contactsName, null, false)
     )
 }
