@@ -8,9 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -23,11 +23,7 @@ fun VacancyHeader(vacancy: VacancyDetail) {
         text = vacancy.name,
         style = MaterialTheme.typography.headlineLarge
     )
-    val salary = if (vacancy.salary.toDisplayString().isDigitsOnly()) {
-        stringResource(R.string.salary_not_specified)
-    } else {
-        vacancy.salary.toDisplayString()
-    }
+
     Text(
         text = vacancy.getSalaryString(),
         style = MaterialTheme.typography.headlineMedium
@@ -46,14 +42,14 @@ fun ExperienceSection(vacancy: VacancyDetail) {
     HorizontalDivider(thickness = 4.dp, color = Color.Transparent)
 
     Text(
-        vacancy.experienceName,
+        text = vacancy.experienceName,
         style = MaterialTheme.typography.bodyLarge
     )
 
     HorizontalDivider(thickness = 8.dp, color = Color.Transparent)
 
     Text(
-        vacancy.employmentName + ", " + stringResource(R.string.remote_work),
+        text = "${vacancy.employmentName}, ${stringResource(R.string.remote_work)}",
         style = MaterialTheme.typography.bodyLarge
     )
 
@@ -69,9 +65,9 @@ fun DescriptionSection(vacancy: VacancyDetail, viewModel: VacancyViewModel) {
 
     HorizontalDivider(thickness = 16.dp, color = Color.Transparent)
 
-    val otherItems = createDescriptionItemsList(vacancy)
+    val context = LocalContext.current
+    val otherItems = createDescriptionItemsList(context, vacancy)
     val contactItems = createContactItemsList(vacancy)
-
     otherItems.forEach { (title, desc) ->
         if (desc.isNotEmpty()) {
             VacancyDescriptionItem(title = title, description = desc)
@@ -93,7 +89,7 @@ private fun ContactsSection(contactItems: List<Triple<String, Boolean?, Boolean>
 
         HorizontalDivider(thickness = 4.dp, color = Color.Transparent)
 
-        contactItems.forEach { (value, isEmail) ->
+        contactItems.forEach { (value, isEmail, _) ->
             when (isEmail) {
                 true -> ContactItem(contact = value, isEmail = true, viewModel = viewModel)
                 false -> ContactItem(contact = value, isEmail = false, viewModel = viewModel)

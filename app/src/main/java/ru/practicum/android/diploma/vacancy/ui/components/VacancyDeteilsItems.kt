@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.vacancy.ui.components
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.HorizontalDivider
@@ -9,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
@@ -37,10 +37,10 @@ fun ContactItem(
 }
 
 @Composable
-fun VacancyDescriptionItem(title: Int, description: List<String>) {
+fun VacancyDescriptionItem(title: String, description: List<String>) {
     Column {
         Text(
-            text = stringResource(title),
+            text = title,
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -56,19 +56,19 @@ fun VacancyDescriptionItem(title: Int, description: List<String>) {
         HorizontalDivider(thickness = 12.dp, color = Color.Transparent)
     }
 }
-fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<String>>> {
+fun createDescriptionItemsList(context: Context, vacancy: VacancyDetail): List<Pair<String, List<String>>> {
     return listOf(
-        R.string.schedule.toString() to listOfNotNull(vacancy.scheduleName),
-        R.string.skills.toString() to vacancy.skills,
-        R.string.industry.toString() to listOfNotNull(vacancy.industryName),
-        R.string.address.toString() to listOfNotNull(
+        context.getString(R.string.schedule) to listOfNotNull(vacancy.scheduleName),
+        context.getString(R.string.skills) to vacancy.skills,
+        context.getString(R.string.industry) to listOfNotNull(vacancy.industryName),
+        context.getString(R.string.address) to listOfNotNull(
             listOfNotNull(
                 vacancy.addressCity,
                 vacancy.addressStreet,
                 vacancy.addressBuilding
             ).takeIf { it.isNotEmpty() }?.joinToString(", ")
         ),
-        R.string.description to vacancy.description
+        context.getString(R.string.description) to vacancy.description
             .split(Regex("<br>|<br/>|<br />"))
             .map { it.trim() }
             .filter { it.isNotEmpty() }
