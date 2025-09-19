@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
@@ -48,6 +49,7 @@ fun ErrorState() {
             HorizontalDivider(thickness = 16.dp, color = Color.Transparent)
             Text(
                 text = stringResource(R.string.vacancy_error),
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium
             )
         }
