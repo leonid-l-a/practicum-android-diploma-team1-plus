@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
@@ -36,10 +37,10 @@ fun ContactItem(
 }
 
 @Composable
-fun VacancyDescriptionItem(title: String, description: List<String>) {
+fun VacancyDescriptionItem(title: Int, description: List<String>) {
     Column {
         Text(
-            text = title,
+            text = stringResource(title),
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -55,7 +56,6 @@ fun VacancyDescriptionItem(title: String, description: List<String>) {
         HorizontalDivider(thickness = 12.dp, color = Color.Transparent)
     }
 }
-
 fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<String>>> {
     return listOf(
         R.string.schedule.toString() to listOfNotNull(vacancy.scheduleName),
@@ -68,7 +68,7 @@ fun createDescriptionItemsList(vacancy: VacancyDetail): List<Pair<String, List<S
                 vacancy.addressBuilding
             ).takeIf { it.isNotEmpty() }?.joinToString(", ")
         ),
-        R.string.description.toString() to vacancy.description
+        R.string.description to vacancy.description
             .split(Regex("<br>|<br/>|<br />"))
             .map { it.trim() }
             .filter { it.isNotEmpty() }

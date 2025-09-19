@@ -24,12 +24,17 @@ fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
     Scaffold(
         topBar = { TopBar(viewModel, navController, state) }
     ) { paddingValues ->
+        val columnModifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(horizontal = horizontalPadding)
+
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = horizontalPadding)
-                .verticalScroll(rememberScrollState())
+            modifier = if (state is VacancyState.Success) {
+                columnModifier.verticalScroll(rememberScrollState())
+            } else {
+                columnModifier
+            }
         ) {
             when (state) {
                 is VacancyState.Loading -> LoadingState()

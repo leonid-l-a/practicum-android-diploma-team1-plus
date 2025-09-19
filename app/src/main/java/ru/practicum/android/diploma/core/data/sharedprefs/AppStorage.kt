@@ -13,7 +13,6 @@ class AppStorage(
     val sharedPrefs: SharedPreferences,
 ) {
     private var _storageState = MutableStateFlow(FilterStorage())
-    val storageState = _storageState.asStateFlow()
 
     private fun getMapWithKeys(): Map<String, String?> {
         val area = getStorageByKey(StorageKey.AREA_ID_KEY)
@@ -116,12 +115,16 @@ class AppStorage(
         val onlyWithSalary = getStorageByKey(StorageKey.ONLY_WITH_SALARY_KEY)
         val industry = getStorageByKey(StorageKey.INDUSTRY_ID_KEY)
         val industryValue = getStorageByKey(StorageKey.INDUSTRY_NAME_KEY)
+        val countryValue = getStorageByKey(StorageKey.COUNTRY_NAME_KEY)
+        val regionValue = getStorageByKey(StorageKey.REGION_NAME_KEY)
         val newStorage = _storageState.value.copy(
             industryValue = industryValue ?: "",
             industryId = industry ?: "",
             areaId = area ?: "",
             salaryValue = salary ?: "",
-            withSalary = onlyWithSalary ?: ""
+            withSalary = onlyWithSalary ?: "",
+            countryValue = countryValue ?: "",
+            regionValue = regionValue ?: ""
         )
         _storageState.value = newStorage
         return _storageState
