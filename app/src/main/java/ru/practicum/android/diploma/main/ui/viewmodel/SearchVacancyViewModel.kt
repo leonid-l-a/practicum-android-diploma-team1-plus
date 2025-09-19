@@ -1,12 +1,12 @@
 package ru.practicum.android.diploma.main.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.domain.AppInteractor
+import ru.practicum.android.diploma.core.providers.ResourceProvider
 import ru.practicum.android.diploma.main.domain.interactor.SearchVacancyInteractor
 import ru.practicum.android.diploma.main.domain.model.FilterRequestData
 import ru.practicum.android.diploma.main.domain.model.VacancyDetailMainData
@@ -22,7 +22,8 @@ import ru.practicum.android.diploma.util.DebounceUtil
 class SearchVacancyViewModel(
 
     val searchVacancyInteractor: SearchVacancyInteractor,
-    val appInteractor: AppInteractor
+    val appInteractor: AppInteractor,
+    val provider: ResourceProvider
 
 ) : ViewModel() {
 
@@ -46,7 +47,6 @@ class SearchVacancyViewModel(
     init {
         viewModelScope.launch {
             appInteractor.getAllDataWithNames().collect { data ->
-                Log.d("CHECK_vacancyRequest_data", data.toString())
                 _stateSearchFilter.value = FilterRequestMapper.toFilterRequest(data)
             }
         }
@@ -97,7 +97,7 @@ class SearchVacancyViewModel(
                 id = it.id,
                 logoUrl = it.employer.logo ?: "",
                 industry = it.employer.name ?: "",
-                salary = it.salary.getFormatSalary(),
+                salary = it.salary.getFormatSalary(provider = provider),
                 city = it.city
             )
         }
