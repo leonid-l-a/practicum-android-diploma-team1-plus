@@ -27,12 +27,16 @@ class VacancyViewModel(
     private val vacancyId: String = checkNotNull(savedStateHandle["vacancyId"])
 
     init {
-        viewModelScope.launch {
-            if (!networkUtil.isInternetAvailable()) {
-                _state.value = VacancyState.Error
-                return@launch
-            }
+        loadVacancy()
+    }
 
+    private fun loadVacancy() {
+        if (!networkUtil.isInternetAvailable()) {
+            _state.value = VacancyState.Error
+            return
+        }
+
+        viewModelScope.launch {
             try {
                 val vacancyDetail = vacancyDetailUseCase.getVacancyDetail(vacancyId)
                 _state.value = VacancyState.Success(vacancyDetail, false)
