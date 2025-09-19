@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -22,6 +23,11 @@ fun VacancyHeader(vacancy: VacancyDetail) {
         text = vacancy.name,
         style = MaterialTheme.typography.headlineLarge
     )
+    val salary = if (vacancy.salary.toDisplayString().isDigitsOnly()) {
+        stringResource(R.string.salary_not_specified)
+    } else {
+        vacancy.salary.toDisplayString()
+    }
     Text(
         text = vacancy.getSalaryString(),
         style = MaterialTheme.typography.headlineMedium
@@ -33,7 +39,7 @@ fun VacancyHeader(vacancy: VacancyDetail) {
 @Composable
 fun ExperienceSection(vacancy: VacancyDetail) {
     Text(
-        stringResource(R.string.required_experience),
+        text = stringResource(R.string.required_experience),
         style = MaterialTheme.typography.headlineSmall
     )
 
@@ -57,7 +63,7 @@ fun ExperienceSection(vacancy: VacancyDetail) {
 @Composable
 fun DescriptionSection(vacancy: VacancyDetail, viewModel: VacancyViewModel) {
     Text(
-        stringResource(R.string.description_section),
+        text = stringResource(R.string.description_section),
         style = MaterialTheme.typography.headlineMedium
     )
 
@@ -81,7 +87,7 @@ fun DescriptionSection(vacancy: VacancyDetail, viewModel: VacancyViewModel) {
 private fun ContactsSection(contactItems: List<Triple<String, Boolean?, Boolean>>, viewModel: VacancyViewModel) {
     if (contactItems.isNotEmpty()) {
         Text(
-            stringResource(R.string.contacts_section),
+            text = stringResource(R.string.contacts_section),
             style = MaterialTheme.typography.headlineSmall
         )
 
