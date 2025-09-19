@@ -8,7 +8,7 @@ class VacancyDetailUseCaseImplementation(
     private val vacancyDetailRepository: VacancyDetailRepository
 ) : VacancyDetailUseCase {
     override suspend fun getVacancyDetail(id: String): VacancyDetail {
-        val response =  vacancyDetailRepository.getVacancyDetail(id).vacancyDetailDto
+        val response = vacancyDetailRepository.getVacancyDetail(id).vacancyDetailDto
         return response.toDomain()
     }
 }
