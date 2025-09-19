@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.favorites.domain
+package ru.practicum.android.diploma.favorites.data.mapper
 
 import ru.practicum.android.diploma.favorites.domain.model.VacancyFavorites
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail

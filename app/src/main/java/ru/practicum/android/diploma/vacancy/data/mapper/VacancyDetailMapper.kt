@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.vacancy.domain.mapper
+package ru.practicum.android.diploma.vacancy.data.mapper
 
 import ru.practicum.android.diploma.core.data.dto.VacancyDetailDto
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail

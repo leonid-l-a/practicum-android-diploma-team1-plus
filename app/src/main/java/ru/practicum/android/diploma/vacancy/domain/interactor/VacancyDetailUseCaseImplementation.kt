@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.vacancy.domain.interactor
 
-import ru.practicum.android.diploma.vacancy.domain.mapper.toDomain
+import ru.practicum.android.diploma.vacancy.data.mapper.toDomain
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.domain.repository.VacancyDetailRepository
 

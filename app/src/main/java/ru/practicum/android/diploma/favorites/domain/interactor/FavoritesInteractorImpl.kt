@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.favorites.data.mapper.VacancyDbMapper
 import ru.practicum.android.diploma.favorites.domain.model.VacancyFavorites
 import ru.practicum.android.diploma.favorites.domain.repository.FavoritesRepository
-import ru.practicum.android.diploma.favorites.domain.toDetail
+import ru.practicum.android.diploma.favorites.data.mapper.toDetail
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 
 class FavoritesInteractorImpl(
