@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -24,8 +25,14 @@ fun VacancyHeader(vacancy: VacancyDetail) {
         style = MaterialTheme.typography.headlineLarge
     )
 
+    val salary = if (vacancy.getSalaryString().isDigitsOnly()) {
+        stringResource(R.string.salary_not_specified)
+    } else {
+        vacancy.getSalaryString()
+    }
+
     Text(
-        text = vacancy.getSalaryString(),
+        text = salary,
         style = MaterialTheme.typography.headlineMedium
     )
 

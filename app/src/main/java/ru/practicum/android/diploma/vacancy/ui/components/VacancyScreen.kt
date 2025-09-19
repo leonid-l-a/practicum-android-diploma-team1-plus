@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
@@ -57,6 +58,6 @@ fun VacancyDetail.getSalaryString(): String {
         salaryTo != null ->
             "до $salaryTo ${salaryCurrency.orEmpty()}"
         else ->
-            "не указана"
+            R.string.salary_not_specified.toString()
     }
 }
