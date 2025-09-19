@@ -147,8 +147,7 @@ class AppStorage(
     fun clearByKey(key: StorageKey) {
         val newStorage = when (key) {
             StorageKey.AREA_ID_KEY, StorageKey.COUNTRY_NAME_KEY, StorageKey.REGION_NAME_KEY,
-            StorageKey.COUNTRY_ID_KEY, StorageKey.REGION_ID_KEY,
-                -> {
+            StorageKey.COUNTRY_ID_KEY, StorageKey.REGION_ID_KEY, -> {
                 clearArea()
             }
 
