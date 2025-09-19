@@ -132,7 +132,7 @@ fun SearchVacancies(
         },
         placeholder = {
             Text(
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onTertiary,
                 text = stringResource(R.string.search_bar_placeholder),
                 style = MaterialTheme.typography.bodyLarge,
             )
