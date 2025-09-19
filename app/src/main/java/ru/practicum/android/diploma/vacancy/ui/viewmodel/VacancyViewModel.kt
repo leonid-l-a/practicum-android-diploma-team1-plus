@@ -12,12 +12,14 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.vacancy.domain.interactor.VacancyDetailUseCase
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import ru.practicum.android.diploma.favorites.domain.interactor.FavoritesInteractor
+import ru.practicum.android.diploma.util.NetworkUtil
 import java.io.IOException
 
 class VacancyViewModel(
     private val vacancyDetailUseCase: VacancyDetailUseCase,
     savedStateHandle: SavedStateHandle,
-    private val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor,
+    private val networkUtil: NetworkUtil,
 ) : ViewModel() {
     private val _state = MutableStateFlow<VacancyState>(VacancyState.Loading)
     val state: StateFlow<VacancyState> = _state
@@ -25,6 +27,15 @@ class VacancyViewModel(
     private val vacancyId: String = checkNotNull(savedStateHandle["vacancyId"])
 
     init {
+        loadVacancy()
+    }
+
+    private fun loadVacancy() {
+        if (!networkUtil.isInternetAvailable()) {
+            _state.value = VacancyState.Error
+            return
+        }
+
         viewModelScope.launch {
             try {
                 val vacancyDetail = vacancyDetailUseCase.getVacancyDetail(vacancyId)
