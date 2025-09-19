@@ -12,8 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.data.dto.vacancydetails.Salary
+import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
@@ -49,20 +48,15 @@ fun VacancyScreen(viewModel: VacancyViewModel, navController: NavController) {
         }
     }
 }
-
-fun Salary.toDisplayString(): String {
+fun VacancyDetail.getSalaryString(): String {
     return when {
-        from != null && to != null -> {
-            "от $from до $to ${currency.orEmpty()}"
-        }
-
-        from != null ->
-            "от $from ${currency.orEmpty()}"
-
-        to != null ->
-            "до $to ${currency.orEmpty()}"
-
+        salaryFrom != null && salaryTo != null ->
+            "от $salaryFrom до $salaryTo ${salaryCurrency.orEmpty()}"
+        salaryFrom != null ->
+            "от $salaryFrom ${salaryCurrency.orEmpty()}"
+        salaryTo != null ->
+            "до $salaryTo ${salaryCurrency.orEmpty()}"
         else ->
-            R.string.salary_not_specified.toString()
+            "не указана"
     }
 }

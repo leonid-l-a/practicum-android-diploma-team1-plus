@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.vacancy.ui.components
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.HorizontalDivider
@@ -9,10 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.data.dto.VacancyDetail
+import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 @Composable
@@ -37,10 +37,10 @@ fun ContactItem(
 }
 
 @Composable
-fun VacancyDescriptionItem(title: Int, description: List<String>) {
+fun VacancyDescriptionItem(title: String, description: List<String>) {
     Column {
         Text(
-            text = stringResource(title),
+            text = title,
             style = MaterialTheme.typography.headlineSmall,
         )
 
@@ -56,20 +56,19 @@ fun VacancyDescriptionItem(title: Int, description: List<String>) {
         HorizontalDivider(thickness = 12.dp, color = Color.Transparent)
     }
 }
-
-fun createDescriptionItemsList(vacancy: VacancyDetail): Map<Int, List<String>> {
-    return mapOf(
-        R.string.schedule to listOfNotNull(vacancy.schedule.name),
-        R.string.skills to vacancy.skills,
-        R.string.industry to listOfNotNull(vacancy.industry.name),
-        R.string.address to listOfNotNull(
+fun createDescriptionItemsList(context: Context, vacancy: VacancyDetail): List<Pair<String, List<String>>> {
+    return listOf(
+        context.getString(R.string.schedule) to listOfNotNull(vacancy.scheduleName),
+        context.getString(R.string.skills) to vacancy.skills,
+        context.getString(R.string.industry) to listOfNotNull(vacancy.industryName),
+        context.getString(R.string.address) to listOfNotNull(
             listOfNotNull(
-                vacancy.address.city,
-                vacancy.address.street,
-                vacancy.address.building
+                vacancy.addressCity,
+                vacancy.addressStreet,
+                vacancy.addressBuilding
             ).takeIf { it.isNotEmpty() }?.joinToString(", ")
         ),
-        R.string.description to vacancy.description
+        context.getString(R.string.description) to vacancy.description
             .split(Regex("<br>|<br/>|<br />"))
             .map { it.trim() }
             .filter { it.isNotEmpty() }
@@ -78,8 +77,8 @@ fun createDescriptionItemsList(vacancy: VacancyDetail): Map<Int, List<String>> {
 
 fun createContactItemsList(vacancy: VacancyDetail): List<Triple<String, Boolean?, Boolean>> {
     return listOfNotNull(
-        vacancy.contacts.email.takeIf { it.isNotBlank() }?.let { Triple(it, true, true) },
-        vacancy.contacts.phone?.firstOrNull()?.let { Triple(it, false, true) },
-        vacancy.contacts.name.let { Triple(it, null, false) }
+        vacancy.contactsEmail.takeIf { it.isNotBlank() }?.let { Triple(it, true, true) },
+        vacancy.contactsPhone?.firstOrNull()?.let { Triple(it, false, true) },
+        Triple(vacancy.contactsName, null, false)
     )
 }

@@ -32,7 +32,6 @@ class WorkPlaceViewModel(
                 _regionName.value = region
                 _areaId.value = area
             }
-
         }
     }
 

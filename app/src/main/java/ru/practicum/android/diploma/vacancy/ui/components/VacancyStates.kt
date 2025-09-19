@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.data.dto.VacancyDetail
+import ru.practicum.android.diploma.vacancy.domain.model.VacancyDetail
 import ru.practicum.android.diploma.vacancy.ui.viewmodel.VacancyViewModel
 
 @Composable

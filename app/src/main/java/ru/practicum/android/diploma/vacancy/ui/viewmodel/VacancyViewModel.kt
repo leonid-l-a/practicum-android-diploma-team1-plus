@@ -9,18 +9,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.favorites.domain.interactor.FavoritesInteractor
 import ru.practicum.android.diploma.vacancy.domain.interactor.VacancyDetailUseCase
 import ru.practicum.android.diploma.vacancy.ui.state.VacancyState
+import ru.practicum.android.diploma.favorites.domain.interactor.FavoritesInteractor
 import java.io.IOException
 
 class VacancyViewModel(
-    val vacancyDetailUseCase: VacancyDetailUseCase,
+    private val vacancyDetailUseCase: VacancyDetailUseCase,
     savedStateHandle: SavedStateHandle,
-    val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
     private val _state = MutableStateFlow<VacancyState>(VacancyState.Loading)
-
     val state: StateFlow<VacancyState> = _state
 
     private val vacancyId: String = checkNotNull(savedStateHandle["vacancyId"])
@@ -44,10 +43,7 @@ class VacancyViewModel(
             viewModelScope.launch {
                 val vacancy = currentState.vacancyDetail
                 val existing = favoritesInteractor.findFavoriteVacancy(vacancy)
-
-                _state.value = currentState.copy(
-                    isFavorite = existing != null
-                )
+                _state.value = currentState.copy(isFavorite = existing != null)
             }
         }
     }
@@ -58,7 +54,6 @@ class VacancyViewModel(
             viewModelScope.launch {
                 val vacancy = currentState.vacancyDetail
                 val existing = favoritesInteractor.findFavoriteVacancy(vacancy)
-
                 if (existing != null) {
                     favoritesInteractor.deleteFromFavorites(vacancy)
                     _state.value = currentState.copy(isFavorite = false)
@@ -71,52 +66,42 @@ class VacancyViewModel(
     }
 
     fun shareVacancyWithMessenger(): Intent? {
-        return Intent.createChooser(Intent().apply {
+        val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(
-                Intent.EXTRA_TEXT,
-                vacancyId
-            )
+            putExtra(Intent.EXTRA_TEXT, vacancyId)
             type = "text/plain"
-        }, null)
+        }
+        return Intent.createChooser(intent, null)
     }
 
     fun writeWithMail(): Intent? {
-        return when (val currentState = _state.value) {
-            is VacancyState.Success -> {
-                val contacts = currentState.vacancyDetail.contacts
-                val email = contacts.email.firstOrNull()
+        val currentState = _state.value
+        if (currentState is VacancyState.Success) {
+            val email = currentState.vacancyDetail.contactsEmail
+            return Intent.createChooser(
+                Intent(Intent.ACTION_SENDTO).apply {
+                    data = "mailto:".toUri()
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+                },
+                null
+            )
+        }
+        return null
+    }
+
+    fun callWithPhone(): Intent? {
+        val currentState = _state.value
+        if (currentState is VacancyState.Success) {
+            val phones = currentState.vacancyDetail.contactsPhone
+            if (!phones.isNullOrEmpty()) {
                 return Intent.createChooser(
-                    Intent(Intent.ACTION_SENDTO).apply {
-                        data = "mailto:".toUri()
-                        putExtra(
-                            Intent.EXTRA_EMAIL,
-                            arrayOf(email)
-                        )
+                    Intent(Intent.ACTION_DIAL).apply {
+                        data = "tel:${phones.first()}".toUri()
                     },
                     null
                 )
             }
-
-            else -> null
         }
-    }
-
-    fun callWithPhone(): Intent? {
-        return when (val currentState = _state.value) {
-            is VacancyState.Success -> {
-                val contacts = currentState.vacancyDetail.contacts
-                val phone = contacts.phone?.firstOrNull()
-                if (phone != null) {
-                    Intent.createChooser(Intent(Intent.ACTION_DIAL).apply {
-                        data = "tel:$phone".toUri()
-                    }, null)
-                } else {
-                    null
-                }
-            }
-
-            else -> null
-        }
+        return null
     }
 }
