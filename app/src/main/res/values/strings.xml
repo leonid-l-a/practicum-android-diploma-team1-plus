@@ -52,6 +52,7 @@
     <string name="industry">Отрасль</string>
     <string name="address">Адрес</string>
     <string name="description">Описание</string>
+    <string name="vacancy_error">Вакансия не найдена или удалена</string>
 
     <string name="salary_not_specified">Уровень зарплаты не указан</string>
     <string name="salary_not_marked">Зарплата не указана</string>
