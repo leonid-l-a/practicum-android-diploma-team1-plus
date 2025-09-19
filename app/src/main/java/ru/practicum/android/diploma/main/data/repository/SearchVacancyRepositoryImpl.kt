@@ -25,7 +25,7 @@ class SearchVacancyRepositoryImpl(
         filterMap: FilterRequestData
     ): Flow<Resource<VacancyMainData>> =
         flow {
-            if (!networkUtil.isInternetAvailable(context)) {
+            if (!networkUtil.isInternetAvailable()) {
                 emit(
                     Resource.Error()
                 )
