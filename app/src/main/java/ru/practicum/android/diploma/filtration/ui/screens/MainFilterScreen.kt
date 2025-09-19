@@ -83,6 +83,8 @@ fun MainFilterScreen(
                         vm.clearByKey(StorageKey.AREA_ID_KEY)
                         vm.clearByKey(StorageKey.COUNTRY_NAME_KEY)
                         vm.clearByKey(StorageKey.REGION_NAME_KEY)
+                        vm.clearByKey(StorageKey.REGION_ID_KEY)
+                        vm.clearByKey(StorageKey.COUNTRY_ID_KEY)
                     }
                 )
 

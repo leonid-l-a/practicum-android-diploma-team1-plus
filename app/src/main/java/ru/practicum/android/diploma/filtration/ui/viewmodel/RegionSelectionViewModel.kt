@@ -16,10 +16,12 @@ import ru.practicum.android.diploma.filtration.domain.model.Region
 import ru.practicum.android.diploma.filtration.domain.state.Result
 import ru.practicum.android.diploma.filtration.ui.state.RegionSelectionScreenState
 import ru.practicum.android.diploma.util.DebounceUtil
+import ru.practicum.android.diploma.util.NetworkUtil
 
 class RegionSelectionViewModel(
     private val getAreasUseCase: GetAreasUseCase,
-    private val appInteractor: AppInteractor
+    private val appInteractor: AppInteractor,
+    private val networkUtil: NetworkUtil,
 ) : ViewModel() {
 
     private val _screenState =
@@ -37,6 +39,10 @@ class RegionSelectionViewModel(
 
     fun loadData(countryId: Int? = null) {
         loadJob?.cancel()
+        if (!networkUtil.isInternetAvailable()) {
+            _screenState.value = RegionSelectionScreenState.Error
+            return
+        }
         loadJob = viewModelScope.launch {
             try {
                 when (val result = getAreasUseCase()) {
@@ -71,6 +77,15 @@ class RegionSelectionViewModel(
     }
 
     fun onSearchQueryChanged(query: String) {
+        if (!networkUtil.isInternetAvailable() && allRegions.isEmpty()) {
+            _screenState.value = RegionSelectionScreenState.Error
+            return
+        }
+        if (query.isBlank())
+            _screenState.value = RegionSelectionScreenState.Data(
+                allRegions = allRegions,
+                filteredRegions = allRegions
+            )
         searchDebounce.invoke {
             filterRegions(query)
         }
@@ -98,7 +113,7 @@ class RegionSelectionViewModel(
     }
 
     fun onRegionClicked(region: Region, navController: NavController) {
-        appInteractor.saveData(StorageKey.AREA_ID_KEY, region.id)
+        appInteractor.saveData(StorageKey.REGION_ID_KEY, region.id)
         appInteractor.saveData(StorageKey.REGION_NAME_KEY, region.name)
 
         navController.popBackStack()
