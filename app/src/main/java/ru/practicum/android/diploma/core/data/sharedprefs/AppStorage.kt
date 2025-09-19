@@ -174,6 +174,8 @@ class AppStorage(
             }
         val newStorage = _storageState.value.copy(
             areaId = "",
+            regionId = "",
+            countryId = "",
             regionValue = "",
             countryValue = "",
             industryId = "",

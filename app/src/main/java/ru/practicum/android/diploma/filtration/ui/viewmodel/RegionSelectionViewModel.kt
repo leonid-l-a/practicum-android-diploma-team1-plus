@@ -23,7 +23,6 @@ class RegionSelectionViewModel(
     private val appInteractor: AppInteractor,
     private val networkUtil: NetworkUtil,
 ) : ViewModel() {
-
     private val _screenState =
         MutableStateFlow<RegionSelectionScreenState>(RegionSelectionScreenState.Loading)
     val screenState = _screenState.asStateFlow()
@@ -81,11 +80,12 @@ class RegionSelectionViewModel(
             _screenState.value = RegionSelectionScreenState.Error
             return
         }
-        if (query.isBlank())
+        if (query.isBlank()) {
             _screenState.value = RegionSelectionScreenState.Data(
                 allRegions = allRegions,
                 filteredRegions = allRegions
             )
+        }
         searchDebounce.invoke {
             filterRegions(query)
         }

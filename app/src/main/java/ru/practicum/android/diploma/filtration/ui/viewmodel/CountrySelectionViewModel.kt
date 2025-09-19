@@ -21,7 +21,6 @@ class CountrySelectionViewModel(
     private val appInteractor: AppInteractor,
     private val networkUtil: NetworkUtil,
     ) : ViewModel() {
-
     private val _screenState = MutableStateFlow<CountrySelectionScreenState>(CountrySelectionScreenState.Loading)
     val screenState = _screenState.asStateFlow()
 
