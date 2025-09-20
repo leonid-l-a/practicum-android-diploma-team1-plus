@@ -2,6 +2,8 @@ package ru.practicum.android.diploma.filtration.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,7 +14,9 @@ import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.navigation.Screen
 import ru.practicum.android.diploma.core.ui.components.FilterButton
+import ru.practicum.android.diploma.core.ui.theme.Height24
 import ru.practicum.android.diploma.core.ui.theme.Height60
+import ru.practicum.android.diploma.core.ui.theme.WrapperPaddingHorizontal16
 import ru.practicum.android.diploma.filtration.ui.components.WorkPlaceSelector
 import ru.practicum.android.diploma.filtration.ui.viewmodel.WorkPlaceViewModel
 
@@ -52,6 +56,8 @@ fun WorkPlaceScreen(
             FilterButton(
                 modifier = Modifier
                     .height(Height60)
+                    .padding(horizontal = WrapperPaddingHorizontal16)
+                    .offset(y = -Height24)
                     .fillMaxWidth(),
                 textButton = stringResource(R.string.filter_apply),
                 onClick = { navController.popBackStack() }
