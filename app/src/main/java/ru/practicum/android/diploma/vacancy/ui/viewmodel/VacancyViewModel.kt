@@ -53,7 +53,7 @@ class VacancyViewModel(
         if (currentState is VacancyState.Success) {
             viewModelScope.launch {
                 val vacancy = currentState.vacancyDetail
-                val existing = favoritesInteractor.findFavoriteVacancy(vacancy)
+                val existing = favoritesInteractor.findFavoriteVacancy(vacancy.id)
                 _state.value = currentState.copy(isFavorite = existing != null)
             }
         }
@@ -64,7 +64,7 @@ class VacancyViewModel(
         if (currentState is VacancyState.Success) {
             viewModelScope.launch {
                 val vacancy = currentState.vacancyDetail
-                val existing = favoritesInteractor.findFavoriteVacancy(vacancy)
+                val existing = favoritesInteractor.findFavoriteVacancy(vacancy.id)
                 if (existing != null) {
                     favoritesInteractor.deleteFromFavorites(vacancy)
                     _state.value = currentState.copy(isFavorite = false)
