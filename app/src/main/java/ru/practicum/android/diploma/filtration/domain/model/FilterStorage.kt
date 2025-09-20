@@ -16,6 +16,8 @@ data class FilterStorage(
 fun FilterStorage.hasActiveFilters(): Boolean {
     return countryId.isNotEmpty() ||
         regionId.isNotEmpty() ||
+        regionValue.isNotEmpty() ||
+        countryValue.isNotEmpty() ||
         salaryValue.isNotEmpty() ||
         industryValue.isNotEmpty() ||
         withSalary.isNotEmpty()
