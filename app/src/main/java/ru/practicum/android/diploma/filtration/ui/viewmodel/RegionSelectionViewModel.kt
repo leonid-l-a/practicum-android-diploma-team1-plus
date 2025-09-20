@@ -12,6 +12,7 @@ import okio.IOException
 import ru.practicum.android.diploma.core.domain.AppInteractor
 import ru.practicum.android.diploma.core.domain.repository.StorageKey
 import ru.practicum.android.diploma.filtration.domain.interactor.GetAreasUseCase
+import ru.practicum.android.diploma.filtration.domain.model.Country
 import ru.practicum.android.diploma.filtration.domain.model.Region
 import ru.practicum.android.diploma.filtration.domain.state.Result
 import ru.practicum.android.diploma.filtration.ui.state.RegionSelectionScreenState
@@ -29,6 +30,7 @@ class RegionSelectionViewModel(
 
     private var loadJob: Job? = null
     private var allRegions: List<Region> = emptyList()
+    private var countries: List<Country> = emptyList()
 
     companion object {
         const val DEBOUNCE_DELAY = 1000L
@@ -46,6 +48,7 @@ class RegionSelectionViewModel(
             try {
                 when (val result = getAreasUseCase()) {
                     is Result.Success -> {
+                        countries = result.data.first
                         val regionsMap = result.data.second
                         val fullList = regionsMap.values.flatten()
 
@@ -116,6 +119,11 @@ class RegionSelectionViewModel(
         appInteractor.saveData(StorageKey.REGION_ID_KEY, region.id)
         appInteractor.saveData(StorageKey.REGION_NAME_KEY, region.name)
 
+        val country = countries.find { it.id == region.countryId }
+        if (country != null) {
+            appInteractor.saveData(StorageKey.COUNTRY_ID_KEY, country.id)
+            appInteractor.saveData(StorageKey.COUNTRY_NAME_KEY, country.name)
+        }
         navController.popBackStack()
     }
 }

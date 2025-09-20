@@ -36,15 +36,19 @@ fun WorkPlaceScreen(
         countryChecked = countryChecked,
         regionChecked = regionChecked,
         onCountryClick = {
-            navController.navigate(Screen.CountrySelection.route)
+            if (countryName.isBlank()) {
+                navController.navigate(Screen.CountrySelection.route)
+            }
         },
         onRegionClick = {
-            val currentAreaId = if (regionId.isNullOrBlank()) {
-                countryId?.toIntOrNull()
-            } else {
-                regionId?.toIntOrNull()
+            if (regionName.isBlank()) {
+                val currentAreaId = if (regionId.isNullOrBlank()) {
+                    countryId?.toIntOrNull()
+                } else {
+                    regionId?.toIntOrNull()
+                }
+                navController.navigate(Screen.RegionSelection.regionSelectionRoute(currentAreaId))
             }
-            navController.navigate(Screen.RegionSelection.regionSelectionRoute(currentAreaId))
         },
         onCountryClear = {
             viewModel.clearCountry()
