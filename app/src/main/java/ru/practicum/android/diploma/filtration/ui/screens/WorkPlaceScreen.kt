@@ -53,15 +53,17 @@ fun WorkPlaceScreen(
         },
         navController = navController,
         {
-            FilterButton(
-                modifier = Modifier
-                    .height(Height60)
-                    .padding(horizontal = WrapperPaddingHorizontal16)
-                    .offset(y = -Height24)
-                    .fillMaxWidth(),
-                textButton = stringResource(R.string.filter_apply),
-                onClick = { navController.popBackStack() }
-            )
+            if (countryChecked || regionChecked) {
+                FilterButton(
+                    modifier = Modifier
+                        .height(Height60)
+                        .padding(horizontal = WrapperPaddingHorizontal16)
+                        .offset(y = -Height24)
+                        .fillMaxWidth(),
+                    textButton = stringResource(R.string.filter_apply),
+                    onClick = { navController.popBackStack() }
+                )
+            }
         }
     )
 }
